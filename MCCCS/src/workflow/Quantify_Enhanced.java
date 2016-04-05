@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 
 import org.AttributeHelper;
+import org.StringManipulationTools;
 import org.Vector2i;
 import org.graffiti.plugin.io.resources.FileSystemHandler;
 
@@ -129,10 +130,10 @@ public class Quantify_Enhanced {
 				off += 20;
 				if (ratio < 1.0) {
 					canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.RED.getRGB(), 0.35);
-					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "wh-ratio: " + AttributeHelper.formatNumber(ratio, "0.000"), Color.WHITE);
+					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.WHITE);
 				} else {
 					canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.lightGray.getRGB(), 0.25);
-					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "wh-ratio: " + AttributeHelper.formatNumber(ratio, "0.000"), Color.RED);
+					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.RED);
 				}
 			}
 			// save debug image
@@ -143,24 +144,26 @@ public class Quantify_Enhanced {
 			if (outMode == 0) {
 				int id = 0;
 				for (ClusterFeatures c : c_features) {
-					tf.add(f.getParent() + File.separator + f.getName() + "_" + id + "\t" + "foreground_area_pixel" + "\t" + fgArea);
+					String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
+					tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
 					for (Integer cc : c.quant.keySet()) {
 						String colorName = AttributeHelper.getColorName(new Color(cc));
 						double val = 100d * c.quant.get(cc) / fgArea;
-						tf.add(f.getParent() + File.separator + f.getName() + "_" + id + "\t" + "class_area_percent_" + colorName + "\t" + val);
+						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
 					}
 					// check ratio
 					double ratio =  (double) c.dim.x / (double) c.dim.y;
-					tf.add(f.getParent() + File.separator + f.getName() + "_" + id + "\t" + "cluster_ratio" + "\t" + ratio);
+					tf.add(fileName + "cluster_ratio" + "\t" + ratio);
 					id++;
 				}
 			} else {
 				int id = 0;
 				for (ClusterFeatures c : c_features) {
-					tf.add(f.getParent() + File.separator + f.getName() + "_" + id + "\t" + "foreground_area_pixel" + "\t" + fgArea);
+					String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
+					tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
 					for (Integer cc : c.quant.keySet()) {
 						String colorName = AttributeHelper.getColorName(new Color(cc));
-						tf.add(f.getParent() + File.separator + f.getName() + "_" + id + "\t" + "class_area_percent_" + colorName + "\t" + c.quant.get(cc));
+						tf.add(fileName + "class_area_percent_" + colorName + "\t" + c.quant.get(cc));
 					}
 					id++;
 				}

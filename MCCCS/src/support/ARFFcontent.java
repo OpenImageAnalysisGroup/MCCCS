@@ -15,7 +15,7 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
 import workflow.Settings;
 
 /**
- * @author klukas
+ * @author klukas, pape
  */
 public class ARFFcontent {
 	
@@ -49,7 +49,7 @@ public class ARFFcontent {
 					dataLines.add(l);
 			}
 		}
-		File tempF = File.createTempFile("iccs_", ".txt");
+		File tempF = File.createTempFile("tmp_", ".txt", new File(f.getParent()));
 		tempF.deleteOnExit();
 		dataLines.write(tempF);
 		columnData.add(tempF);
@@ -57,9 +57,10 @@ public class ARFFcontent {
 	}
 	
 	public void writeTo(File file, HashSet<Integer> removeColumns, String addLast) throws IOException {
-		FileWriter tf = new FileWriter(file);
+		FileWriter tf = new FileWriter(file, true);
 		
 		tf.write("%" + System.lineSeparator());
+		System.out.println("Write start ...");
 		tf.write("@relation '" + relationName + "'" + System.lineSeparator());
 		
 		{
@@ -87,12 +88,15 @@ public class ARFFcontent {
 			tf.write("}" + System.lineSeparator());
 		}
 		
+		tf.flush();
+		
 		int maxLines = 0;
 		for (Integer lineCount : columnDataLineCount)
 			if (lineCount > maxLines)
 				maxLines = lineCount;
 		
 		tf.write("@data" + System.lineSeparator());
+		tf.flush();
 		
 		LinkedHashMap<File, Stream<String>> file2stream = new LinkedHashMap<>();
 		LinkedHashMap<File, Iterator<String>> file2input = new LinkedHashMap<>();
@@ -121,7 +125,11 @@ public class ARFFcontent {
 				}
 				if (sb.length() > 0)
 					sb.append(",");
-				sb.append(s.next());
+				if (s != null && s.hasNext())
+					sb.append(s.next());
+				else {
+					break;
+				}
 			}
 			
 			String val = sb.toString();
@@ -139,18 +147,21 @@ public class ARFFcontent {
 			}
 			
 			tf.write(val);
+			tf.flush();
 			
 			// append last
 			if(addLast.length() > 0)
 				tf.write("," + addLast);
 			
 			tf.write(System.lineSeparator());
+			tf.flush();
 		}
 		
 		for (File f : file2stream.keySet())
 			file2stream.get(f).close();
 		
 		tf.write("%" + System.lineSeparator());
+		tf.flush();
 		
 		tf.close();
 	}

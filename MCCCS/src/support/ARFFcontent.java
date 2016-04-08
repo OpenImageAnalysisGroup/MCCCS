@@ -49,7 +49,7 @@ public class ARFFcontent {
 					dataLines.add(l);
 			}
 		}
-		File tempF = File.createTempFile("tmp_", ".txt", new File(f.getParent()));
+		File tempF = File.createTempFile("tmp_", "", new File(f.getParent()));
 		tempF.deleteOnExit();
 		dataLines.write(tempF);
 		columnData.add(tempF);

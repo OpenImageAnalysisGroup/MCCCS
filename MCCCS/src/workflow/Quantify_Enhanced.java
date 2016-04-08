@@ -12,6 +12,8 @@ import org.StringManipulationTools;
 import org.Vector2i;
 import org.graffiti.plugin.io.resources.FileSystemHandler;
 
+import de.ipk.ag_ba.gui.picture_gui.BackgroundThreadDispatcher;
+import de.ipk.ag_ba.gui.picture_gui.LocalComputeJob;
 import de.ipk.ag_ba.image.operation.PositionAndColor;
 import de.ipk.ag_ba.image.operation.canvas.ImageCanvas;
 import de.ipk.ag_ba.image.structures.Image;
@@ -26,6 +28,8 @@ import iap.blocks.image_analysis_tools.methods.RegionLabeling;
  */
 public class Quantify_Enhanced {
 	
+	private static int i;
+
 	public static void main(String[] args) throws Exception {
 		{
 			new Settings(true);
@@ -110,30 +114,33 @@ public class Quantify_Enhanced {
 			ImageCanvas canvas = new ImageCanvas(image);
 			int idx = 0;
 			int w = (int) (0.0125 * image.getWidth());
+			
 			for (ClusterFeatures c : c_features) {
 				int off = -60;
-				canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.lightGray.getRGB(), 0.25);
-				canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "Index: " + idx++, Color.RED);
+				int wh = w / 2;
+				int hh = (int) (w * 2.5);
+				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+				canvas.text(c.x - wh, c.y - wh + off + 20, "Index: " + idx++, Color.RED);
 				off += 20;
-				canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.lightGray.getRGB(), 0.25);
-				canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "Center X: " + c.x, Color.RED);
+				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+				canvas.text(c.x - wh, c.y - wh + off + 20, "Center X: " + c.x, Color.RED);
 				off += 20;
-				canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.lightGray.getRGB(), 0.25);
-				canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "Center Y: " + c.y, Color.RED);
+				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+				canvas.text(c.x - wh, c.y - wh + off + 20, "Center Y: " + c.y, Color.RED);
 				for (Integer cc : c.quant.keySet()) {
 					off += 20;
-					canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.lightGray.getRGB(), 0.25);
-					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, AttributeHelper.getColorName(new Color(cc)) + ": " + c.quant.get(cc), Color.RED);
+					canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+					canvas.text(c.x - wh, c.y - wh + off + 20, AttributeHelper.getColorName(new Color(cc)) + ": " + c.quant.get(cc), Color.RED);
 				}
 			// check ratio
 				double ratio =  (double) c.dim.x / (double) c.dim.y;
 				off += 20;
 				if (ratio < 1.0) {
-					canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.RED.getRGB(), 0.35);
-					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.WHITE);
+					canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.RED.getRGB(), 0.35);
+					canvas.text(c.x - wh, c.y - wh + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.WHITE);
 				} else {
-					canvas.fillRect(c.x - w / 2, c.y - w / 2 + off, (int) (w * 2.5), 20, Color.lightGray.getRGB(), 0.25);
-					canvas.text(c.x - w / 2, c.y - w / 2 + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.RED);
+					canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+					canvas.text(c.x - wh, c.y - wh + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.RED);
 				}
 			}
 			// save debug image

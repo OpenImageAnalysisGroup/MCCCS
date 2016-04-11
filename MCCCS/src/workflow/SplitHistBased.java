@@ -14,6 +14,7 @@ import de.ipk.ag_ba.image.operations.segmentation.Segmentation;
 import de.ipk.ag_ba.image.structures.Image;
 import iap.blocks.image_analysis_tools.leafClustering.CurveAnalysis;
 import ij.gui.Roi;
+import ij.plugin.filter.RankFilters;
 
 /**
  * Splits leaves within image (objects which all reach a certain top-position and which at the same time
@@ -76,14 +77,15 @@ public class SplitHistBased {
 					Image separatedimg = ic.getImage();
 					
 					int[] separated_1d = separatedimg.getAs1A();
-					Roi bb = img.io().getBoundingBox();
+					// apply median filter to remove small artifacts
+					Roi bb = img.io().rankFilterImageJ(5, RankFilters.MEDIAN).getBoundingBox();
 					
 					// check for outlier deletion (height and area)
 					int minh = (int) (bb.getBounds().height * 0.85);
 					int esize = (int) (minh * 0.02);
 					Segmentation ps = new ClusterDetection(separatedimg.io().bm().erode(esize).getImage(), Settings.back);
 					ps.detectClusters();
-					ps.getClusterImage().show("cluster image");
+					// ps.getClusterImage().show("cluster image", true);
 					LinkedList<Integer> validClusterIDs = new LinkedList<>();
 					int[] cAreas = ps.getClusterSize();
 					Vector2i[] cd = ps.getClusterDimension();

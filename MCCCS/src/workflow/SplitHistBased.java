@@ -133,6 +133,10 @@ public class SplitHistBased {
 					
 					int[] ci = ps.getImageClusterIdMask();
 					int leaf = 0;
+					
+					if (validClusterIDs.size() == 0)
+						throw new Exception("Warning detected clusters during leaf split equals zero!");
+					
 					for (Integer vc : validClusterIDs) {
 						leaf++;
 						int vci = vc;

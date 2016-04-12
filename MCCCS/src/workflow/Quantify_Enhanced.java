@@ -12,8 +12,6 @@ import org.StringManipulationTools;
 import org.Vector2i;
 import org.graffiti.plugin.io.resources.FileSystemHandler;
 
-import de.ipk.ag_ba.gui.picture_gui.BackgroundThreadDispatcher;
-import de.ipk.ag_ba.gui.picture_gui.LocalComputeJob;
 import de.ipk.ag_ba.image.operation.PositionAndColor;
 import de.ipk.ag_ba.image.operation.canvas.ImageCanvas;
 import de.ipk.ag_ba.image.structures.Image;
@@ -41,146 +39,158 @@ public class Quantify_Enhanced {
 			int outMode = Integer.parseInt(args[0]);
 			
 			File f = new File(args[1]);
-			Image image = new Image(FileSystemHandler.getURL(f));
 			
-			RegionLabeling rl = new RegionLabeling(image, false, Color.WHITE.getRGB(), 0);
-			rl.detectClusters();
-			
-			Vector2i[] c_center = rl.getClusterCenterPoints();
-			Vector2i[] c_dims = rl.getClusterDimension();
-			int[] c_sizes = rl.getClusterSize();
-			int fgArea = rl.getForegroundPixelCount();
-			
-			// evaluate colors
-			LinkedList<ArrayList<PositionAndColor>> rl_list = rl.getRegionList();
-			LinkedList<TreeMap<Integer, Integer>> quant = new LinkedList<>();
-			int back[] = { Settings.back, Color.WHITE.getRGB() };
-			// System.out.println(c_sizes.length);
-			for (ArrayList<PositionAndColor> cluster : rl_list) {
-				TreeMap<Integer, Integer> diseaseSymptomId2Area = new TreeMap<>();
+			if (f.exists()) {
+				Image image = new Image(FileSystemHandler.getURL(f));
 				
-				for (PositionAndColor p : cluster) {
-					if (p.intensityInt != back[0] && p.intensityInt != back[1]) {
-						if (!diseaseSymptomId2Area.containsKey(p.intensityInt))
-							diseaseSymptomId2Area.put(p.intensityInt, 0);
-						diseaseSymptomId2Area.put(p.intensityInt, diseaseSymptomId2Area.get(p.intensityInt) + 1);
+				RegionLabeling rl = new RegionLabeling(image, false, Color.WHITE.getRGB(), 0);
+				rl.detectClusters();
+				
+				Vector2i[] c_center = rl.getClusterCenterPoints();
+				Vector2i[] c_dims = rl.getClusterDimension();
+				int[] c_sizes = rl.getClusterSize();
+				int fgArea = rl.getForegroundPixelCount();
+				
+				// evaluate colors
+				LinkedList<ArrayList<PositionAndColor>> rl_list = rl.getRegionList();
+				LinkedList<TreeMap<Integer, Integer>> quant = new LinkedList<>();
+				int back[] = { Settings.back, Color.WHITE.getRGB() };
+				// System.out.println(c_sizes.length);
+				for (ArrayList<PositionAndColor> cluster : rl_list) {
+					TreeMap<Integer, Integer> diseaseSymptomId2Area = new TreeMap<>();
+					
+					for (PositionAndColor p : cluster) {
+						if (p.intensityInt != back[0] && p.intensityInt != back[1]) {
+							if (!diseaseSymptomId2Area.containsKey(p.intensityInt))
+								diseaseSymptomId2Area.put(p.intensityInt, 0);
+							diseaseSymptomId2Area.put(p.intensityInt, diseaseSymptomId2Area.get(p.intensityInt) + 1);
+						}
 					}
+					quant.add(diseaseSymptomId2Area);
 				}
-				quant.add(diseaseSymptomId2Area);
-			}
-			
-			// put into one structure for sorting
-			LinkedList<ClusterFeatures> c_features = new LinkedList<>();
-			int max_size = 0;
-			for (int idx = 0; idx < c_center.length; idx++) {
-				c_features.add(new ClusterFeatures(c_sizes[idx], c_dims[idx], c_center[idx], quant.get(idx)));
-				if (c_sizes[idx] > max_size)
-					max_size = c_sizes[idx];
-			}
-			
-			// remove background cluster
-			for (ClusterFeatures cf : c_features) {
-				if (cf.size == max_size)
-					c_features.remove(cf);
-			break;
-			}
-			
-			// sort by column (left_top = first)
-			c_features.sort(new Comparator<ClusterFeatures>() {
-			
-				@Override
-				public int compare(ClusterFeatures o1, ClusterFeatures o2) {
-					// 0 -> same, -1 -> smaller ...
-					if (o1.x < o2.x)
-						return -1;
-					else
-						if (o1.x > o2.x)
-							return 1;
+				
+				// put into one structure for sorting
+				LinkedList<ClusterFeatures> c_features = new LinkedList<>();
+				int max_size = 0;
+				for (int idx = 0; idx < c_center.length; idx++) {
+					c_features.add(new ClusterFeatures(c_sizes[idx], c_dims[idx], c_center[idx], quant.get(idx)));
+					if (c_sizes[idx] > max_size)
+						max_size = c_sizes[idx];
+				}
+				
+				// remove background cluster
+				for (ClusterFeatures cf : c_features) {
+					if (cf.size == max_size)
+						c_features.remove(cf);
+				break;
+				}
+				
+				// sort by column (left_top = first)
+				c_features.sort(new Comparator<ClusterFeatures>() {
+				
+					@Override
+					public int compare(ClusterFeatures o1, ClusterFeatures o2) {
+						// 0 -> same, -1 -> smaller ...
+						if (o1.x < o2.x)
+							return -1;
 						else
-							if (o1.x == o2.x) {
-								if (o1.y < o2.y)
-									return -1;
+							if (o1.x > o2.x)
+								return 1;
 							else
-								if (o1.y > o2.y)
-									return 1;
+								if (o1.x == o2.x) {
+									if (o1.y < o2.y)
+										return -1;
 								else
-									return 0;
-							}
-					return 0;
-				}
-			});
-			
-			// mark result image (for debug purposes)
-			ImageCanvas canvas = new ImageCanvas(image);
-			int idx = 0;
-			int w = (int) (0.0125 * image.getWidth());
-			
-			for (ClusterFeatures c : c_features) {
-				int off = -60;
-				int wh = w / 2;
-				int hh = (int) (w * 2.5);
-				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
-				canvas.text(c.x - wh, c.y - wh + off + 20, "Index: " + idx++, Color.RED);
-				off += 20;
-				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
-				canvas.text(c.x - wh, c.y - wh + off + 20, "Center X: " + c.x, Color.RED);
-				off += 20;
-				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
-				canvas.text(c.x - wh, c.y - wh + off + 20, "Center Y: " + c.y, Color.RED);
-				for (Integer cc : c.quant.keySet()) {
-					off += 20;
-					canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
-					canvas.text(c.x - wh, c.y - wh + off + 20, AttributeHelper.getColorName(new Color(cc)) + ": " + c.quant.get(cc), Color.RED);
-				}
-			// check ratio
-				double ratio =  (double) c.dim.x / (double) c.dim.y;
-				off += 20;
-				if (ratio < 1.0) {
-					canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.RED.getRGB(), 0.35);
-					canvas.text(c.x - wh, c.y - wh + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.WHITE);
-				} else {
-					canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
-					canvas.text(c.x - wh, c.y - wh + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.RED);
-				}
-			}
-			// save debug image
-			image.saveToFile(f.getParent() + File.separator + "quantify_debug_" + f.getName());
-			
-			// write to text file
-			TextFile tf = new TextFile();
-			if (outMode == 0) {
-				int id = 0;
-				for (ClusterFeatures c : c_features) {
-					String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
-					tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
-					for (Integer cc : c.quant.keySet()) {
-						String colorName = AttributeHelper.getColorName(new Color(cc));
-						double val = 100d * c.quant.get(cc) / fgArea;
-						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
+									if (o1.y > o2.y)
+										return 1;
+									else
+										return 0;
+								}
+						return 0;
 					}
-					// check ratio
-					double ratio =  (double) c.dim.x / (double) c.dim.y;
-					tf.add(fileName + "cluster_ratio" + "\t" + ratio);
-					id++;
+				});
+				
+				// mark result image (for debug purposes)
+				TextFile tf = markResults(outMode, f, image, fgArea, c_features);
+				
+				try {
+					tf.write(f.getParent() + File.separator + f.getName() + "_quantified.csv");
+				} catch (Exception e) {
+					throw new RuntimeException(e);
 				}
 			} else {
-				int id = 0;
-				for (ClusterFeatures c : c_features) {
-					String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
-					tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
-					for (Integer cc : c.quant.keySet()) {
-						String colorName = AttributeHelper.getColorName(new Color(cc));
-						tf.add(fileName + "class_area_percent_" + colorName + "\t" + c.quant.get(cc));
-					}
-					id++;
-				}
+				System.out.println("Cant read classification result image for " + f.getParent() + "!");
+			} 
+		}
+	}
+
+	private static TextFile markResults(int outMode, File f, Image image, int fgArea,
+			LinkedList<ClusterFeatures> c_features) {
+		ImageCanvas canvas = new ImageCanvas(image);
+		int idx = 0;
+		int w = (int) (0.0125 * image.getWidth());
+		
+		for (ClusterFeatures c : c_features) {
+			int off = -60;
+			int wh = w / 2;
+			int hh = (int) (w * 2.5);
+			canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+			canvas.text(c.x - wh, c.y - wh + off + 20, "Index: " + idx++, Color.RED);
+			off += 20;
+			canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+			canvas.text(c.x - wh, c.y - wh + off + 20, "Center X: " + c.x, Color.RED);
+			off += 20;
+			canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+			canvas.text(c.x - wh, c.y - wh + off + 20, "Center Y: " + c.y, Color.RED);
+			for (Integer cc : c.quant.keySet()) {
+				off += 20;
+				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+				canvas.text(c.x - wh, c.y - wh + off + 20, AttributeHelper.getColorName(new Color(cc)) + ": " + c.quant.get(cc), Color.RED);
 			}
-			try {
-				tf.write(f.getParent() + File.separator + f.getName() + "_quantified.csv");
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+		// check ratio
+			double ratio =  (double) c.dim.x / (double) c.dim.y;
+			off += 20;
+			if (ratio < 1.0) {
+				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.RED.getRGB(), 0.35);
+				canvas.text(c.x - wh, c.y - wh + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.WHITE);
+			} else {
+				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
+				canvas.text(c.x - wh, c.y - wh + off + 20, "wh-ratio: " + StringManipulationTools.formatNumber(ratio, "0.000"), Color.RED);
 			}
 		}
+		// save debug image
+		image.saveToFile(f.getParent() + File.separator + "quantify_debug_" + f.getName());
+		
+		// write to text file
+		TextFile tf = new TextFile();
+		if (outMode == 0) {
+			int id = 0;
+			for (ClusterFeatures c : c_features) {
+				String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
+				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
+				for (Integer cc : c.quant.keySet()) {
+					String colorName = AttributeHelper.getColorName(new Color(cc));
+					double val = 100d * c.quant.get(cc) / fgArea;
+					tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
+				}
+				// check ratio
+				double ratio =  (double) c.dim.x / (double) c.dim.y;
+				tf.add(fileName + "cluster_ratio" + "\t" + ratio);
+				id++;
+			}
+		} else {
+			int id = 0;
+			for (ClusterFeatures c : c_features) {
+				String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
+				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
+				for (Integer cc : c.quant.keySet()) {
+					String colorName = AttributeHelper.getColorName(new Color(cc));
+					tf.add(fileName + "class_area_percent_" + colorName + "\t" + c.quant.get(cc));
+				}
+				id++;
+			}
+		}
+		return tf;
 	}
 }
 

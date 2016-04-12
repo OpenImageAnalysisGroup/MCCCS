@@ -60,7 +60,7 @@ public class ARFFcontent {
 		FileWriter tf = new FileWriter(file, true);
 		
 		tf.write("%" + System.lineSeparator());
-		System.out.println("Write start ...");
+
 		tf.write("@relation '" + relationName + "'" + System.lineSeparator());
 		
 		{

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="build" name="Create library jar for MCCCS">
+<project default="build" name="build">
     <target name="build">
     	<ant antfile="ant-scripts/create_mcccs_jar.xml"/>
     </target>

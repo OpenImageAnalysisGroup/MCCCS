@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="build" name="Create library jar for MCCCS">
+<project default="build" name="build">
     <!--ANT 1.7 is required -->
     <target name="build">
     	<jar destfile="release/mcccs.jar" filesetmanifest="mergewithoutmain">

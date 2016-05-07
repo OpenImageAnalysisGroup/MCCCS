@@ -18,9 +18,9 @@ read
 echo "Continue download of the following datasets and libraries?"
 echo "1. https://engineering.purdue.edu/~biehl/Hyperspectral_Project.zip"
 echo "2. http://www.plant-phenotyping.org/lw_resource/cvppp_dataset/LSCData.zip"
-echo "3. http://sourceforge.net/projects/iapg2p/files/v2.0/IAP_v2.0.0.zip/download"
-echo "4. http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip"
-echo "5. http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
+echo "3. http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip"
+echo "4. http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
+#echo "5. http://sourceforge.net/projects/iapg2p/files/v2.0/IAP_v2.0.0.zip/download"
 echo "If the download fails (proxy/firewall), please use your webbrowser for download or modify this script."
 echo ""
 echo "Press Enter to continue or ctrl + c to abort."
@@ -63,15 +63,10 @@ mkdir -p segmentation_example_1_classification/A3_prediction
 cp lsc_challenge/A3/*00* segmentation_example_1_classification/A3_training
 cp lsc_challenge/A3/* segmentation_example_1_classification/A3_prediction
 
-echo "Download libs: IAP, WEKA, Bio-Formats ..."
+echo "Download libs: WEKA, Bio-Formats ..."
 
-mkdir -p lib/iap
 mkdir -p lib/weka
 
-cd lib/iap/
-wget -N "http://sourceforge.net/projects/iapg2p/files/v2.0/IAP_v2.0.0.zip/download" 
-cp download iap.zip
-cd ../..
 cd lib/weka/
 wget -N "http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
 cp weka-3-6-12.zip weka.zip
@@ -80,9 +75,12 @@ cd lib/
 wget -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar" 
 cp bioformats_package.jar bio.jar
 cd ..
-cd lib/iap
-unzip -o -q iap.zip
-cp IAP_v2.0.0/iap_2_0.jar ../iap.jar
+#mkdir -p lib/iap
+#cd lib/iap/
+#wget -N "http://sourceforge.net/projects/iapg2p/files/v2.0/IAP_v2.0.0.zip/download" 
+#cp download iap.zip
+#unzip -o -q iap.zip
+#cp IAP_v2.0.0/iap_2_0.jar ../iap.jar
 
 cd ..
 

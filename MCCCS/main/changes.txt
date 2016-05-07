@@ -1,0 +1,2 @@
+- clean script 'clean.sh' to delete results and temporary data or downloaded data of the application examples
+- support for newest MCCCS version

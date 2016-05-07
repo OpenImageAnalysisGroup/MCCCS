@@ -13,5 +13,4 @@ RUN mv /MCCCS/MCCCS/release/mcccs.jar .
 RUN mkdir start
 RUN cp -r /MCCCS/MCCCS/main/* start
 RUN chmod +x start/*.sh
-RUN start/check_requirements.sh
 RUN mv iap_2_0.jar /start/lib/iap.jar

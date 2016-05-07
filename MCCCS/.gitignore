@@ -1,1 +1,6 @@
 /bin/
+/lib/**
+/release/
+/.classpath
+/.DS_Store
+/.settings

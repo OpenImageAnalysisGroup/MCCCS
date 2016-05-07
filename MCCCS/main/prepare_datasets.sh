@@ -70,19 +70,9 @@ mkdir -p lib/weka
 cd lib/weka/
 wget -N "http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
 cp weka-3-6-12.zip weka.zip
-cd ../..
-cd lib/
+cd ..
 wget -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar" 
 cp bioformats_package.jar bio.jar
-cd ..
-#mkdir -p lib/iap
-#cd lib/iap/
-#wget -N "http://sourceforge.net/projects/iapg2p/files/v2.0/IAP_v2.0.0.zip/download" 
-#cp download iap.zip
-#unzip -o -q iap.zip
-#cp IAP_v2.0.0/iap_2_0.jar ../iap.jar
-
-cd ..
 
 cd weka
 unzip -o -q weka.zip

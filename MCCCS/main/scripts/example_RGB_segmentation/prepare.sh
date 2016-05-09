@@ -18,16 +18,16 @@ rm -f diseaseClassifier.data
 rm -f fgbg.model
 #echo "mcccs jar:" $MBP
 if [ "$(uname)" == "Darwin" ]; then
-	export JAVA="java -Xmx8g -Dapple.awt.UIElement=true -cp $MBP workflow"
+	export JAVA="java -Xmx5g -Dapple.awt.UIElement=true -cp $MBP workflow"
 else
-	export JAVA="java -Xmx8g -cp $MBP workflow"
+	export JAVA="java -Xmx5g -cp $MBP workflow"
 fi 
 WEKAJAR=$APPPATH/lib/weka.jar
 if [[ "$(uname)" == CYGWIN* ]]
 then
 	WEKAJAR=$(cygpath -wp $WEKAJAR)
 fi
-export WEKA="java -Xmx8g -cp $WEKAJAR"
+export WEKA="java -Xmx5g -cp $WEKAJAR"
 
 NPROCS=1
 OS=$(uname -s)

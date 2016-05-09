@@ -38,11 +38,11 @@ then
 	MBP=$(cygpath -mp $MBP)
 fi
 #echo "MCCCS jar & IAP jar:" $MBP
-export JAVA="java -Xmx8g -cp $MBP workflow"
-export WEKA="java -Xmx8g -cp $WEKAJAR"
+export JAVA="java -Xmx5g -cp $MBP workflow"
+export WEKA="java -Xmx5g -cp $WEKAJAR"
 if [ "$(uname)" == "Darwin" ]; then
-	JAVA="java -Xmx8g -Dapple.awt.UIElement=true -cp $MBP workflow"
-	WEKA="java -Xmx8g -Dapple.awt.UIElement=true -cp $WEKAJAR"
+	JAVA="java -Xmx5g -Dapple.awt.UIElement=true -cp $MBP workflow"
+	WEKA="java -Xmx5g -Dapple.awt.UIElement=true -cp $WEKAJAR"
 fi 
 echo "Path to model file: $MODEL"
 WORKDIR=$(realpath $2)

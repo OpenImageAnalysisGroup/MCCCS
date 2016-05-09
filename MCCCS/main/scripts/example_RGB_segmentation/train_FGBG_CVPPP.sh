@@ -8,6 +8,11 @@ echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 # parms: 1. path to mcccs.jar 2. processing directory 3. s - single-threaded, m -multi-threaded
 # stop in case of error:
 set -e
+PF="$(pwd)/predict_folder.sh"
+if ! [[ "$(uname)" == CYGWIN* ]]
+then
+	chmod +x $PF
+fi
 PRES="$(pwd)/preprocess.sh"
 if ! [[ "$(uname)" == CYGWIN* ]]
 then
@@ -70,48 +75,11 @@ echo "(b) Apply model (prediction step)."
 echo "(c) Create foreground/background (FGBG) mask."
 echo "(d) Create difference image of training masks vs. predicted result image."
 echo "(e) Quantify areas."
-for dir in plant*/;
-do
-	if  [ "$dir" = "CVS" ]; then
-		echo
-		echo "Ignore CVS directory."
- 	else
-		START=$(date +%s)
-		echo
-	    	dir=${dir%*/}
-	    	echo -n "[${dir}]"  
-	    
-	    	echo -n "a"
-	   	rm -f "${dir}/${dir}.arff"
-	    	$JAVA.ArffFromImageFileGenerator 2 "${dir}"
-	    	
-	 	echo -n "b"
-	 	$WEKA weka.filters.supervised.attribute.AddClassification -i "${dir}/${dir}_2.arff" -serialized fgbg.model -classification -remove-old-class -o "${dir}/result.arff" -c last
-		
-		echo -n "c"
-		#create foreground png
-		cp "${dir}/channel_rgb_r.png" "${dir}/result.png"
-		$JAVA.ApplyClass0ToImage "${dir}/result.png"
-		rm "${dir}/result.png"
-		
-		echo -n "d"
-		rm -f ${dir}/foreground_diff.png
-		$JAVA.CreateDiffImage "${dir}/mask_2.png" "${dir}/foreground.png" "${dir}/foreground_diff.png"
-		
-		echo -n "e"
-		cp "${dir}/foreground.png" "${dir}/foreground_cluster.png"
-		rm -f ${dir}/*_quantified.csv
-		$JAVA.Quantify 0 ${dir}/foreground
-		rm "${dir}/foreground_cluster.png"
-		END=$(date +%s)
-		DIFF=$(echo "$END - $START" | bc)
-		echo -n " ($DIFF seconds)"
-		rm ${dir}/channel_*
-		rm ${dir}/fgbgTraining.arff
-		rm ${dir}/result.arff
-
-	fi
-done
+export MODEL=$(pwd)/fgbg.model
+echo "Path to model file: $MODEL"
+WORKDIR=$(pwd)
+cd "$WORKDIR"
+find * -maxdepth 0 -type d | grep -F -v CVS | $par $PF $WORKDIR {}
 echo
 echo "Transform result CSV file into column oriented CSV file..."
 for dir in plant*/;

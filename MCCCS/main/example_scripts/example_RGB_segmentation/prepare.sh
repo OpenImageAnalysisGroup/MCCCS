@@ -1,7 +1,3 @@
-if [ "$#" -ne 4 ]; then
-    echo "Please supply the path to the mcccs.jar as parameter 1, the path to the data-files as parameter 2 and s-single-threaded, m-multi-threaded as parameter 3, description of data set to display progress as parameter 4!"
-	exit 1
-fi
 APPPATH=$(realpath $1)
 export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar"
 if [[ "$(uname)" == CYGWIN* ]]
@@ -52,7 +48,7 @@ then
 else
 if [ "$3" == "h" ];
 then
-	NPROCS=$(echo "$NPROCS/2" | bc)
+	NPROCS=2
 	echo "Operation Mode: utilizing half number of CPUs ($NPROCS)"
 else
 	echo "Operation Mode: multi-threaded ($NPROCS CPUs detected)"
@@ -62,7 +58,8 @@ fi
 export SYSTEM_cpu_n=$NPROCS
 
 #if parallel is not installed use xargs instead:
-par="parallel --gnu"
-#type parallel >/dev/null 2>&1 ||  
-par="xargs -n1 -P$NPROCS -I{}" 
+par="parallel --gnu -j $NPROCS"
+#type parallel >/dev/null 2>&1
+# ||  
+#par="xargs -n1 -P$NPROCS -I{}" 
 echo "Parallel command: $par"

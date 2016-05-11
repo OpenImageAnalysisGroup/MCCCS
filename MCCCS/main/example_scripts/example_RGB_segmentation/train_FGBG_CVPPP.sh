@@ -7,15 +7,17 @@ echo "°                                                                   °"
 echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°"
 # parms: 1. path to mcccs.jar 2. processing directory 3. s - single-threaded, m -multi-threaded
 # stop in case of error:
-set -e
-PF="$(pwd)/predict_folder.sh"
-if ! [[ "$(uname)" == CYGWIN* ]]
-then
-	chmod +x $PF
+if [ "$#" -ne 4 ]; then
+    echo "Please supply the path to the mcccs.jar as parameter 1, the path to the data-files as parameter 2 and s-single-threaded, m-multi-threaded as parameter 3, description of data set to display progress as parameter 4!"
+	exit 1
 fi
+set -e
+PREDICTCMD="$(pwd)/predict_folder.sh"
+export SPLITCMD="$(pwd)/splitArff.sh"
 PRES="$(pwd)/preprocess.sh"
 if ! [[ "$(uname)" == CYGWIN* ]]
 then
+	chmod +x $PREDICTCMD
 	chmod +x $PRES
 	chmod +x "prepare.sh"
 fi
@@ -62,7 +64,7 @@ echo
 START=$(date +%s)
 #$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.trees.J48 -- -C 0.25 -M 2
 #$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.bayes.NaiveBayes
-$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.trees.RandomForest -- -I 100 -K 0 -S 1
+$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.trees.RandomForest -- -I 200 -K 0 -S 1
 #$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.bayes.BayesNet -- -D -Q weka.classifiers.bayes.net.search.local.K2 -- -S BAYES -E weka.classifiers.bayes.net.estimate.SimpleEstimator -- -A 0.5
 echo
 END=$(date +%s)
@@ -75,11 +77,11 @@ echo "(b) Apply model (prediction step)."
 echo "(c) Create foreground/background (FGBG) mask."
 echo "(d) Create difference image of training masks vs. predicted result image."
 echo "(e) Quantify areas."
-export MODEL=$(pwd)/fgbg.model
-echo "Path to model file: $MODEL"
+export MODELPATH="$(pwd)/"
+echo "Path to model file: $MODELPATH"
 WORKDIR=$(pwd)
 cd "$WORKDIR"
-find * -maxdepth 0 -type d | grep -F -v CVS | $par $PF $WORKDIR {}
+find * -maxdepth 0 -type d | grep -F -v CVS | $par $PREDICTCMD $WORKDIR {}
 echo
 echo "Transform result CSV file into column oriented CSV file..."
 for dir in plant*/;

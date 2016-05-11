@@ -9,9 +9,11 @@ echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 # stop in case of error:
 set -e
 PF="$(pwd)/predict_folder.sh"
+export SPLITCMD="$(pwd)/splitArff.sh"
 if ! [[ "$(uname)" == CYGWIN* ]]
 then
 	chmod +x $PF
+	chmod +x $SPLITCMD
 fi
 if [ "$(uname)" == "Darwin" ]; then
 realpath() {
@@ -19,18 +21,18 @@ realpath() {
 }
 fi
 if [ "$#" -ne 5 ]; then
-    	echo "Illegal number of parameters: 1 - path to mcccs.jar, 2 - path to testing data folder, 3 - model file and s-single-threaded, m-multi-threaded as parameter 4, description of data set to improve progress output as parameter 5"
+    	echo "Illegal number of parameters: 1 - path to mcccs.jar, 2 - path to testing data folder, 3 - path to model file and s-single-threaded, m-multi-threaded as parameter 4, description of data set to improve progress output as parameter 5"
 	exit 1
 fi
 APPPATH=$(realpath $1)
-export MODEL=$(realpath $3)
+export MODELPATH=$(realpath $3)
 WEKAJAR=$APPPATH/lib/weka.jar
 if [[ "$(uname)" == CYGWIN* ]]
 then
 	WEKAJAR=$(cygpath -mp $WEKAJAR)
-	export MODEL=$(cygpath ../$3)
+	export MODELPATH=$(cygpath ../$3)
 fi
-source predict_prepare.sh
+source prepare.sh
 #echo $WEKAJAR
 export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar"
 if [[ "$(uname)" == CYGWIN* ]]
@@ -44,8 +46,8 @@ if [ "$(uname)" == "Darwin" ]; then
 	JAVA="java -Xmx5g -Dapple.awt.UIElement=true -cp $MBP workflow"
 	WEKA="java -Xmx5g -Dapple.awt.UIElement=true -cp $WEKAJAR"
 fi 
-echo "Path to model file: $MODEL"
-WORKDIR=$(realpath $2)
+echo "Path to model file: $MODELPATH"
+WORKDIR=$(pwd)
 cd "$WORKDIR"
 echo
 echo "Delete files:"

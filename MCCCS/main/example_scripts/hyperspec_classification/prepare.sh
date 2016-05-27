@@ -2,7 +2,7 @@ if [ "$#" -ne 3 ]; then
     echo "Please supply the path to the mcccs.jar as parameter 1, the path to the data-files as parameter 2 and the number of disired cluster-classes as parameter 3!"
 	exit 1
 fi
-APPPATH=$(realpath $1)
+APPPATH=$(realpath $1)/..
 export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar:$APPPATH/lib/bio.jar"
 if [[ "$(uname)" == CYGWIN* ]]
 then

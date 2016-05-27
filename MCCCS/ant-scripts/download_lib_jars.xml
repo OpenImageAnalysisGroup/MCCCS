@@ -3,7 +3,7 @@
     <target name="build">
     	<!-- download and extract weka.jar -->
     	<get description="get weka" 
-    		src="http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
+    		src="http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip" 
     		dest="../lib/weka.zip">
     	</get>
     	<unzip src="../lib/weka.zip" dest="../lib" overwrite="true">
@@ -37,7 +37,7 @@
     	</get>
     	<!-- download jfeaturelib -->
     	<get description="get weka" 
-    	    src="http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.4/JFeatureLib-1.6.4.jar" 
+    	    src="http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar" 
     	    dest="../lib/jfeaturelib.jar">
     	</get>
     </target>

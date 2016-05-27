@@ -123,7 +123,7 @@ cd ..
 cd A3_training
 bash ../move_all_to_subdir.sh _label.png
 bash ../move_all_to_subdir.sh _rgb.png
-cd ../..
+cd ..
 
 cd A3_prediction
 rm -f *label.png

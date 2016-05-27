@@ -103,22 +103,22 @@ echo "Move all images and ground-truth images into subfolders for training and p
 cd example_data/segmentation_example_1_classification/A1_training
 bash ../move_all_to_subdir.sh _label.png
 bash ../move_all_to_subdir.sh _rgb.png
-cd ../..
+cd ..
 
-cd example_data/A1_prediction
+cd A1_prediction
 rm -f *label.png
 bash ../move_all_to_subdir.sh _rgb.png
-cd ../..
+cd ..
 
-cd example_data/A2_training
+cd A2_training
 bash ../move_all_to_subdir.sh _label.png
 bash ../move_all_to_subdir.sh _rgb.png
-cd ../..
+cd ..
 
 cd A2_prediction
 rm -f *label.png
 bash ../move_all_to_subdir.sh _rgb.png
-cd ../..
+cd ..
 
 cd A3_training
 bash ../move_all_to_subdir.sh _label.png
@@ -128,7 +128,7 @@ cd ../..
 cd A3_prediction
 rm -f *label.png
 bash ../move_all_to_subdir.sh _rgb.png
-cd ../../..
+cd ../..
 
 #classification hyper
 cd example_data/hyper_example_2_clustering

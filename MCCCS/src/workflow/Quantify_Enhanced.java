@@ -2,6 +2,9 @@ package workflow;
 
 import java.awt.Color;
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -49,7 +52,7 @@ public class Quantify_Enhanced {
 				Vector2i[] c_center = rl.getClusterCenterPoints();
 				Vector2i[] c_dims = rl.getClusterDimension();
 				int[] c_sizes = rl.getClusterSize();
-				int fgArea = rl.getForegroundPixelCount();
+				long fgArea = rl.getForegroundPixelCountl();
 				
 				// evaluate colors
 				LinkedList<ArrayList<PositionAndColor>> rl_list = rl.getRegionList();
@@ -111,7 +114,7 @@ public class Quantify_Enhanced {
 				});
 				
 				// mark result image (for debug purposes)
-				TextFile tf = markResults(outMode, f, image, fgArea, c_features);
+				TextFile tf = exportResults(outMode, f, image, fgArea, c_features);
 				
 				try {
 					tf.write(f.getParent() + File.separator + f.getName() + "_quantified.csv");
@@ -124,11 +127,13 @@ public class Quantify_Enhanced {
 		}
 	}
 
-	private static TextFile markResults(int outMode, File f, Image image, int fgArea,
+	private static TextFile exportResults(int outMode, File f, Image image, long fgArea,
 			LinkedList<ClusterFeatures> c_features) {
 		ImageCanvas canvas = new ImageCanvas(image);
 		int idx = 0;
 		int w = (int) (0.0125 * image.getWidth());
+		
+		canvas.text(100, 100, "Foreground-area: " + fgArea, Color.BLACK);
 		
 		for (ClusterFeatures c : c_features) {
 			int off = -60;
@@ -170,8 +175,12 @@ public class Quantify_Enhanced {
 				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
 				for (Integer cc : c.quant.keySet()) {
 					String colorName = AttributeHelper.getColorName(new Color(cc));
-					double val = 100d * c.quant.get(cc) / fgArea;
-					tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
+
+					if (fgArea != 0) {
+						BigDecimal val = new BigDecimal(100).multiply(new BigDecimal(c.quant.get(cc))).divide(new BigDecimal(fgArea), RoundingMode.HALF_UP);
+						// double val = 100d * c.quant.get(cc) / fgArea;
+						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val.toString());
+					}
 				}
 				// check ratio
 				double ratio =  (double) c.dim.x / (double) c.dim.y;

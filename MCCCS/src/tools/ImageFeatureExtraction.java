@@ -107,7 +107,7 @@ public class ImageFeatureExtraction {
 	}
 	
 	/**
-	 * Method to apply features using JfeatureLib which have to be calculated for each pixel (Convolutuion).
+	 * Method to apply features using JfeatureLib which have to be calculated for each pixel (Convolution).
 	 * 
 	 * @mode: Haralick, Gabor
 	 */
@@ -141,9 +141,9 @@ public class ImageFeatureExtraction {
 			
 		} else
 			if (mode.name() == "GABOR") {
-			for (int i = 0; i < 60; i++) {
-				names.add(i + "");
-			}
+				for (int i = 0; i < 60; i++) {
+					names.add(i + "");
+				}
 			}
 			
 		HashMap<String, double[][]> results = new HashMap<String, double[][]>();
@@ -157,71 +157,70 @@ public class ImageFeatureExtraction {
 		{
 			for (int y = 0; y < h; y++) {
 			
-			if (img2d[x][y] == Settings.back)
-				continue;
-				
-			for (int i = 0; i < temp.length; i++)
-				temp[i] = Settings.back;
-				
-			int count = 0;
-			for (int xMask = -halfmask; xMask < halfmask; xMask++) {
-				for (int yMask = -halfmask; yMask < halfmask; yMask++) {
-					if (x + xMask >= 0 && x + xMask < w && y + yMask >= 0 && y + yMask < h) {
-						if (img2d[x + xMask][y + yMask] != ImageOperation.BACKGROUND_COLORint)
-						temp[count] = img2d[x + xMask][y + yMask] & 0x0000ff;
-						else
-						temp[count] = img2d[x + xMask][y + yMask];
+				if (img2d[x][y] == Settings.back)
+					continue;
+					
+				for (int i = 0; i < temp.length; i++)
+					temp[i] = Settings.back;
+					
+				int count = 0;
+				for (int xMask = -halfmask; xMask < halfmask; xMask++) {
+					for (int yMask = -halfmask; yMask < halfmask; yMask++) {
+						if (x + xMask >= 0 && x + xMask < w && y + yMask >= 0 && y + yMask < h) {
+							if (img2d[x + xMask][y + yMask] != ImageOperation.BACKGROUND_COLORint)
+								temp[count] = img2d[x + xMask][y + yMask] & 0x0000ff;
+							else
+								temp[count] = img2d[x + xMask][y + yMask];
+						}
+						count++;
 					}
-					count++;
 				}
-			}
-			
-			List<double[]> features;
-			
-			switch (mode) {
-				case ALL:
-					break;
-				case BLUR:
-					break;
-				case GABOR:
-					// initialize the descriptor
-					Gabor gabor = new Gabor();
-					
-					// run the descriptor and extract the features
-					gabor.run(new Image(f_masksize, f_masksize, temp).getAsImagePlus().getProcessor());
-					
-					// obtain the features
-					features = gabor.getFeatures();
-					
-					for (double[] feature : features) {
-						for (int idx = 0; idx < feature.length; idx++)
-						results.get(names.get(idx))[x][y] = feature[idx];
-					}
-				case HARLICK:
-					// initialize the descriptor
-					Haralick hara = new Haralick();
-					
-					// run the descriptor and extract the features
-					hara.run(new Image(f_masksize, f_masksize, temp).getAsImagePlus().getProcessor());
-					
-					// obtain the features
-					features = hara.getFeatures();
-					
-					for (double[] feature : features) {
-						for (int idx = 0; idx < feature.length; idx++)
-						results.get(names.get(idx))[x][y] = feature[idx];
-					}
-				case KIRSCH:
-					break;
-				case MEDIAN:
-					break;
-				case SHARPEN:
-					break;
-				default:
-					break;
-					
-			}
-			
+				
+				List<double[]> features;
+				
+				switch (mode) {
+					case ALL:
+						break;
+					case BLUR:
+						break;
+					case GABOR:
+						// initialize the descriptor
+						Gabor gabor = new Gabor();
+						
+						// run the descriptor and extract the features
+						gabor.run(new Image(f_masksize, f_masksize, temp).getAsImagePlus().getProcessor());
+						
+						// obtain the features
+						features = gabor.getFeatures();
+						
+						for (double[] feature : features) {
+							for (int idx = 0; idx < feature.length; idx++)
+								results.get(names.get(idx))[x][y] = feature[idx];
+						}
+					case HARLICK:
+						// initialize the descriptor
+						Haralick hara = new Haralick();
+						
+						// run the descriptor and extract the features
+						hara.run(new Image(f_masksize, f_masksize, temp).getAsImagePlus().getProcessor());
+						
+						// obtain the features
+						features = hara.getFeatures();
+						
+						for (double[] feature : features) {
+							for (int idx = 0; idx < feature.length; idx++)
+							results.get(names.get(idx))[x][y] = feature[idx];
+						}
+					case KIRSCH:
+						break;
+					case MEDIAN:
+						break;
+					case SHARPEN:
+						break;
+					default:
+						break;
+						
+				}
 			}
 		} , (t, e) ->
 		

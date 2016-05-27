@@ -27,13 +27,13 @@ echo -n "d"
 $JAVA.ArffFromImageFileGenerator 2 "${dir}"
 
 echo -n "e"
-$WEKA weka.filters.supervised.attribute.AddClassification -i "${dir}/${dir}_2.arff" -serialized "$MODEL" -classification -remove-old-class -o "${dir}/result.arff" -c last
+$SPLITCMD "${dir}" "${dir}_2.arff" "true" "fgbg" "250000000"
 
 echo -n "f"
 #create foreground png
-cp "${dir}/channel_rgb_r.png" "${dir}/result.png"
-$JAVA.ApplyClass0ToImage "${dir}/result.png"
-rm "${dir}/result.png"
+cp "${dir}/channel_rgb_r.png" "${dir}/fgbgresult.png"
+$JAVA.ApplyClass0ToImage "${dir}/fgbgresult.png"
+rm "${dir}/fgbgresult.png"
 
 echo -n "g"
 cp "${dir}/foreground.png" "${dir}/foreground_cluster.png"

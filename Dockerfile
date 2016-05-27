@@ -2,7 +2,7 @@ FROM klukas/iap
 MAINTAINER Dr. Christian Klukas <christian.klukas@gmail.com>
 LABEL Description="Multi Channel Classification and Clustering" Version="1.0.0"
 RUN apt-get update
-RUN apt-get install -y bc
+RUN apt-get install -y bc parallel
 #RUN rm -R IAP/
 #RUN rm IAPconsole.sh
 #RUN rm IAPgui.sh

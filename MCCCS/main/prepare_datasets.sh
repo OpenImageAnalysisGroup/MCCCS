@@ -128,6 +128,7 @@ cd ..
 cd A3_prediction
 rm -f *label.png
 bash ../move_all_to_subdir.sh _rgb.png
+cd ..
 cd ../..
 
 #classification hyper
@@ -154,16 +155,16 @@ echo "Finish dataset preparation, MCCCS is ready for testing!"
 echo ""
 echo "Type the following commands in a shell to perform the analysis:"
 echo ""
-echo "- Experiment 1 -"
-echo "cd example_scripts/example_RGB_segmentation"
-echo "bash ./process_segmentation_example_1_classification.sh"
+echo "- Experiment 1 (RGB FG/BG segmentation) -"
+echo "cd example_data/segmentation_example_1_classification"
+echo "bash process_segmentation_example_1_classification.sh"
 echo ""
-echo "- Experiment 2 -"
-echo "cd example_scripts/hyperspec_classification"
+echo "- Experiment 2 (hyperspectral data classification) -"
+echo "cd example_data/hyper_example_1_classification"
 echo "bash ./process_hyper_example_1_classification.sh"
 echo ""
-echo "- Experiment 3 -"
-echo "cd example_scripts/hyperspec_clustering"
+echo "- Experiment 3 (hyperspectral data clustering) -"
+echo "cd example_data/hyper_example_2_clustering"
 echo "bash ./process_hyper_example_2_clustering.sh"
 echo ""
 echo "At this stage of the development 8 GB Memory are necessary to"

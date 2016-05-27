@@ -1,4 +1,4 @@
-APPPATH=$(realpath $1)/..
+APPPATH=$(realpath $(realpath $1)/..)
 export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar"
 if [[ "$(uname)" == CYGWIN* ]]
 then

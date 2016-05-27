@@ -24,8 +24,12 @@ echo "If the download fails (proxy/firewall), please use your webbrowser for dow
 echo ""
 echo "Press Enter to continue or ctrl + c to abort."
 read
-
-echo "download example data"
+#################################################################
+# Download example data
+#################################################################
+mkdir -p example_data
+cd example_data
+echo "download example data to directory 'example_data'..."
 wget -N "https://engineering.purdue.edu/~biehl/Hyperspectral_Project.zip"
 echo "unzip downloaded zip file 1 ..."
 unzip -o Hyperspectral_Project.zip
@@ -62,6 +66,11 @@ mkdir -p segmentation_example_1_classification/A3_prediction
 cp lsc_challenge/A3/*00* segmentation_example_1_classification/A3_training
 cp lsc_challenge/A3/* segmentation_example_1_classification/A3_prediction
 
+cd ..
+
+#################################################################
+# Download libs
+#################################################################
 echo "Download libs: WEKA, Bio-Formats ..."
 
 mkdir -p lib/weka
@@ -77,62 +86,67 @@ cd weka
 unzip -o -q weka.zip
 cd weka-3-6-12
 cp weka.jar ../../weka.jar
+cd ..
+rm -r weka-3-6-12
 
-cd ../../..
+cd ../..
+#################################################################
+# Copy scripts to target example folders
+#################################################################
 echo "copy scripts into example folders"
-cp scripts/hyperspec_classification/* hyper_example_1_classification
-cp scripts/hyperspec_clustering/* hyper_example_2_clustering
-cp scripts/example_RGB_segmentation/* segmentation_example_1_classification
+cp example_scripts/example_RGB_segmentation/* example_data/segmentation_example_1_classification
+cp example_scripts/hyperspec_classification/* example_data/hyper_example_1_classification
+cp example_scripts/hyperspec_clustering/* example_data/hyper_example_2_clustering
 
 echo "Move all images and ground-truth images into subfolders for training and prediction."
 #segmentation exp
-cd segmentation_example_1_classification/A1_training
-bash ../move_all_to_subdir.sh _label.png
-bash ../move_all_to_subdir.sh _rgb.png
-cd ..
+cd example_data/segmentation_example_1_classification/A1_training
+bash ../../move_all_to_subdir.sh _label.png
+bash ../../move_all_to_subdir.sh _rgb.png
+cd ../..
 
-cd A1_prediction
+cd example_data/A1_prediction
 rm -f *label.png
-bash ../move_all_to_subdir.sh _rgb.png
-cd ..
+bash ../../move_all_to_subdir.sh _rgb.png
+cd ../..
 
-cd A2_training
-bash ../move_all_to_subdir.sh _label.png
-bash ../move_all_to_subdir.sh _rgb.png
-cd ..
+cd example_data/A2_training
+bash ../../move_all_to_subdir.sh _label.png
+bash ../../move_all_to_subdir.sh _rgb.png
+cd ../..
 
 cd A2_prediction
 rm -f *label.png
-bash ../move_all_to_subdir.sh _rgb.png
-cd ..
+bash ../../move_all_to_subdir.sh _rgb.png
+cd ../..
 
 cd A3_training
-bash ../move_all_to_subdir.sh _label.png
-bash ../move_all_to_subdir.sh _rgb.png
-cd ..
+bash ../../move_all_to_subdir.sh _label.png
+bash ../../move_all_to_subdir.sh _rgb.png
+cd ../..
 
 cd A3_prediction
 rm -f *label.png
-bash ../move_all_to_subdir.sh _rgb.png
-cd ../..
+bash ../../move_all_to_subdir.sh _rgb.png
+cd ../../..
 
 #classification hyper
-cd hyper_example_2_clustering
+cd example_data/hyper_example_2_clustering
 mkdir -p stack_images
 mkdir -p stack_images/dc
 cp dc.tif stack_images/dc.tif
 cd stack_images
-bash ../move_all_to_subdir.sh tif
-cd ../..
+bash ../../move_all_to_subdir.sh tif
+cd ../../..
 
 #classification hyper
-cd hyper_example_1_classification
+cd example_data/hyper_example_1_classification
 mkdir -p stack_images
 mkdir -p stack_images/dc
 cp dc.tif stack_images/dc.tif
 cd stack_images
-bash ../move_all_to_subdir.sh tif
-cd ../..
+bash ../../move_all_to_subdir.sh tif
+cd ../../..
 echo ""
 echo ""
 echo "***************************************************************"
@@ -141,16 +155,16 @@ echo ""
 echo "Type the following commands in a shell to perform the analysis:"
 echo ""
 echo "- Experiment 1 -"
-echo "cd segmentation_example_1_classification"
-echo "bash process_segmentation_example_1_classification.sh"
+echo "cd example_scripts/example_RGB_segmentation"
+echo "bash ./process_segmentation_example_1_classification.sh"
 echo ""
 echo "- Experiment 2 -"
-echo "cd hyper_example_1_classification"
-echo "bash process_hyper_example_1_classification.sh"
+echo "cd example_scripts/hyperspec_classification"
+echo "bash ./process_hyper_example_1_classification.sh"
 echo ""
 echo "- Experiment 3 -"
-echo "cd hyper_example_2_clustering"
-echo "bash process_hyper_example_2_clustering.sh"
+echo "cd example_scripts/hyperspec_clustering"
+echo "bash ./process_hyper_example_2_clustering.sh"
 echo ""
 echo "At this stage of the development 8 GB Memory are necessary to"
 echo "perform the analysis without errors!"

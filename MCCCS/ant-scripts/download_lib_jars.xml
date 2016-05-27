@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="build" name="build">
     <target name="build">
+    	<!-- download and extract weka.jar -->
     	<get description="get weka" 
     		src="http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
     		dest="../lib/weka.zip">
     	</get>
-    	<!-- extract weka.jar -->
     	<unzip src="../lib/weka.zip" dest="../lib" overwrite="true">
     	    <patternset>
     	        <include name="weka-3-6-12/weka.jar"/>
@@ -15,6 +15,21 @@
     	    </mapper>
     	</unzip>
     	<delete file="../lib/weka.zip"/>
+    	<!-- download IAP jar -->
+    	<get description="get IAP jar" 
+    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/IAP_v2.0.3/IAP_v2.0.3.zip" 
+    		dest="../lib/IAP.zip">
+    	</get>
+    	<unzip src="../lib/IAP.zip" dest="../lib" overwrite="true">
+    	    <patternset>
+    	        <include name="IAP_v2.0.3/iap_2_0.jar"/>
+    	    </patternset>
+    	    <mapper>
+    	        <globmapper from="IAP_v2.0.3/*" to="*"/>
+    	    </mapper>
+    	</unzip>
+    	<move file="../lib/iap_2_0.jar" tofile="../lib/iap.jar"/>
+    	<delete file="../lib/IAP.zip"/>
     	<!-- download bioformats -->
     	<get description="get weka" 
     		src="http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar" 

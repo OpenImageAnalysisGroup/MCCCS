@@ -18,7 +18,7 @@ read
 echo "Continue download of the following datasets and libraries?"
 echo "1. https://engineering.purdue.edu/~biehl/Hyperspectral_Project.zip"
 echo "2. http://www.plant-phenotyping.org/lw_resource/cvppp_dataset/LSCData.zip"
-echo "3. http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip"
+echo "3. http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip"
 echo "4. http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
 echo "If the download fails (proxy/firewall), please use your webbrowser for download or modify this script."
 echo ""
@@ -76,7 +76,7 @@ echo "Download libs: WEKA, Bio-Formats ..."
 mkdir -p lib/weka
 
 cd lib/weka/
-wget -N "http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
+wget -N "http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip" 
 cp weka-3-6-12.zip weka.zip
 cd ..
 wget -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar" 

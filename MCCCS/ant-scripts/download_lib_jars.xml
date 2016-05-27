@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build" name="build">
+    <target name="build">
+    	<get description="get weka" 
+    		src="http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
+    		dest="../lib/weka.zip">
+    	</get>
+    	<!-- extract weka.jar -->
+    	<unzip src="../lib/weka.zip" dest="../lib" overwrite="true">
+    	    <patternset>
+    	        <include name="weka-3-6-12/weka.jar"/>
+    	    </patternset>
+    	    <mapper>
+    	        <globmapper from="weka-3-6-12/*" to="*"/>
+    	    </mapper>
+    	</unzip>
+    	<delete file="../lib/weka.zip"/>
+    	<!-- download bioformats -->
+    	<get description="get weka" 
+    		src="http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar" 
+    		dest="../lib/bio.jar">
+    	</get>
+    	<!-- download jfeaturelib -->
+    	<get description="get weka" 
+    	    src="http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.4/JFeatureLib-1.6.4.jar" 
+    	    dest="../lib/jfeaturelib.jar">
+    	</get>
+    </target>
+</project>

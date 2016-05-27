@@ -101,33 +101,33 @@ cp example_scripts/hyperspec_clustering/* example_data/hyper_example_2_clusterin
 echo "Move all images and ground-truth images into subfolders for training and prediction."
 #segmentation exp
 cd example_data/segmentation_example_1_classification/A1_training
-bash ../../move_all_to_subdir.sh _label.png
-bash ../../move_all_to_subdir.sh _rgb.png
+bash ../move_all_to_subdir.sh _label.png
+bash ../move_all_to_subdir.sh _rgb.png
 cd ../..
 
 cd example_data/A1_prediction
 rm -f *label.png
-bash ../../move_all_to_subdir.sh _rgb.png
+bash ../move_all_to_subdir.sh _rgb.png
 cd ../..
 
 cd example_data/A2_training
-bash ../../move_all_to_subdir.sh _label.png
-bash ../../move_all_to_subdir.sh _rgb.png
+bash ../move_all_to_subdir.sh _label.png
+bash ../move_all_to_subdir.sh _rgb.png
 cd ../..
 
 cd A2_prediction
 rm -f *label.png
-bash ../../move_all_to_subdir.sh _rgb.png
+bash ../move_all_to_subdir.sh _rgb.png
 cd ../..
 
 cd A3_training
-bash ../../move_all_to_subdir.sh _label.png
-bash ../../move_all_to_subdir.sh _rgb.png
+bash ../move_all_to_subdir.sh _label.png
+bash ../move_all_to_subdir.sh _rgb.png
 cd ../..
 
 cd A3_prediction
 rm -f *label.png
-bash ../../move_all_to_subdir.sh _rgb.png
+bash ../move_all_to_subdir.sh _rgb.png
 cd ../../..
 
 #classification hyper
@@ -136,7 +136,7 @@ mkdir -p stack_images
 mkdir -p stack_images/dc
 cp dc.tif stack_images/dc.tif
 cd stack_images
-bash ../../move_all_to_subdir.sh tif
+bash ../move_all_to_subdir.sh tif
 cd ../../..
 
 #classification hyper
@@ -145,7 +145,7 @@ mkdir -p stack_images
 mkdir -p stack_images/dc
 cp dc.tif stack_images/dc.tif
 cd stack_images
-bash ../../move_all_to_subdir.sh tif
+bash ../move_all_to_subdir.sh tif
 cd ../../..
 echo ""
 echo ""

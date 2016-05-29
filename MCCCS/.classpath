@@ -14,6 +14,6 @@
 	<classpathentry kind="lib" path="lib/bio.jar"/>
 	<classpathentry kind="lib" path="lib/weka.jar"/>
 	<classpathentry kind="lib" path="lib/jfeaturelib.jar"/>
-	<classpathentry kind="lib" path="lib/iap.jar"/>
+	<classpathentry kind="lib" path="lib/iap.jar" sourcepath="/IAP"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

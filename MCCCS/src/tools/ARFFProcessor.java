@@ -5,21 +5,22 @@ import ij.process.ImageConverter;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.Colors;
 import org.GapList;
 import org.StringManipulationTools;
-import org.SystemOptions;
 
+import support.ImageStackAsARFF;
 import workflow.Settings;
-import de.ipk.ag_ba.image.operation.ColorSpaceConverter;
 import de.ipk.ag_ba.image.structures.Image;
 import de.ipk.ag_ba.image.structures.ImageStack;
 
@@ -27,6 +28,8 @@ import de.ipk.ag_ba.image.structures.ImageStack;
  * @author pape, klukas
  */
 public class ARFFProcessor {
+	
+	static double scale = 64d; // in case of 14-bit => 64d else 1d;
 	
 	/**
 	 * Creates ARFF file for classifier training.
@@ -40,181 +43,99 @@ public class ARFFProcessor {
 	 * @param calcAdditionalColorFeatures
 	 * @throws IOException
 	 */
-	
-	static double scale = 64d; // in case of 14-bit => 64d else 1d;
-	
-	public static void createTrainingDataSet(ImageStack[] inputImages,
-			float background, File path, int samplesize, String filename,
+	public static void createTrainingDataSet(ImageStackAsARFF[] inputImages,
+			float backgroundValue, File path, int samplesize, String filename,
 			boolean debug, String id)
 			throws IOException {
 		
-		background = (float) -1.6777216E7;
-		float background1 = 0.0f;
-		float background2 = (float) 3.4028235E38;
-		
 		int numberOfClasses = inputImages.length;
-		LinkedList<float[][][]> cubes = new LinkedList<float[][][]>();
 		
-		for (int idx = 0; idx < numberOfClasses; idx++) {
-			cubes.add(inputImages[idx].getFloatCube());
-			// System.out.println(idx);
-		}
-		// inputImages[0].show("11");
-		// inputImages[1].show("2");
-		
-		int width = cubes.get(0).length;
-		int height = cubes.get(0)[0].length;
-		int bands = cubes.get(0)[0][0].length;
+		int width = inputImages[0].getWidth(); // cubes.get(0).length;
+		int height = inputImages[0].getHeight(); // cubes.get(0)[0].length;
+		int bands = inputImages[0].getBands(); // cubes.get(0)[0][0].length;
 		
 		int numberOfChannels = bands;
 		
-		// inputImages[0].show("000");
-		// inputImages[1].show("1");
-		
 		// create header
 		String attributes = "";
-		
 		for (int i = 0; i < numberOfChannels; i++) {
-			attributes += "@attribute "
-					+ makeNice(inputImages[0].getImageLabel(i + 1))
-					+ "\tNUMERIC\n";
+			attributes += "@attribute " + makeNice(inputImages[0].getImageLabel(i + 1)) + "\tNUMERIC" + System.lineSeparator();
 		}
 		
-		StringBuilder sb = new StringBuilder();
+		File pathp = new File(path.getPath());
+		if (!pathp.exists())
+			pathp.mkdirs();
 		
-		sb.append("%\n" + "@relation " + id + "\n" + attributes
-				+ "@attribute class\t{");
-		for (int idx = 0; idx < numberOfClasses; idx++) {
-			if (idx < numberOfClasses - 1)
-				sb.append("class" + idx + ",");
-			else
-				sb.append("class" + idx);
-		}
-		sb.append("}\n" + "@data\n");
-		
-		String line = "";
-		
-		LinkedList<GapList<short[]>> sampleLists = new LinkedList<GapList<short[]>>();
-		
-		for (int n = 0; n < numberOfClasses; n++) {
-			GapList<short[]> sampleList = new GapList<short[]>();
-			float[][][] cube = cubes.get(n);
-			
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					int bc = 0;
-					for (int b = 0; b < bands; b++) {
-						if (cube[x][y][b] == background || cube[x][y][b] == background1 || cube[x][y][b] == background2)
-							bc++;
-					}
-					if (bc < bands) {
-						sampleList.add(new short[] { (short) x, (short) y,
-								(short) n });
-						// sampleList.add(new Vector3i(x, y, n));
-					}
-					line = "";
-				}
+		try (PrintWriter sb = new PrintWriter(new BufferedWriter(new FileWriter(pathp + File.separator + filename + ".arff")))) {
+			sb.write("%" + System.lineSeparator() + "@relation " + id + System.lineSeparator() + attributes + "@attribute class\t{" + System.lineSeparator());
+			for (int idx = 0; idx < numberOfClasses; idx++) {
+				if (idx < numberOfClasses - 1)
+					sb.write("class" + idx + "," + System.lineSeparator());
+				else
+					sb.write("class" + idx + System.lineSeparator());
 			}
-			line = "";
-			sampleLists.add(sampleList);
-		}
-		
-		ImageStack debugSampleImagesStack = new ImageStack(numberOfClasses);
-		int count = 0;
-		ColorSpaceConverter convert = new ColorSpaceConverter(SystemOptions
-				.getInstance().getStringRadioSelection("IAP",
-						"Color Management//White Point",
-						ColorSpaceConverter.getWhitePointList(),
-						ColorSpaceConverter.getDefaultWhitePoint(), true));
-		double[] xyz = new double[3];
-		double[] lab = new double[3];
-		
-		TreeMap<Integer, String> posToLine = new TreeMap<Integer, String>();
-		
-		// choose random samples
-		for (int idxl = 0; idxl < sampleLists.size(); idxl++) {
-			GapList<short[]> sampleList = sampleLists.get(idxl);
-			int[][] debugSampleImage = new int[width][height];
+			sb.write("}" + System.lineSeparator() + "@data" + System.lineSeparator());
 			
-			while ((count < samplesize || samplesize < 0)
-					&& sampleList.size() > 0) {
-				int randidx = (int) (Math.random() * sampleList.size());
-				String[] st = getSampleString(sampleList.get(randidx), cubes,
-						bands).split(";");
-				String[] colors = st[0].split(",");
-				
-				String[] coords = st[1].split(",");
-				int xCoord = Integer.parseInt(StringManipulationTools
-						.getNumbersFromString(coords[0]));
-				int yCoord = Integer.parseInt(StringManipulationTools
-						.getNumbersFromString(coords[1]));
-				
-				int pos = xCoord + yCoord * width;
-				
-				int idx = idxl;
-				// if (idx == 1)
-				// idx = 6;
-				
-				// if (idx == 5)
-				// idx = 1;
-				//
-				// if (idx == 4)
-				// idx = 1;
-				//
-				// if (idx == 7)
-				// idx = 1;
-				//
-				// if (idx == 2)
-				// idx = 0;
-				//
-				// if (idx == 3)
-				// idx = 0;
-				
-				posToLine.put(pos, st[0] + "," + line + "class" + idx + "\n");
-				
-				// mark in debug image
-				if (debug) {
-					// for (int i = 0; i < 4; i++)
-					// for (int j = 0; j < 4; j++)
-					debugSampleImage[new Integer(xCoord)][new Integer(yCoord)] = Color.RED
-							.getRGB();
-				}
-				sampleList.remove(randidx);
-				count++;
+			LinkedList<GapList<Integer>> sampleLists = new LinkedList<GapList<Integer>>();
+			
+			for (int classIndex = 0; classIndex < numberOfClasses; classIndex++) {
+				GapList<Integer> sampleList = new GapList<>();
+				inputImages[classIndex].lookForValidSamples(sampleList, backgroundValue);
+				sampleLists.add(sampleList);
 			}
+			
+			ImageStack debugSampleImagesStack = new ImageStack(numberOfClasses);
+			int count = 0;
+			
+			// choose random samples
+			for (int classIndex = 0; classIndex < sampleLists.size(); classIndex++) {
+				GapList<Integer> sampleList = sampleLists.get(classIndex);
+				int[][] debugSampleImage = new int[width][height];
+				TreeSet<Integer> selectedSamples = new TreeSet<>();
+				while ((count < samplesize || samplesize < 0) && sampleList.size() > 0) {
+					int randidx = (int) (Math.random() * sampleList.size());
+					selectedSamples.add(randidx);
+					sampleList.remove(randidx);
+					count++;
+				}
+				
+				for (String sampleString : getSampleStrings(selectedSamples, inputImages[classIndex])) {
+					String[] st = sampleString.split(";");
+					sb.write(st[0] + ",class" + classIndex + System.lineSeparator());
+					// mark in debug image
+					if (debug) {
+						String[] coords = st[1].split(",");
+						int xCoord = Integer.parseInt(StringManipulationTools.getNumbersFromString(coords[0]));
+						int yCoord = Integer.parseInt(StringManipulationTools.getNumbersFromString(coords[1]));
+						debugSampleImage[new Integer(xCoord)][new Integer(yCoord)] = Color.RED.getRGB();
+					}
+				}
+				
+				if (debug)
+					debugSampleImagesStack.addImage("Class " + classIndex, new Image(debugSampleImage));
+				
+				count = 0;
+			}
+			
 			if (debug)
-				debugSampleImagesStack.addImage("Class " + idxl, new Image(
-						debugSampleImage));
+				debugSampleImagesStack.show("debug sample images");
 			
-			count = 0;
+			sb.write("%");
 		}
-		
-		if (debug)
-			debugSampleImagesStack.show("debug sample images");
-		
-		for (String l : posToLine.values())
-			sb.append(l);
-		
-		sb.append("%");
-		
-		IO_MCCCS.write(path.getPath(), filename, sb.toString(), ".arff");
 	}
 	
-	private static String getSampleString(short[] vec_xyn,
-			LinkedList<float[][][]> cubes, int bands) {
-		String line = "";
-		float[][][] cube = cubes.get(vec_xyn[2]);
-		int x = vec_xyn[0];
-		int y = vec_xyn[1];
-		
-		for (int b = 0; b < bands; b++) {
-			if (b == bands - 1)
-				line += cube[x][y][b];
-			else
-				line += cube[x][y][b] + ",";
+	private static LinkedList<String> getSampleStrings(TreeSet<Integer> lines, ImageStackAsARFF inputImage) throws IOException {
+		LinkedList<String> result = new LinkedList<>();
+		inputImage.prepareGetIntensityReading();
+		for (int lineIndex : lines) {
+			StringBuilder line = new StringBuilder();
+			line.append(inputImage.getIntensityValue(lineIndex));
+			int x = lineIndex % inputImage.getWidth();
+			int y = lineIndex / inputImage.getWidth();
+			result.add(line.toString() + "; x: " + x + ", y: " + y);
 		}
-		
-		return line + "; x: " + x + ", y: " + y;
+		inputImage.finalizeGetIntensityReading();
+		return result;
 	}
 	
 	/**
@@ -226,9 +147,9 @@ public class ARFFProcessor {
 	 * @param debug
 	 * @throws IOException
 	 */
-	public void convertImagesToArff(ImageStack isl, String path, String name, boolean debug)
+	public String convertImagesToArff(ImageStack isl, String path, String name, boolean debug)
 			throws IOException {
-		convertImagesToArff(isl, path, name, null, debug);
+		return convertImagesToArff(isl, path, name, null, debug);
 	}
 	
 	/**
@@ -240,9 +161,10 @@ public class ARFFProcessor {
 	 * @param name
 	 * @param mask
 	 * @param debug
+	 * @return
 	 * @throws IOException
 	 */
-	public void convertImagesToArff(ImageStack isl, String path, String name,
+	public String convertImagesToArff(ImageStack isl, String path, String name,
 			Image mask_img,
 			boolean debug) throws IOException {
 		
@@ -261,7 +183,7 @@ public class ARFFProcessor {
 		
 		for (int i = 0; i < numberOfChannels; i++) {
 			attributes += "@attribute " + makeNice(isl.getImageLabel(i + 1))
-					+ "\tNUMERIC\n";
+					+ "\tNUMERIC" + System.lineSeparator();
 		}
 		
 		int numberOfDiseaseClasses = Settings.numberOfClasses;
@@ -273,10 +195,10 @@ public class ARFFProcessor {
 			else
 				attributes += ("class" + idx);
 		}
-		attributes += "}\n";
+		attributes += "}" + System.lineSeparator();
 		
-		String header = "%\n" + "@relation '" + name + "'\n" + attributes
-				+ "@data\n";
+		String header = "%" + System.lineSeparator() + "@relation '" + name + "'" + System.lineSeparator() + attributes
+				+ "@data" + System.lineSeparator();
 		
 		float[][][] cubeSliceXY = getFloatCubeSliceXY(isl, true);
 		isl = null;
@@ -286,41 +208,36 @@ public class ARFFProcessor {
 		int bands = cubeSliceXY.length;
 		
 		String line = "";
+		String fileName = path + "/" + name + ".arff";
 		
-		FileWriter fw = new FileWriter(new File(path + "/" + name + ".arff"),
-				false);
-		
-		fw.write(header);
-		
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (checkMask)
-					if (mask[x + y * width] == background)
-						continue;
-				
-				for (int b = 0; b < bands; b++)
-					line += cubeSliceXY[b][x][y] + ",";
-				
-				if (line.length() > 0) {
-					// appends the string to the file
-					fw.write(line + "?" + "\n");
-					// .add(line + "; x: " + x + ", y: " + y);
-					line = "";
+		try (FileWriter fw = new FileWriter(new File(fileName), false)) {
+			fw.write(header);
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					if (checkMask)
+						if (mask[x + y * width] == background)
+							continue;
+					
+					for (int b = 0; b < bands; b++)
+						line += cubeSliceXY[b][x][y] + ",";
+					
+					if (line.length() > 0) {
+						// appends the string to the file
+						fw.write(line + "?" + System.lineSeparator());
+						// .add(line + "; x: " + x + ", y: " + y);
+						line = "";
+					}
 				}
 			}
+			fw.write("%");
 		}
-		
-		fw.write("%");
-		fw.close();
+		return fileName;
 	}
 	
 	public static String makeNice(String imageLabel) {
-		imageLabel = StringManipulationTools.stringReplace(imageLabel,
-				"channel_", "");
-		imageLabel = StringManipulationTools.stringReplace(imageLabel,
-				"_Custom", "");
-		imageLabel = StringManipulationTools
-				.stringReplace(imageLabel, ".", "_");
+		imageLabel = StringManipulationTools.stringReplace(imageLabel, "channel_", "");
+		imageLabel = StringManipulationTools.stringReplace(imageLabel, "_Custom", "");
+		imageLabel = StringManipulationTools.stringReplace(imageLabel, ".", "_");
 		return imageLabel;
 	}
 	
@@ -333,8 +250,7 @@ public class ARFFProcessor {
 		float[][][] cube = new float[bands][][];
 		
 		for (int b = 0; b < bands; b++) {
-			float[][] slice = is.getProcessor(
-					removeExtractedSlicesToSaveMemory ? 0 : b).getFloatArray();
+			float[][] slice = is.getProcessor(removeExtractedSlicesToSaveMemory ? 0 : b).getFloatArray();
 			if (removeExtractedSlicesToSaveMemory)
 				is.getStack().deleteSlice(1);
 			cube[b] = slice;
@@ -352,8 +268,7 @@ public class ARFFProcessor {
 	public void convertArffToImage(String parent, String name, Image mask_img,
 			boolean useArffClassInformation, boolean useAll, boolean debug)
 			throws IOException {
-		convertArffToImage(false, parent, name, mask_img,
-				useArffClassInformation, useAll, debug);
+		convertArffToImage(false, parent, name, mask_img, useArffClassInformation, useAll, debug);
 	}
 	
 	/**
@@ -363,10 +278,8 @@ public class ARFFProcessor {
 	 * includes all pixels (more than foreground mask) => useAll = true
 	 */
 	public void convertArffToGrayScaleImage(String parent, String name,
-			Image mask_img, boolean useArffClassInformation, boolean useAll,
-			boolean debug) throws IOException {
-		convertArffToImage(true, parent, name, mask_img,
-				useArffClassInformation, useAll, debug);
+			Image mask_img, boolean useArffClassInformation, boolean useAll, boolean debug) throws IOException {
+		convertArffToImage(true, parent, name, mask_img, useArffClassInformation, useAll, debug);
 	}
 	
 	public void convertArffToImage(boolean grayScaleFromProbability,
@@ -384,124 +297,120 @@ public class ARFFProcessor {
 		String fn = parent + "/" + name + ".arff";
 		File f = new File(fn);
 		if (!f.exists()) {
-			System.err.println("Error: File '" + fn
-					+ "' does not exist! Return 1");
+			System.err.println("Error: File '" + fn + "' does not exist! Return 1");
 			System.exit(1);
 		}
 		if (!f.canRead()) {
 			System.err.println("Error: Can't read file '" + fn + "'! Return 2");
 			System.exit(2);
 		}
-		// System.out.println("INFO: Try to read file '" + fn + "'... (folder? "
-		// + f.getAbsolutePath() + ")");
-		FileReader fr = new FileReader(f);
-		BufferedReader br = new BufferedReader(fr);
 		
-		// skip header
-		boolean headpresent = true;
-		boolean foundAttributeClassification = false;
-		int offsetClassColumn = 0;
-		
-		while (headpresent) {
-			String line = br.readLine();
-			// System.out.println(line);
-			if (line.startsWith("@attribute classification")) {
-				foundAttributeClassification = true;
-			} else {
-				if (foundAttributeClassification
-						&& line.startsWith("@attribute")) {
-					offsetClassColumn++; // found an additional column after the
-					// classification attribute
-				}
-			}
-			if (line.contains("@data"))
-				headpresent = false;
-		}
-		
-		ArrayList<Color> colorsAL = Colors.get(Settings.numberOfClasses, 1);
-		int[] colors = new int[colorsAL.size()];
-		
-		int idx = 0;
-		for (Color c : colorsAL)
-			colors[idx++] = c.getRGB();
-		
-		boolean goToStart = false;
-		int savedX = 0;
-		int savedY = 0;
-		out: for (int x = 0; x < mask_img.getWidth(); x++) {
-			for (int y = 0; y < mask_img.getHeight(); y++) {
-				
-				if (goToStart) {
-					x = savedX;
-					y = savedY;
-					goToStart = false;
-				}
-				if ((mask[x][y] != Settings.back || useArffClassInformation)
-						|| useAll) {
-					String line = br.readLine();
-					// end of file ?
-					if (line == null)
-						break out;
-					if (line.contains("%"))
-						break out;
-					if (line.length() == 0) {
-						// skip empty lines in arff file
-						if (useArffClassInformation) {
-							goToStart = true;
-						} else {
-							goToStart = true;
-							savedX = x;
-							savedY = y;
-						}
-						continue;
+		try (
+				FileReader fr = new FileReader(f);
+				BufferedReader br = new BufferedReader(fr)) {
+			// skip header
+			boolean headpresent = true;
+			boolean foundAttributeClassification = false;
+			int offsetClassColumn = 0;
+			
+			while (headpresent) {
+				String line = br.readLine();
+				if (line.startsWith("@attribute classification")) {
+					foundAttributeClassification = true;
+				} else {
+					if (foundAttributeClassification
+							&& line.startsWith("@attribute")) {
+						offsetClassColumn++; // found an additional column after the
+						// classification attribute
 					}
-					String[] s = line.split(",");
-					if (useArffClassInformation) {
-						if (grayScaleFromProbability) {
-							// 2 classes => FGBG segmentation
-							if (Settings.numberOfClasses == 2) {
-								String probabilityForClass0 = s[s.length
-										- Settings.numberOfClasses];
-								Float p = Float
-										.parseFloat(probabilityForClass0);
-								mask[x][y] = new Color(p, p, p).getRGB();
+				}
+				if (line.contains("@data"))
+					headpresent = false;
+			}
+			
+			ArrayList<Color> colorsAL = Colors.get(Settings.numberOfClasses, 1);
+			int[] colors = new int[colorsAL.size()];
+			
+			int idx = 0;
+			for (Color c : colorsAL)
+				colors[idx++] = c.getRGB();
+			
+			boolean goToStart = false;
+			int savedX = 0;
+			int savedY = 0;
+			out: for (int x = 0; x < mask_img.getWidth(); x++) {
+				for (int y = 0; y < mask_img.getHeight(); y++) {
+					
+					if (goToStart) {
+						x = savedX;
+						y = savedY;
+						goToStart = false;
+					}
+					if ((mask[x][y] != Settings.back || useArffClassInformation)
+							|| useAll) {
+						String line = br.readLine();
+						// end of file ?
+						if (line == null)
+							break out;
+						if (line.contains("%"))
+							break out;
+						if (line.length() == 0) {
+							// skip empty lines in arff file
+							if (useArffClassInformation) {
+								goToStart = true;
 							} else {
-								System.err.println("Only FGBG supported!");
+								goToStart = true;
+								savedX = x;
+								savedY = y;
 							}
+							continue;
+						}
+						String[] s = line.split(",");
+						if (useArffClassInformation) {
+							if (grayScaleFromProbability) {
+								// 2 classes => FGBG segmentation
+								if (Settings.numberOfClasses == 2) {
+									String probabilityForClass0 = s[s.length
+											- Settings.numberOfClasses];
+									Float p = Float
+											.parseFloat(probabilityForClass0);
+									mask[x][y] = new Color(p, p, p).getRGB();
+								} else {
+									System.err.println("Only FGBG supported!");
+								}
+							} else {
+								String cl = s[s.length - 1 - offsetClassColumn];
+								if ("class0".equals(cl)) {
+									mask[x][y] = Settings.foreground;
+								} else
+									mask[x][y] = Settings.back;
+							}
+							
 						} else {
-							String cl = s[s.length - 1 - offsetClassColumn];
-							if ("class0".equals(cl)) {
-								mask[x][y] = Settings.foreground;
+							if (grayScaleFromProbability)
+								throw new RuntimeException(
+										"Output of grayscale image from probabilities of multiple classes is supported by ArffToProbabilityImageFileGenerator!");
+							// last element defines class [0 ... n], in case of arff with added probabilities search for classX
+							int classPosIdx = 0;
+							for (String val : s) {
+								if (val.contains("class")) {
+									break;
+								} else
+									// check for overflow (in case of class string missing, but information is at last position)
+									if (classPosIdx < (s.length - 1))
+										classPosIdx++;
+							}
+							if (s.length > 0 && mask[x][y] != Settings.back) {
+								int cls = Integer.parseInt(StringManipulationTools
+										.getNumbersFromString(s[classPosIdx]));
+								mask[x][y] = colors[cls];
 							} else
 								mask[x][y] = Settings.back;
 						}
-						
-					} else {
-						if (grayScaleFromProbability)
-							throw new RuntimeException(
-									"Output of grayscale image from probabilities of multiple classes is supported by ArffToProbabilityImageFileGenerator!");
-						// last element defines class [0 ... n], in case of arff with added probabilities search for classX
-						int classPosIdx = 0;
-						for (String val : s) {
-							if (val.contains("class")) {
-								break;
-							} else
-								// check for overflow (in case of class string missing, but information is at last position)
-								if (classPosIdx < (s.length - 1))
-									classPosIdx++;
-						}
-						if (s.length > 0 && mask[x][y] != Settings.back) {
-							int cls = Integer.parseInt(StringManipulationTools
-									.getNumbersFromString(s[classPosIdx]));
-							mask[x][y] = colors[cls];
-						} else
-							mask[x][y] = Settings.back;
 					}
 				}
 			}
 		}
-		
-		br.close();
 		
 		// new Image(mask).show("test");
 		if (useArffClassInformation)
@@ -550,99 +459,96 @@ public class ARFFProcessor {
 		
 		// create grayscale image for each class
 		for (idxClass = 0; idxClass < Settings.numberOfClasses; idxClass++) {
-			FileReader fr = new FileReader(parent + "/" + name + ".arff");
-			BufferedReader br = new BufferedReader(fr);
-			
-			// skip header
-			boolean headpresent = true;
-			while (headpresent) {
-				String line = br.readLine();
-				// System.out.println(line);
-				if (line.contains("@data"))
-					headpresent = false;
-			}
-			
-			boolean goToStart = false;
-			int savedX = 0;
-			int savedY = 0;
-			
-			out: for (int x = 0; x < mask_img.getWidth(); x++) {
-				for (int y = 0; y < mask_img.getHeight(); y++) {
-					
-					if (goToStart) {
-						x = savedX;
-						y = savedY;
-						goToStart = false;
-					}
-					if (mask[x][y] != Settings.back || useAll) {
-						String line = br.readLine();
-						// end of file ?
-						if (line == null)
-							break out;
-						if (line.contains("%"))
-							break out;
-						if (line.length() == 0) {
-							// skip empty lines in arff file
-							goToStart = true;
-							savedX = x;
-							savedY = y;
-							continue;
+			try (
+					FileReader fr = new FileReader(parent + "/" + name + ".arff");
+					BufferedReader br = new BufferedReader(fr)) {
+				// skip header
+				boolean headpresent = true;
+				while (headpresent) {
+					String line = br.readLine();
+					// System.out.println(line);
+					if (line.contains("@data"))
+						headpresent = false;
+				}
+				
+				boolean goToStart = false;
+				int savedX = 0;
+				int savedY = 0;
+				
+				out: for (int x = 0; x < mask_img.getWidth(); x++) {
+					for (int y = 0; y < mask_img.getHeight(); y++) {
+						
+						if (goToStart) {
+							x = savedX;
+							y = savedY;
+							goToStart = false;
 						}
-						String[] s = line.split(",");
-						boolean classInfoReached = false;
-						int count = 0;
-						float[] probabilities = new float[Settings.numberOfClasses];
-						for (String v : s) {
-							if (v.contains("class")) {
-								classInfoReached = true;
+						if (mask[x][y] != Settings.back || useAll) {
+							String line = br.readLine();
+							// end of file ?
+							if (line == null)
+								break out;
+							if (line.contains("%"))
+								break out;
+							if (line.length() == 0) {
+								// skip empty lines in arff file
+								goToStart = true;
+								savedX = x;
+								savedY = y;
 								continue;
 							}
-							if (classInfoReached) {
-								probabilities[count] = Float.parseFloat(v);
-								count++;
-							}
-						}
-						// convert probability to grayValue
-						if (s.length > 0
-								&& (useAll || mask[x][y] != Settings.back)) {
-							int val = (int) (probabilities[idxClass] * 255);
-							
-							try {
-								mask[x][y] = new Color(val, val, val).getRGB();
-							} catch (Exception e) {
-								System.out
-										.println("Invalid probability value (can't interpret as color value, range 0..255): "
-												+ val);
-							}
-							if (!combinedReady) {
-								float highestProbability = -1f;
-								// int colorForResult = combined[x][y];
-								int colorForResult = Color.BLACK.getRGB();
-								int probIdx = 0;
-								for (float prob : probabilities) {
-									if (prob > acceptThreshold && prob > highestProbability) {
-										highestProbability = prob;
-										colorForResult = colors[probIdx];
-									}
-									probIdx++;
+							String[] s = line.split(",");
+							boolean classInfoReached = false;
+							int count = 0;
+							float[] probabilities = new float[Settings.numberOfClasses];
+							for (String v : s) {
+								if (v.contains("class")) {
+									classInfoReached = true;
+									continue;
 								}
-								combined[x][y] = colorForResult;
+								if (classInfoReached) {
+									probabilities[count] = Float.parseFloat(v);
+									count++;
+								}
+							}
+							// convert probability to grayValue
+							if (s.length > 0
+									&& (useAll || mask[x][y] != Settings.back)) {
+								int val = (int) (probabilities[idxClass] * 255);
+								
+								try {
+									mask[x][y] = new Color(val, val, val).getRGB();
+								} catch (Exception e) {
+									System.out.println("Invalid probability value (can't interpret as color value, range 0..255): " + val);
+								}
+								if (!combinedReady) {
+									float highestProbability = -1f;
+									// int colorForResult = combined[x][y];
+									int colorForResult = Color.BLACK.getRGB();
+									int probIdx = 0;
+									for (float prob : probabilities) {
+										if (prob > acceptThreshold && prob > highestProbability) {
+											highestProbability = prob;
+											colorForResult = colors[probIdx];
+										}
+										probIdx++;
+									}
+									combined[x][y] = colorForResult;
+								}
+							} else {
+								mask[x][y] = Settings.back;
+								if (!combinedReady)
+									combined[x][y] = Settings.back;
 							}
 						} else {
-							mask[x][y] = Settings.back;
-							if (!combinedReady)
-								combined[x][y] = Settings.back;
+							String line = br.readLine();
+							// end of file ?
+							if (line == null)
+								break out;
 						}
-					} else {
-						String line = br.readLine();
-						// end of file ?
-						if (line == null)
-							break out;
 					}
 				}
 			}
-			
-			br.close();
 			
 			new Image(mask).saveToFile(parent + "/probability_" + idxClass
 					+ ".png");
@@ -662,77 +568,71 @@ public class ARFFProcessor {
 	 */
 	public void convertArffToImageMultiLabelFloatImage(String parent, int w,
 			int h, String name, boolean debug) throws IOException {
-		
-		int idxClass = 0;
-		
 		// create grayscale image for each class
-		for (idxClass = 0; idxClass < Settings.numberOfClasses; idxClass++) {
-			FileReader fr = new FileReader(parent + "/" + name + ".arff");
-			BufferedReader br = new BufferedReader(fr);
-			float[][] mask = new float[w][h];
-			// skip header
-			boolean headpresent = true;
-			while (headpresent) {
-				String line = br.readLine();
-				// System.out.println(line);
-				if (line.contains("@data"))
-					headpresent = false;
-			}
-			
-			boolean goToStart = false;
-			int savedX = 0;
-			int savedY = 0;
-			
-			out: for (int x = 0; x < w; x++) {
-				for (int y = 0; y < h; y++) {
-					
-					if (goToStart) {
-						x = savedX;
-						y = savedY;
-						goToStart = false;
-					}
+		for (int idxClass = 0; idxClass < Settings.numberOfClasses; idxClass++) {
+			try (
+					FileReader fr = new FileReader(parent + "/" + name + ".arff");
+					BufferedReader br = new BufferedReader(fr)) {
+				float[][] mask = new float[w][h];
+				// skip header
+				boolean headpresent = true;
+				while (headpresent) {
 					String line = br.readLine();
-					// end of file ?
-					if (line == null)
-						break out;
-					if (line.contains("%"))
-						break out;
-					if (line.length() == 0) {
-						// skip empty lines in arff file
-						goToStart = true;
-						savedX = x;
-						savedY = y;
-						continue;
-					}
-					String[] s = line.split(",");
-					boolean classInfoReached = false;
-					int count = 0;
-					float probability = 0;
-					for (String v : s) {
-						if (v.contains("class")) {
-							classInfoReached = true;
+					// System.out.println(line);
+					if (line.contains("@data"))
+						headpresent = false;
+				}
+				
+				boolean goToStart = false;
+				int savedX = 0;
+				int savedY = 0;
+				
+				out: for (int x = 0; x < w; x++) {
+					for (int y = 0; y < h; y++) {
+						
+						if (goToStart) {
+							x = savedX;
+							y = savedY;
+							goToStart = false;
+						}
+						String line = br.readLine();
+						// end of file ?
+						if (line == null)
+							break out;
+						if (line.contains("%"))
+							break out;
+						if (line.length() == 0) {
+							// skip empty lines in arff file
+							goToStart = true;
+							savedX = x;
+							savedY = y;
 							continue;
 						}
-						if (classInfoReached) {
-							if (idxClass == count) {
-								probability = Float.parseFloat(v);
-								break;
+						String[] s = line.split(",");
+						boolean classInfoReached = false;
+						int count = 0;
+						float probability = 0;
+						for (String v : s) {
+							if (v.contains("class")) {
+								classInfoReached = true;
+								continue;
 							}
-							count++;
+							if (classInfoReached) {
+								if (idxClass == count) {
+									probability = Float.parseFloat(v);
+									break;
+								}
+								count++;
+							}
 						}
+						// convert probability to grayValue
+						if (s.length > 0)
+							mask[x][y] = probability;
 					}
-					// convert probability to grayValue
-					if (s.length > 0)
-						mask[x][y] = probability;
 				}
+				new Image(mask).saveToFile(parent + "/probability_" + idxClass + ".tif");
 			}
-			
-			br.close();
-			
-			new Image(mask).saveToFile(parent + "/probability_" + idxClass
-					+ ".tif");
 		}
-		
 	}
 	
 	/**
@@ -761,11 +661,11 @@ public class ARFFProcessor {
 		
 		for (int i = 0; i < 1; i++) {
 			attributes += "@attribute " + makeNice(channel_name)
-					+ "\tNUMERIC\n";
+					+ "\tNUMERIC" + System.lineSeparator();
 		}
 		
-		String header = "%\n" + "@relation '" + folder_name + "'\n" + attributes
-				+ "@data\n";
+		String header = "%" + System.lineSeparator() + "@relation '" + folder_name + "'" + System.lineSeparator() + attributes
+				+ "@data" + System.lineSeparator();
 		
 		float[][] XY = ip.getProcessor().getFloatArray();
 		
@@ -776,29 +676,26 @@ public class ARFFProcessor {
 		
 		String fn = out_path_name + ".arff";
 		
-		FileWriter fw = new FileWriter(new File(fn), false);
-		
-		fw.write(header);
-		
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (checkMask)
-					if (mask[x + y * width] == background)
-						continue;
-				
-				line += XY[x][y];
-				
-				if (line.length() > 0) {
-					// appends the string to the file
-					fw.write(line + "\n");
-					line = "";
+		try (FileWriter fw = new FileWriter(new File(fn), false)) {
+			fw.write(header);
+			
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					if (checkMask)
+						if (mask[x + y * width] == background)
+							continue;
+					
+					line += XY[x][y];
+					
+					if (line.length() > 0) {
+						// appends the string to the file
+						fw.write(line + System.lineSeparator());
+						line = "";
+					}
 				}
 			}
+			fw.write("%");
 		}
-		
-		fw.write("%");
-		fw.close();
-		
 		return fn;
 	}
 }

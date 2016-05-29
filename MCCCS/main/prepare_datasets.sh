@@ -13,9 +13,9 @@ echo "Hanno Scharr, Massimo Minervini, Andreas Fischbach, Sotirios A. Tsaftaris.
 echo ""
 echo "2. The classification and clustering examples using a hyperspectral data set 'hyper_example_1_classification' and 'hyper_example_2_clustering' are made available from https://engineering.purdue.edu/~biehl/."
 echo ""
-echo "Press Enter to continue or ctrl + c to abort."
+echo "Press Enter to continue or ctrl+c to abort."
 read
-echo "Continue download of the following datasets and libraries?"
+echo "Continue and download of the following data sets and libraries?"
 echo "1. https://engineering.purdue.edu/~biehl/Hyperspectral_Project.zip"
 echo "2. http://www.plant-phenotyping.org/lw_resource/cvppp_dataset/LSCData.zip"
 echo "3. http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip"

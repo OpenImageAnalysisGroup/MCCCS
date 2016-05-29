@@ -1,9 +1,14 @@
 package support;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
+import org.GapList;
+
+import de.ipk.ag_ba.image.structures.Image;
 import de.ipk.ag_ba.image.structures.ImageStack;
 
 /**
@@ -12,6 +17,19 @@ import de.ipk.ag_ba.image.structures.ImageStack;
 public class ImageStackAsARFF {
 	
 	private LinkedHashMap<String, ImageArff> fileName2image = new LinkedHashMap<>();
+	
+	public ImageStackAsARFF() {
+		// empty
+	}
+	
+	public ImageStackAsARFF(ImageStack convertThisStack, String datasetName) throws IOException {
+		for (int idx = 0; idx < convertThisStack.size(); idx++) {
+			Image img = convertThisStack.getImage(idx);
+			String lbl = convertThisStack.getLabels()[idx];
+			ImageArff ia = new ImageArff(img, datasetName, lbl);
+			fileName2image.put(ia.content_tempFile.getAbsolutePath(), ia);
+		}
+	}
 	
 	public void show(String title) throws IOException {
 		show(title, true);
@@ -57,4 +75,82 @@ public class ImageStackAsARFF {
 		return getLabels()[i - 1];
 	}
 	
+	public int getWidth() {
+		return fileName2image.values().iterator().next().w;
+	}
+	
+	public int getHeight() {
+		return fileName2image.values().iterator().next().h;
+	}
+	
+	public int getBands() {
+		return fileName2image.size();
+	}
+	
+	public void lookForValidSamples(GapList<Integer> sampleList, float backgroundValue) {
+		int width = getWidth();
+		int height = getHeight();
+		int bands = getBands();
+		
+		BitSet[] band2bitSetIsBackgroundLine = new BitSet[bands];
+		for (int b = 0; b < bands; b++)
+			band2bitSetIsBackgroundLine[b] = getIsBackgroundStatusForLines(backgroundValue);
+		
+		for (int line = 0; line < width * height; line++) {
+			int bc = 0;
+			for (int b = 0; b < bands; b++)
+				if (band2bitSetIsBackgroundLine[b].get(line))
+					bc++;
+			if (bc < bands)
+				sampleList.add(line);
+		}
+	}
+	
+	private BitSet getIsBackgroundStatusForLines(float backgroundValue) {
+		BitSet result = new BitSet(getWidth() * getHeight());
+		// for (int backgroundValueIndex = 0; backgroundValueIndex < backgroundValues.length; backgroundValueIndex++) {
+		// if (cube[x][y][b] == backgroundValues[backgroundValueIndex]) {
+		// bc++;
+		// break;
+		// }
+		// }
+		
+		return result;
+	}
+	
+	public void deleteArffFilesOnceJvmQuits() {
+		for (String fileName : fileName2image.keySet())
+			new File(fileName).deleteOnExit();
+	}
+	
+	public void deleteLastSlice() {
+		fileName2image.remove(fileName2image.keySet().toArray(new String[] {})[fileName2image.size() - 1]);
+	}
+	
+	public String getFileName(int idx) {
+		return fileName2image.keySet().toArray(new String[] {})[idx];
+	}
+	
+	public void prepareGetIntensityReading() throws IOException {
+		for (ImageArff ia : fileName2image.values())
+			ia.prepareGetIntensityReading();
+	}
+	
+	public void finalizeGetIntensityReading() throws IOException {
+		for (ImageArff ia : fileName2image.values())
+			ia.finalizeGetIntensityReading();
+	}
+	
+	public String getIntensityValue(int lineIndex) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		String[] fna = fileName2image.keySet().toArray(new String[] {});
+		for (int b = 0; b < fileName2image.size(); b++) {
+			String fn = fna[b];
+			ImageArff img = fileName2image.get(fn);
+			if (sb.length() > 0)
+				sb.append(",");
+			sb.append(img.getIntensityValue(lineIndex));
+		}
+		return sb.toString();
+	}
 }

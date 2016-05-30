@@ -87,34 +87,37 @@ public class ImageStackAsARFF {
 		return fileName2image.size();
 	}
 	
-	public void lookForValidSamples(GapList<Integer> sampleList, float backgroundValue) {
+	public void lookForValidSamples(GapList<Integer> sampleList, float backgroundValue) throws IOException {
 		int width = getWidth();
 		int height = getHeight();
-		int bands = getBands();
 		
-		BitSet[] band2bitSetIsBackgroundLine = new BitSet[bands];
-		for (int b = 0; b < bands; b++)
-			band2bitSetIsBackgroundLine[b] = getIsBackgroundStatusForLines(backgroundValue);
+		BitSet isBackgroundLine = getIsBackgroundStatusForLines(backgroundValue);
 		
 		for (int line = 0; line < width * height; line++) {
-			int bc = 0;
-			for (int b = 0; b < bands; b++)
-				if (band2bitSetIsBackgroundLine[b].get(line))
-					bc++;
-			if (bc < bands)
+			if (!isBackgroundLine.get(line))
 				sampleList.add(line);
 		}
 	}
 	
-	private BitSet getIsBackgroundStatusForLines(float backgroundValue) {
+	private BitSet getIsBackgroundStatusForLines(float backgroundValue) throws IOException {
 		BitSet result = new BitSet(getWidth() * getHeight());
-		// for (int backgroundValueIndex = 0; backgroundValueIndex < backgroundValues.length; backgroundValueIndex++) {
-		// if (cube[x][y][b] == backgroundValues[backgroundValueIndex]) {
-		// bc++;
-		// break;
-		// }
-		// }
-		
+		String[] fna = fileName2image.keySet().toArray(new String[] {});
+		int bands = getBands();
+		for (int band = 0; band < bands; band++) {
+			fileName2image.get(fna[band]).prepareGetIntensityReading();
+			fileName2image.get(fna[band]).setExpectedBackgroundValue(backgroundValue);
+		}
+		for (int line = 0; line < getWidth() * getHeight(); line++) {
+			int bc = 0;
+			for (int band = 0; band < bands; band++) {
+				if (fileName2image.get(fna[band]).isNextLineBackground())
+					bc++;
+			}
+			result.set(line, bc == bands);
+		}
+		for (int band = 0; band < bands; band++) {
+			fileName2image.get(fna[band]).finalizeGetIntensityReading();
+		}
 		return result;
 	}
 	

@@ -22,10 +22,10 @@
     	</get>
     	<unzip src="../lib/IAP.zip" dest="../lib" overwrite="true">
     	    <patternset>
-    	        <include name="IAP_v2.0.3/iap_2_0.jar"/>
+    	        <include name="IAP_v2.0.4/iap_2_0.jar"/>
     	    </patternset>
     	    <mapper>
-    	        <globmapper from="IAP_v2.0.3/*" to="*"/>
+    	        <globmapper from="IAP_v2.0.4/*" to="*"/>
     	    </mapper>
     	</unzip>
     	<move file="../lib/iap_2_0.jar" tofile="../lib/iap.jar"/>

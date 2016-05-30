@@ -17,7 +17,7 @@
     	<delete file="../lib/weka.zip"/>
     	<!-- download IAP jar -->
     	<get description="get IAP jar" 
-    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/IAP_v2.0.3/IAP_v2.0.3.zip" 
+    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/V2.0.4/IAP_v2.0.4.zip" 
     		dest="../lib/IAP.zip">
     	</get>
     	<unzip src="../lib/IAP.zip" dest="../lib" overwrite="true">

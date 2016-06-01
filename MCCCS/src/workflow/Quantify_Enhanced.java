@@ -176,9 +176,7 @@ public class Quantify_Enhanced {
 				tf.add(fileName + "foreground_area_pixel" + "\t" + overallCluPixel);
 				for (Integer cc : c.quant.keySet()) {
 					String colorName = AttributeHelper.getColorName(new Color(cc));
-					
 					if (overallCluPixel != 0) {
-						// BigDecimal val = new BigDecimal(100).multiply(new BigDecimal(c.quant.get(cc))).divide(new BigDecimal(fgArea), RoundingMode.HALF_UP);
 						double val = 100d * c.quant.get(cc) / overallCluPixel;
 						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
 					}

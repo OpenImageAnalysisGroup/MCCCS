@@ -29,7 +29,7 @@ public class Quantify {
 			System.err.println("No output mode [0 - percentage, 1 - absolute pixel numbers]  and/or filenames provided as parameters! Return Code 1");
 			System.exit(1);
 		} else {
-			LinkedList<LocalComputeJob> wait = new LinkedList<>();
+
 			
 			LinkedList<File> fl = new LinkedList<>();
 			int outMode = Integer.parseInt(args[0]);
@@ -46,6 +46,11 @@ public class Quantify {
 				}
 			}
 			
+			boolean par = false;
+			
+			// parallel processing caused eventually bugs
+			if (par) {
+			LinkedList<LocalComputeJob> wait = new LinkedList<>();
 			fl.forEach((f) -> {
 				if (!f.exists()) {
 					System.err.println("File '" + f + "' could not be found! Return Code 2");
@@ -102,6 +107,53 @@ public class Quantify {
 			});
 			
 			BackgroundThreadDispatcher.waitFor(wait);
+			
+			} else {
+				
+				for (File f : fl) {
+					Image i;
+					try {
+						i = new Image(FileSystemHandler.getURL(f));
+					} catch (Exception e) {
+						System.out.println(f);
+						throw new RuntimeException(e);
+					}
+					int[] img = i.getAs1A();
+					int b = Settings.back;
+					TreeMap<Integer, Integer> diseaseSymptomId2Area = new TreeMap<>();
+					int fgArea = 0;
+					for (int p : img) {
+						if (p != b) {
+							fgArea++;
+							if (!diseaseSymptomId2Area.containsKey(p))
+								diseaseSymptomId2Area.put(p, 0);
+							diseaseSymptomId2Area.put(p, diseaseSymptomId2Area.get(p) + 1);
+						}
+					}
+					TextFile tf = new TextFile();
+					if (outMode == 0) {
+						tf.add(f.getParent() + File.separator + f.getName() + "\t" + "foreground_area_pixel" + "\t" + fgArea);
+						for (Integer symp : diseaseSymptomId2Area.keySet()) {
+							String colorName = AttributeHelper.getColorName(new Color(symp));
+							tf.add(f.getParent() + File.separator + f.getName() + "\t" + "class_area_percent_" + colorName + "\t" + 100d
+									* diseaseSymptomId2Area.get(symp)
+									/ fgArea);
+						}
+					} else {
+						tf.add(f.getParent() + File.separator + f.getName() + "\t" + "foreground_area_pixel" + "\t" + fgArea);
+						for (Integer symp : diseaseSymptomId2Area.keySet()) {
+							String colorName = AttributeHelper.getColorName(new Color(symp));
+							tf.add(f.getParent() + File.separator + f.getName() + "\t" + "class_area_pixel_" + colorName + "\t"
+									+ diseaseSymptomId2Area.get(symp));
+						}
+					}
+					try {
+						tf.write(f.getParent() + File.separator + f.getName() + "_quantified.csv");
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
 		}
 	}
 }

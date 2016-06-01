@@ -1,9 +1,10 @@
 package workflow;
 
+import iap.blocks.image_analysis_tools.methods.RegionLabeling;
+
 import java.awt.Color;
 import java.io.File;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,7 +20,6 @@ import de.ipk.ag_ba.image.operation.PositionAndColor;
 import de.ipk.ag_ba.image.operation.canvas.ImageCanvas;
 import de.ipk.ag_ba.image.structures.Image;
 import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
-import iap.blocks.image_analysis_tools.methods.RegionLabeling;
 
 /**
  * Compared to the simple Quantify command (works for one object in an image), it is possible to analyze and distinguish several separated objects in an image.
@@ -30,7 +30,7 @@ import iap.blocks.image_analysis_tools.methods.RegionLabeling;
 public class Quantify_Enhanced {
 	
 	private static int i;
-
+	
 	public static void main(String[] args) throws Exception {
 		{
 			new Settings(true);
@@ -85,12 +85,12 @@ public class Quantify_Enhanced {
 				for (ClusterFeatures cf : c_features) {
 					if (cf.size == max_size)
 						c_features.remove(cf);
-				break;
+					break;
 				}
 				
 				// sort by column (left_top = first)
 				c_features.sort(new Comparator<ClusterFeatures>() {
-				
+					
 					@Override
 					public int compare(ClusterFeatures o1, ClusterFeatures o2) {
 						// 0 -> same, -1 -> smaller ...
@@ -103,11 +103,11 @@ public class Quantify_Enhanced {
 								if (o1.x == o2.x) {
 									if (o1.y < o2.y)
 										return -1;
-								else
-									if (o1.y > o2.y)
-										return 1;
 									else
-										return 0;
+										if (o1.y > o2.y)
+											return 1;
+										else
+											return 0;
 								}
 						return 0;
 					}
@@ -123,10 +123,10 @@ public class Quantify_Enhanced {
 				}
 			} else {
 				System.out.println("Cant read classification result image for " + f.getParent() + "!");
-			} 
+			}
 		}
 	}
-
+	
 	private static TextFile exportResults(int outMode, File f, Image image, long fgArea,
 			LinkedList<ClusterFeatures> c_features) {
 		ImageCanvas canvas = new ImageCanvas(image);
@@ -152,8 +152,8 @@ public class Quantify_Enhanced {
 				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.lightGray.getRGB(), 0.25);
 				canvas.text(c.x - wh, c.y - wh + off + 20, AttributeHelper.getColorName(new Color(cc)) + ": " + c.quant.get(cc), Color.RED);
 			}
-		// check ratio
-			double ratio =  (double) c.dim.x / (double) c.dim.y;
+			// check ratio
+			double ratio = (double) c.dim.x / (double) c.dim.y;
 			off += 20;
 			if (ratio < 1.0) {
 				canvas.fillRect(c.x - wh, c.y - wh + off, hh, 20, Color.RED.getRGB(), 0.35);
@@ -171,27 +171,29 @@ public class Quantify_Enhanced {
 		if (outMode == 0) {
 			int id = 0;
 			for (ClusterFeatures c : c_features) {
+				long overallCluPixel = c.size;
 				String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
-				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
+				tf.add(fileName + "foreground_area_pixel" + "\t" + overallCluPixel);
 				for (Integer cc : c.quant.keySet()) {
 					String colorName = AttributeHelper.getColorName(new Color(cc));
-
-					if (fgArea != 0) {
-						BigDecimal val = new BigDecimal(100).multiply(new BigDecimal(c.quant.get(cc))).divide(new BigDecimal(fgArea), RoundingMode.HALF_UP);
-						// double val = 100d * c.quant.get(cc) / fgArea;
-						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val.toString());
+					
+					if (overallCluPixel != 0) {
+						// BigDecimal val = new BigDecimal(100).multiply(new BigDecimal(c.quant.get(cc))).divide(new BigDecimal(fgArea), RoundingMode.HALF_UP);
+						double val = 100d * c.quant.get(cc) / overallCluPixel;
+						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
 					}
 				}
 				// check ratio
-				double ratio =  (double) c.dim.x / (double) c.dim.y;
+				double ratio = (double) c.dim.x / (double) c.dim.y;
 				tf.add(fileName + "cluster_ratio" + "\t" + ratio);
 				id++;
 			}
 		} else {
 			int id = 0;
 			for (ClusterFeatures c : c_features) {
+				long overallCluPixel = c.size;
 				String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
-				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
+				tf.add(fileName + "foreground_area_pixel" + "\t" + overallCluPixel);
 				for (Integer cc : c.quant.keySet()) {
 					String colorName = AttributeHelper.getColorName(new Color(cc));
 					tf.add(fileName + "class_area_percent_" + colorName + "\t" + c.quant.get(cc));

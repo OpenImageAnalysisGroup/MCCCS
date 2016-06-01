@@ -233,13 +233,13 @@ public class IO_MCCCS {
 		write(pathname, filename, data, ".txt");
 	}
 	
-	public static void write(String pathname, String filename, String data, String format) throws IOException {
+	public static void write(String pathname, String filename, String data, String fileExtensionIncludingDot) throws IOException {
 		File path = new File(pathname);
 		if (!path.exists())
 			path.mkdirs();
 		
 		PrintWriter out = new PrintWriter(new BufferedWriter(
-				new FileWriter(pathname + File.separator + filename + format)));
+				new FileWriter(pathname + File.separator + filename + fileExtensionIncludingDot)));
 		out.write(data);
 		out.close();
 	}

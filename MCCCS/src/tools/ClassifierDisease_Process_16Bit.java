@@ -5,8 +5,10 @@ import ij.process.ImageProcessor;
 import java.io.File;
 import java.io.IOException;
 
+import support.ImageArff;
 import support.ImageStackAsARFF;
 import workflow.Settings;
+import de.ipk.ag_ba.image.structures.Image;
 import de.ipk.ag_ba.image.structures.ImageStack;
 
 public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
@@ -19,44 +21,40 @@ public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
 	
 	@Override
 	public void createSampleDataFromArff(ImageStackAsARFF[] isl, File f, int numberofsamples) throws InterruptedException, IOException {
-		throw new RuntimeException("TODO");
-	}
-	
-	@Override
-	public void createSampleData(ImageStack[] isl, File f, int numberofsamples) throws InterruptedException, IOException {
-		ImageStack is = isl[0];
-		ImageStack masks = isl[1];
-		ImageStack gt = isl[2];
+		ImageStackAsARFF is = isl[0];
+		ImageStackAsARFF masks = isl[1];
+		ImageStackAsARFF gt = isl[2];
 		
 		boolean showOutput = false;
 		boolean removeFromStack = !showOutput;
 		
 		// apply masks ...
-		ImageStack applyedM = applyMasks(is, masks, removeFromStack);
+		ImageStackAsARFF applyedM = applyMasks(is, masks, removeFromStack);
 		
 		// get fg & bg
-		ImageStack[] fgbg = getFGBG2(applyedM);
+		ImageStackAsARFF[] fgbg = getFGBG2(applyedM);
 		
 		// apply gt
-		ImageStack[] gtApplied = applyGTImages(fgbg, gt, false);
+		ImageStackAsARFF[] gtApplied = applyGTImages(fgbg, gt, false);
 		
 		if (showOutput) {
 			is.show("input images");
 			masks.show("mask images");
 			applyedM.show("masked");
 			
-			for (ImageStack s : fgbg)
+			for (ImageStackAsARFF s : fgbg)
 				s.show("fgbg");
 			
-			for (ImageStack s : gtApplied)
+			for (ImageStackAsARFF s : gtApplied)
 				s.show("gtapplied");
 		} else {
-			while (masks.getStack().getSize() > 0)
-				masks.getStack().deleteLastSlice();
+			while (masks.getBands() > 0)
+				masks.deleteLastSlice();
 			applyedM = null;
-			while (gt.getStack().getSize() > 0)
-				gt.getStack().deleteLastSlice();
+			while (gt.getBands() > 0)
+				gt.deleteLastSlice();
 		}
+		
 		ARFFProcessor.createTrainingDataSet(gtApplied, 0.0f, f, numberofsamples, arffFileName, true, "label"); // back => Float.MAX_VALUE
 	}
 	
@@ -66,38 +64,34 @@ public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
 	 * @param fgbg
 	 * @param gt
 	 * @return
+	 * @throws IOException
 	 */
-	private ImageStack[] applyGTImages(ImageStack[] fgbg, ImageStack gt, boolean removeFromStack) {
-		ImageStack fg = fgbg[0];
+	private ImageStackAsARFF[] applyGTImages(ImageStackAsARFF[] fgbg, ImageStackAsARFF gt, boolean removeFromStack) throws IOException {
+		ImageStackAsARFF fg = fgbg[0];
 		
 		if (Settings.debug_IO) {
 			fg.show("fg");
 			gt.show("gt");
 		}
 		
-		ImageStack[] stacks = new ImageStack[gt.size()];
+		ImageStackAsARFF[] stacks = new ImageStackAsARFF[gt.size()];
 		
 		for (int i = 0; i < stacks.length; i++) {
-			stacks[i] = new ImageStack();
+			stacks[i] = new ImageStackAsARFF();
 		}
 		
-		// String[] gtlabels = gt.getLabels();
 		String[] fglabels = fg.getLabels();
 		int count = fg.size();
 		for (int i = 0; i < count; i++) {
 			for (int j = 0; j < gt.size(); j++) {
-				ImageProcessor d = fg.getProcessor(removeFromStack ? 0 : i).duplicate();
-				d.fill(gt.getProcessor(j).convertToByteProcessor());
-				stacks[j].addImage(fglabels[i], d);
-				// stacks[j].addImage(gtlabels[j] + "_" + fglabels[i], d);
+				ImageProcessor d = fg.getProcessor(removeFromStack ? 0 : i).getImage().getAsImagePlus().getProcessor();
+				d.fill(gt.getProcessor(j).getImage().getAsImagePlus().getProcessor().convertToByteProcessor());
+				ImageArff ia = new ImageArff(new Image(d), fglabels[i], fglabels[i]);
+				stacks[j].addImage(fglabels[i], ia);
 			}
 			if (removeFromStack)
-				fg.getStack().deleteSlice(1);
+				fg.deleteSlice(1);
 		}
-		
-		// for (ImageStack s : stacks) {
-		// s.show("debug gtapply");
-		// }
 		
 		return stacks;
 	}
@@ -117,18 +111,16 @@ public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
 		return new ImageStack[] { fgStack, bgStack };
 	}
 	
-	private ImageStack[] getFGBG2(ImageStack applyedM) {
-		ImageStack fgStack = new ImageStack();
-		ImageStack bgStack = new ImageStack();
+	private ImageStackAsARFF[] getFGBG2(ImageStackAsARFF applyedM) {
+		ImageStackAsARFF fgStack = new ImageStackAsARFF();
+		ImageStackAsARFF bgStack = new ImageStackAsARFF();
 		
 		String[] labels = applyedM.getLabels();
 		
 		for (int i = 0; i < applyedM.size(); i += 2) {
-			// ImageProcessor bg = applyedM.getProcessor(i).duplicate();
-			// bg.fill(applyedM.getProcessor(i + 1).convertToByteProcessor());
 			fgStack.addImage(labels[i], applyedM.getProcessor(i));
 			bgStack.addImage(labels[i + 1], applyedM.getProcessor(i + 1));
 		}
-		return new ImageStack[] { fgStack, bgStack };
+		return new ImageStackAsARFF[] { fgStack, bgStack };
 	}
 }

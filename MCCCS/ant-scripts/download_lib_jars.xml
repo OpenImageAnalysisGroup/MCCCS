@@ -3,7 +3,7 @@
     <target name="build">
     	<!-- download and extract weka.jar -->
     	<get description="get weka" 
-    		src="http://prdownloads.sourceforge.net/weka/weka-3-6-12.zip" 
+    		src="http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip" 
     		dest="../lib/weka.zip">
     	</get>
     	<unzip src="../lib/weka.zip" dest="../lib" overwrite="true">
@@ -17,15 +17,15 @@
     	<delete file="../lib/weka.zip"/>
     	<!-- download IAP jar -->
     	<get description="get IAP jar" 
-    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/IAP_v2.0.3/IAP_v2.0.3.zip" 
+    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/V2.0.4/IAP_v2.0.4.zip" 
     		dest="../lib/IAP.zip">
     	</get>
     	<unzip src="../lib/IAP.zip" dest="../lib" overwrite="true">
     	    <patternset>
-    	        <include name="IAP_v2.0.3/iap_2_0.jar"/>
+    	        <include name="IAP_v2.0.4/iap_2_0.jar"/>
     	    </patternset>
     	    <mapper>
-    	        <globmapper from="IAP_v2.0.3/*" to="*"/>
+    	        <globmapper from="IAP_v2.0.4/*" to="*"/>
     	    </mapper>
     	</unzip>
     	<move file="../lib/iap_2_0.jar" tofile="../lib/iap.jar"/>
@@ -37,7 +37,7 @@
     	</get>
     	<!-- download jfeaturelib -->
     	<get description="get weka" 
-    	    src="http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.4/JFeatureLib-1.6.4.jar" 
+    	    src="http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar" 
     	    dest="../lib/jfeaturelib.jar">
     	</get>
     </target>

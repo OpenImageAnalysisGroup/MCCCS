@@ -16,8 +16,8 @@ public abstract class AbstractClassifier_16Bit {
 	
 	protected int numberOfClasses = 0;
 	
-	public abstract void createSampleData(ImageStack[] isl, File outputPathForArrfFile, int numberofsamples)
-			throws Exception;
+	// public abstract void createSampleData(ImageStack[] isl, File outputPathForArrfFile, int numberofsamples)
+	// throws Exception;
 	
 	public abstract void createSampleDataFromArff(ImageStackAsARFF[] isl, File outputPathForArrfFile, int numberofsamples) throws InterruptedException,
 			IOException;

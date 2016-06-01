@@ -34,28 +34,33 @@ public class ClassifierFGBG_Process_16Bit extends AbstractClassifier_16Bit {
 			masks.show("mask images");
 			applyedM.show("masked");
 		}
-		ARFFProcessor.createTrainingDataSet(fgbg, Settings.back, f, numberofsamples, arffFileName, false, "fgbg"); // Float.MAX_VALUE
+		// back values:
+		// (float) -1.6777216E7,
+		// 0.0f,
+		// Float.MAX_VALUE // ? (float) 3.4028235E38
+		
+		ARFFProcessor.createTrainingDataSet(fgbg, Settings.back, f, numberofsamples, arffFileName, false, "fgbg");
 	}
 	
-	@Override
-	public void createSampleData(ImageStack[] isl, File f, int numberofsamples) throws InterruptedException, IOException {
-		ImageStack is = isl[0];
-		ImageStack masks = isl[1];
-		
-		// apply masks ...
-		ImageStack applyedM = applyMasks(is, masks, false);
-		
-		// get fg & bg
-		ImageStack[] fgbg = getFGBG(applyedM);
-		
-		if (false) {
-			is.show("input images");
-			masks.show("mask images");
-			applyedM.show("masked");
-		}
-		// ARFFProcessor.createTrainingDataSet(gtApplied, 0.0f, f, numberofsamples, arffFileName, false, "label", false); // back => Float.MAX_VALUE
-		ARFFProcessor.createTrainingDataSet(fgbg, Settings.back, f, numberofsamples, arffFileName, false, "fgbg"); // Float.MAX_VALUE
-	}
+	// @Override
+	// public void createSampleData(ImageStack[] isl, File f, int numberofsamples) throws InterruptedException, IOException {
+	// ImageStack is = isl[0];
+	// ImageStack masks = isl[1];
+	//
+	// // apply masks ...
+	// ImageStack applyedM = applyMasks(is, masks, false);
+	//
+	// // get fg & bg
+	// ImageStack[] fgbg = getFGBG(applyedM);
+	//
+	// if (false) {
+	// is.show("input images");
+	// masks.show("mask images");
+	// applyedM.show("masked");
+	// }
+	// // ARFFProcessor.createTrainingDataSet(gtApplied, 0.0f, f, numberofsamples, arffFileName, false, "label", false); // back => Float.MAX_VALUE
+	// ARFFProcessor.createTrainingDataSet(fgbg, ARFFProcessor.getDefaultBackgroundValues(Settings.back), f, numberofsamples, arffFileName, false, "fgbg");
+	// }
 	
 	private ImageStackAsARFF[] getFGBG(ImageStackAsARFF applyedM) {
 		ImageStackAsARFF fgStack = new ImageStackAsARFF();

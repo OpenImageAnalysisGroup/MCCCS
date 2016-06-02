@@ -38,14 +38,25 @@ public class TransformCSV {
 					for (String l : tf) {
 						String[] cols = l.split("\t");
 						String file = cols[0];
-						String cluster = cols[1];
-						String trait = cols[2];
-						Double value = Double.parseDouble(cols[3]);
-						globalColumnSet.add(trait);
-						String key = file + "\t" + cluster;
-					if (!values.containsKey(key))
-							values.put(key, new TreeMap<String, Double>());
-						values.get(key).put(trait, value);
+						// old: path and id not split
+						boolean old = true;
+						if (old) {
+							String trait = cols[1];
+							Double value = Double.parseDouble(cols[2]);
+							globalColumnSet.add(trait);
+							if (!values.containsKey(file))
+								values.put(file, new TreeMap<String, Double>());
+							values.get(file).put(trait, value);
+						} else {
+							String cluster = cols[1];
+							String trait = cols[2];
+							Double value = Double.parseDouble(cols[3]);
+							globalColumnSet.add(trait);
+							String key = file + "\t" + cluster;
+							if (!values.containsKey(key))
+									values.put(key, new TreeMap<String, Double>());
+								values.get(key).put(trait, value);
+						}
 					}
 					tf.clear();
 					

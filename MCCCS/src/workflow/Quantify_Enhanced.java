@@ -171,15 +171,14 @@ public class Quantify_Enhanced {
 		if (outMode == 0) {
 			int id = 0;
 			for (ClusterFeatures c : c_features) {
+				long overallCluPixel = c.size;
 				String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
-				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
+				tf.add(fileName + "foreground_area_pixel" + "\t" + overallCluPixel);
 				for (Integer cc : c.quant.keySet()) {
 					String colorName = AttributeHelper.getColorName(new Color(cc));
-					
-					if (fgArea != 0) {
-						BigDecimal val = new BigDecimal(100).multiply(new BigDecimal(c.quant.get(cc))).divide(new BigDecimal(fgArea), RoundingMode.HALF_UP);
-						// double val = 100d * c.quant.get(cc) / fgArea;
-						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val.toString());
+					if (overallCluPixel != 0) {
+						double val = 100d * c.quant.get(cc) / overallCluPixel;
+						tf.add(fileName + "class_area_percent_" + colorName + "\t" + val);
 					}
 				}
 				// check ratio
@@ -190,8 +189,9 @@ public class Quantify_Enhanced {
 		} else {
 			int id = 0;
 			for (ClusterFeatures c : c_features) {
+				long overallCluPixel = c.size;
 				String fileName = f.getParent() + File.separator + f.getName() + "\t" + id + "\t";
-				tf.add(fileName + "foreground_area_pixel" + "\t" + fgArea);
+				tf.add(fileName + "foreground_area_pixel" + "\t" + overallCluPixel);
 				for (Integer cc : c.quant.keySet()) {
 					String colorName = AttributeHelper.getColorName(new Color(cc));
 					tf.add(fileName + "class_area_percent_" + colorName + "\t" + c.quant.get(cc));

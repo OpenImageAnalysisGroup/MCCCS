@@ -77,8 +77,9 @@ public class SplitHistBased {
 					Image separatedimg = ic.getImage();
 					
 					int[] separated_1d = separatedimg.getAs1A();
-					// apply median filter to remove small artifacts
-					Roi bb = img.io().rankFilterImageJ(5, RankFilters.MEDIAN).getBoundingBox();
+					// apply median filter to remove small artifacts -> removed due to color mixing
+					// Roi bb = img.io().rankFilterImageJ(5, RankFilters.MEDIAN).getBoundingBox();
+					Roi bb = img.io().getBoundingBox();
 					
 					// check for outlier deletion (height and area)
 					int minh = (int) (bb.getBounds().height * 0.85);

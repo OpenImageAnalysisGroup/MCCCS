@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/IAP"/>
 	<classpathentry kind="src" output="target/classes" path="src">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -11,9 +12,17 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
+	<classpathentry kind="lib" path="lib/JFeatureLib-1.6.1-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/bioformats_package.jar"/>
+=======
 	<classpathentry kind="lib" path="lib/bio.jar"/>
 	<classpathentry kind="lib" path="lib/weka.jar"/>
 	<classpathentry kind="lib" path="lib/jfeaturelib.jar"/>
 	<classpathentry kind="lib" path="lib/iap.jar" sourcepath="/IAP"/>
+<<<<<<< HEAD
+>>>>>>> branch 'master' of https://github.com/OpenImageAnalysisGroup/MCCCS.git
+=======
+>>>>>>> branch 'master' of https://github.com/OpenImageAnalysisGroup/MCCCS.git
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

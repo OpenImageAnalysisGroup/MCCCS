@@ -21,7 +21,7 @@ public class RGB2Bayer {
 			new Settings();
 		}
 		if (args == null || args.length != 5) {
-			System.err.println("Params: [r] [g] [b] [RGB-Pattern, e.g. RGGB] [target file] ! Return Code 1");
+			System.err.println("Params: [r] [g] [b] [RGB-Pattern, e.g. RGBG, GRGB or RGGB] [target file] ! Return Code 1");
 			System.exit(1);
 		} else {
 			File f_r = new File(args[0]);

@@ -1,5 +1,8 @@
 package workflow;
 
+import ij.CompositeImage;
+import ij.ImageStack;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -12,12 +15,11 @@ import de.ipk.ag_ba.image.structures.ImageType;
 /**
  * SplitRGB
  * input: RGB image file
- * output:channel0.png, channel1.png, channel2.png
+ * output:channel0.png, channel1.png, channel2.png or tiff files.
  * 
  * @author Christian Klukas
  */
 public class SplitRGB {
-	
 	public static void main(String[] args) throws IOException, Exception {
 		{
 			new Settings();
@@ -36,10 +38,21 @@ public class SplitRGB {
 					String name = f.getName();
 					String f_ending = name.split("\\.")[1];
 					Image i = new Image(FileSystemHandler.getURL(f));
-					if (f_ending.equals("tif") || f_ending.equals("tiff")) {
-						i.io().channels().get(Channel.RGB_R).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_r." + f_ending, ImageType.GRAY32);
-						i.io().channels().get(Channel.RGB_G).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_g." + f_ending, ImageType.GRAY32);
-						i.io().channels().get(Channel.RGB_B).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_b." + f_ending, ImageType.GRAY32);
+					if (f_ending.toLowerCase().equals("tif") || f_ending.toLowerCase().equals("tiff")) {
+						if ((i.getStoredImage() instanceof CompositeImage) && ((CompositeImage) i.getStoredImage()).getNChannels() == 3) {
+							CompositeImage ci = (CompositeImage) i.getStoredImage();
+							ImageStack is = ci.getImageStack();
+							new Image(is.getProcessor(1)).saveToFile(
+									f.getParent() + File.separator + "channel_rgb_r." + f_ending, ImageType.GRAY32);
+							new Image(is.getProcessor(2)).saveToFile(
+									f.getParent() + File.separator + "channel_rgb_g." + f_ending, ImageType.GRAY32);
+							new Image(is.getProcessor(3)).saveToFile(
+									f.getParent() + File.separator + "channel_rgb_b." + f_ending, ImageType.GRAY32);
+						} else {
+							i.io().channels().get(Channel.RGB_R).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_r." + f_ending, ImageType.GRAY32);
+							i.io().channels().get(Channel.RGB_G).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_g." + f_ending, ImageType.GRAY32);
+							i.io().channels().get(Channel.RGB_B).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_b." + f_ending, ImageType.GRAY32);
+						}
 					} else {
 						i.io().channels().get(Channel.RGB_R).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_r." + f_ending);
 						i.io().channels().get(Channel.RGB_G).getImage().saveToFile(f.getParent() + File.separator + "channel_rgb_g." + f_ending);

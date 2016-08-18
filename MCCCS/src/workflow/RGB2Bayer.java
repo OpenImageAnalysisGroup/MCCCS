@@ -85,7 +85,7 @@ public class RGB2Bayer {
 			for (int i = 0; i < rf.length; i++) {
 				if (i % width == 0)
 					y++;
-				res[i] = rgb[rgbIndex[(i % 2) + y % 2 + y % 2]][i];
+				res[i] = rgb[rgbIndex[i % 2 + y % 2 + y % 2]][i];
 			}
 			new Image(r.getWidth(), r.getHeight(), res).saveToFile(args[4]);
 		}

@@ -11,9 +11,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="/IAP/release/iap_2_0.jar"/>
 	<classpathentry kind="lib" path="lib/bio.jar"/>
 	<classpathentry kind="lib" path="lib/weka.jar"/>
 	<classpathentry kind="lib" path="lib/jfeaturelib.jar"/>
+	<classpathentry kind="lib" path="/IAP/release/iap_2_0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

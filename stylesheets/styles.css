@@ -318,7 +318,7 @@ a.buttons:hover {
 /* section navigation */
 nav {
 	background-color: #171717;
-	width:700px;
+	width:690px;
 	height:30px;
 	border: 0px solid #000;
 	-webkit-border-top-right-radius: 4px;
@@ -326,7 +326,10 @@ nav {
 	-moz-border-radius-topright: 4px;
 	-moz-border-radius-bottomright: 4px;
  	position:fixed;
-	padding:10px 10px 10px 280px;
+	top: 0;
+	left: 0;
+	padding:10px 10px 10px 290px;
+	z-index: 10;
 }
 
 .nav_button {

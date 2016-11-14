@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>MCCCS by OpenImageAnalysisGroup</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/github-light.css">
+    <script src="../javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">MCCCS</h1>
+        <p class="header">Multi Channel Classification and Clustering System</p>
+
+        <ul>
+	  <li class="download"><a class="buttons" href="https://github.com/OpenImageAnalysisGroup/MCCCS/releases/tag/MCCCS_v1.0.0">Release ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/OpenImageAnalysisGroup/MCCCS/zipball/master">Download ZIP</a></li>
+	  <li><a class="buttons github" href="https://github.com/OpenImageAnalysisGroup/MCCCS">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/OpenImageAnalysisGroup"><small>OpenImageAnalysisGroup</small></a></p>
+
+
+      </header>
+
+	<nav>
+		<div class="nav_button"><a class="buttonsnav" href="../index.html">Welcome!</a></div>
+<div class="nav_button"><a class="buttonsnav" href="download.html">Download</a></div>
+<div class="nav_button"><a class="buttonsnav" href="doc.html">Installation</a></div>
+<div class="nav_button"><a class="buttonsnav" href="exp.html">Examples</a></div>
+<div class="nav_button_active"><a class="buttonsnav" href="pub.html">Related Publications</a></div>
+<div class="nav_button"><a class="buttonsnav" href="about.html">About</a></div>
+	</nav>
+
+      <section>
+<h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Related publications and applications to MCCCS</h2>
+In this section, related publications and applications are summarized which are using the MCCCS system for different kinds of analysis.
+<h3>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Leaf Segmentation & Leaf Counting Challenges</h3>
+
+<p>Both challenges (LSC, LCC) are organized in connection with the Computer Vision Problems in Plant Phenotyping (<b>CVPPP</b>) workshop (<a href="http://www.plant-phenotyping.org/CVPPP2015">official website</a>). Here, the MCCCS is used for the prediction of leaf counts and leaf borders. Details can be found in the following conference paper:</p>
+		<table border="0px" cellspacing="0">
+			<tr>
+				<td>
+					<a href="../publications/Pape_Klukas_LSC_2015.pdf">
+				<!-- 	<a href="http://bmvc2015.swansea.ac.uk/proceedings/cvppp/papers/paper003/index.html"> -->
+					<img src="../images/bmvc.png" border=0 height=50 align="left"></a>
+				</td>
+				<td>
+					Jean-Michel Pape and Christian Klukas. <b>Utilizing machine learning approaches to improve the prediction of leaf counts and individual leaf segmentation of rosette plant images.</b> In S. A. Tsaftaris, H. Scharr, and T. Pridmore, editors, Proceedings of the Computer Vision Problems in Plant Phenotyping (CVPPP), pages 3.1-3.12. BMVA Press, September 2015.
+					<!-- Pape, Jean-Michel, and Christian Klukas: Utilizing machine learning approaches to improve prediction of leaf counts and individual leaf segmentation of rosette plants. Proceedings of the Computer Vision Problems in Plant Phenotyping Workshop, BMVA Press. 2015. -->
+					<a href="../publications/Pape_Klukas_LSC_2015.pdf">pdf</a>
+					<!-- (<a href="http://bmvc2015.swansea.ac.uk/proceedings/cvppp/papers/paper003/index.html">link</a>) -->
+				</td>
+			</tr>
+		</table>
+		<h4>Results for the testing sets</h4>
+For the testing data sets the ground truth data was not known, the test results (shown below) were supplied by the CVPPP organizers.
+		<table border="0px" cellspacing="10">
+			<tr>
+				<td valign="top">
+					<img src="../images/cert_2015.png" height=200 align="left">
+				</td>
+				<td>
+					The approach by using the MCCCS showed the best results in the 2015 Challenge. The results are presented in the <a href="http://www.plant-phenotyping.org/CVPPP2015">CVPPP</a> at the <a href="http://bmvc2015.swan.ac.uk/">BMVC</a> 2015 in Swansea.
+<h6 border-bottom="1px" solid="#ccc">Results for the LCC:</h6>
+	<TABLE border="1px" cellspacing="5">
+					<TR><TD ALIGN="LEFT">&nbsp;</TD>
+					<TD ALIGN="CENTER"><small><B>CountDiff</B></small></TD>
+					<TD ALIGN="CENTER"><B><small>AbsCountDiff</B></small></TD>
+					<TD ALIGN="CENTER"><B><small>PercentAgreement [%]</B></small></TD>
+					<TD ALIGN="CENTER"><B><small>MSE</B></small></TD>
+					</TR>
+					<TR><TD ALIGN="LEFT"><B><small>A1</B></small></TD>
+					<TD ALIGN="CENTER">-0.21(1.24)</TD>
+					<TD ALIGN="CENTER">0.82(0.95)</TD>
+					<TD ALIGN="CENTER">45.5</TD>
+					<TD ALIGN="CENTER">1.55</TD>
+					</TR>
+					<TR><TD ALIGN="LEFT"><B><small>A2</B></small></TD>
+					<TD ALIGN="CENTER">-0.56(2.24)</TD>
+					<TD ALIGN="CENTER">1.67(1.50)</TD>
+					<TD ALIGN="CENTER">22.2</TD>
+					<TD ALIGN="CENTER">4.78</TD>
+					</TR>
+					<TR><TD ALIGN="LEFT"><B><small>A3</B></small></TD>
+					<TD ALIGN="CENTER">-0.34(1.75)</TD>
+					<TD ALIGN="CENTER">1.27(1.24)</TD>
+					<TD ALIGN="CENTER">23.2</TD>
+					<TD ALIGN="CENTER">3.12</TD>
+					</TR>
+					<TR><TD ALIGN="LEFT"><B><small>All</B></small></TD>
+					<TD ALIGN="CENTER">-0.32(1.63)</TD>
+					<TD ALIGN="CENTER">1.15(1.20)</TD>
+					<TD ALIGN="CENTER">30.6</TD>
+					<TD ALIGN="CENTER">2.74</TD>
+					</TR>
+					</TABLE>
+<h6>Results for the LSC:</h6>
+	<TABLE border="1px" cellspacing="5">
+					<TR><TD ALIGN="LEFT">&nbsp;</TD>
+					<TH ALIGN="CENTER"><B><small>BestDice [%] </B></small></TH>
+					<TH ALIGN="CENTER"><B><small>AbsDiffFGLabels </B></small></TH>
+					<TH ALIGN="CENTER"><B><small>DiffFGLabels</B></small></TH>
+					</TR>
+					<TR><TH ALIGN="LEFT"><B><small>A1 </B></small></TH>
+					<TD ALIGN="CENTER">80.9 (6.3)</TD>
+					<TD ALIGN="CENTER">0.8 (1.0)</TD>
+					<TD ALIGN="CENTER">-0.2 (1.2)</TD>
+					</TR>
+					<TR><TH ALIGN="LEFT"><B><small>A2 </B></small></TH>
+					<TD ALIGN="CENTER">78.6 (7.7)</TD>
+					<TD ALIGN="CENTER">1.7 (1.5)</TD>
+					<TD ALIGN="CENTER">-0.6 (2.2)</TD>
+					</TR>
+					<TR><TH ALIGN="LEFT"><B><small>A3 </B></small></TH>
+					<TD ALIGN="CENTER">64.5 (16.1)</TD>
+					<TD ALIGN="CENTER">1.2 (1.2)</TD>
+					<TD ALIGN="CENTER">-0.3 (1.7)</TD>
+					</TR>
+					<TR><TH ALIGN="LEFT"><B><small>all </B></small></TH>
+					<TD ALIGN="CENTER">71.3 (15.1)</TD>
+					<TD ALIGN="CENTER">1.1 (1.2)</TD>
+					<TD ALIGN="CENTER">-0.3 (1.6)</TD>
+					</TR>
+					</TABLE>
+
+				</td>
+			</tr>
+		</table>
+<h3>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Leaf disease quantification</h3>
+Jean-Michel Pape. Ein Klassifikationssystem zur quantitativen Analyse von Krankheitssymptomen im Kontext der Hochdurchstatz-Phänotypisierung von Pflanzen. Master thesis, Dept. of Computer Science, Otto-von-Guericke-Universität Magdeburg, 2016.
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> adaption based on the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>

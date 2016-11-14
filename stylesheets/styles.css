@@ -19,14 +19,13 @@ time, mark, audio, video {
   padding: 0;
   border: 0;
   font: inherit;
-  vertical-align: baseline;
 }
 
 
 /* Base text styles */
 
 body {
-  padding:10px 50px 0 0;
+  padding:0px 50px 0 0;
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	color: #232323;
@@ -52,7 +51,7 @@ h1, h2, h3 {
 	font-weight: normal;
 }
 
-h1,h2, h3 {
+h1,h2,h3 {
 	display: block;
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 5px;
@@ -146,9 +145,9 @@ img {
   position: relative;
   margin: 0 auto;
   max-width: 650px;
-  padding: 5px;
-  margin: 10px 0 32px 0;
-  border: 1px solid #ccc;
+  padding: 0px;
+  margin: 10px 0 0px 0;
+  border: 0px solid #ccc;
 }
 
 p img {
@@ -181,28 +180,29 @@ pre {
 
 /* Tables */
 
+/*
 table {
   width:100%;
 }
 
 table {
-  border: 1px solid #ccc;
-  margin-bottom: 32px;
-  text-align: left;
+ border: 0px solid #ccc;
+  margin-bottom: 0px;
+  text-align: left; 
  }
+
 
 th {
   font-family: 'Arvo', Helvetica, Arial, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
-  padding: 10px;
+  padding: 0px;
   background: #232323;
   color: #FDFEFB;
  }
-
+*/
 td {
-  padding: 10px;
-	background: #ccc;
+  padding: 3px;
  }
 
 
@@ -220,7 +220,7 @@ header {
   width:170px;
   float:left;
   position:fixed;
-	border: 1px solid #000;
+	border: 0px solid #000;
 	-webkit-border-top-right-radius: 4px;
 	-webkit-border-bottom-right-radius: 4px;
 	-moz-border-radius-topright: 4px;
@@ -315,6 +315,89 @@ a.buttons:hover {
 	text-decoration: none;
 }
 
+/* section navigation */
+nav {
+	background-color: #171717;
+	width:700px;
+	height:30px;
+	border: 0px solid #000;
+	-webkit-border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-moz-border-radius-bottomright: 4px;
+ 	position:fixed;
+	padding:10px 10px 10px 280px;
+}
+
+.nav_button {
+	margin:0px 10px 12px 10px;
+	line-height: 1em;
+	padding: 6px 6px 6px 6px;
+  height:15px;
+	background: #AF0011;
+	background: -moz-linear-gradient(top, #AF0011 0%, #820011 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
+  background: -webkit-linear-gradient(top, #AF0011 0%,#820011 100%);
+  background: -o-linear-gradient(top, #AF0011 0%,#820011 100%);
+  background: -ms-linear-gradient(top, #AF0011 0%,#820011 100%);
+  background: linear-gradient(top, #AF0011 0%,#820011 100%);
+
+	border-radius:4px;
+  border:1px solid #0D0D0D;
+
+	-webkit-box-shadow: inset 0px 1px 1px 0 rgba(233,2,38, 1);
+	box-shadow: inset 0px 1px 1px 0 rgba(233,2,38, 1);
+float:left;
+}
+
+.nav_button:hover {
+	background: #C3001D;
+	background: -moz-linear-gradient(top, #C3001D 0%, #950119 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
+  background: -webkit-linear-gradient(top, #C3001D 0%,#950119 100%);
+  background: -o-linear-gradient(top, #C3001D 0%,#950119 100%);
+  background: -ms-linear-gradient(top, #C3001D 0%,#950119 100%);
+  background: linear-gradient(top, #C3001D 0%,#950119 100%);
+}
+
+.nav_button_active {
+	margin:0px 10px 12px 10px;
+	line-height: 1em;
+	padding: 6px 6px 6px 6px;
+  height:15px;
+	background: #AF0011;
+	background: -moz-linear-gradient(top, #AF0011 0%, #820011 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
+  background: -webkit-linear-gradient(top, #590009 0%,#820011 100%);
+  background: -o-linear-gradient(top, #AF0011 0%,#820011 100%);
+  background: -ms-linear-gradient(top, #AF0011 0%,#820011 100%);
+  background: linear-gradient(top, #AF0011 0%,#820011 100%);
+
+	border-radius:4px;
+  border:1px solid #0D0D0D;
+
+	-webkit-box-shadow: inset 0px 1px 1px 0 rgba(233,2,38, 1);
+	box-shadow: inset 0px 1px 1px 0 rgba(233,2,38, 1);
+float:left;
+}
+
+a.buttonsnav {
+	-webkit-font-smoothing: antialiased;
+	/* background: url(../images/arrow-down.png) no-repeat; */
+	font-weight: normal;
+	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0;
+	padding: 2px 2px 2px 2px;
+	height: 30px;
+}
+
+a.buttonsnav:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+h1.nav, a.nav, a.nav, nav a{
+	color: #fff;
+}
 
 /* Section - for main page content */
 
@@ -322,6 +405,7 @@ section {
   width:650px;
   float:right;
   padding-bottom:50px;
+  padding-top:50px;
 }
 
 

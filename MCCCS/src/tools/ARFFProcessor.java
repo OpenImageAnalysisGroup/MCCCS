@@ -67,12 +67,12 @@ public class ARFFProcessor {
 			pathp.mkdirs();
 		
 		try (PrintWriter sb = new PrintWriter(new BufferedWriter(new FileWriter(pathp + File.separator + filename + ".arff")))) {
-			sb.write("%" + System.lineSeparator() + "@relation " + id + System.lineSeparator() + attributes + "@attribute class\t{" + System.lineSeparator());
+			sb.write("%" + System.lineSeparator() + "@relation " + id + System.lineSeparator() + attributes + "@attribute class\t{");
 			for (int idx = 0; idx < numberOfClasses; idx++) {
 				if (idx < numberOfClasses - 1)
-					sb.write("class" + idx + "," + System.lineSeparator());
+					sb.write("class" + idx + ",");
 				else
-					sb.write("class" + idx + System.lineSeparator());
+					sb.write("class" + idx);
 			}
 			sb.write("}" + System.lineSeparator() + "@data" + System.lineSeparator());
 			
@@ -94,7 +94,7 @@ public class ARFFProcessor {
 				TreeSet<Integer> selectedSamples = new TreeSet<>();
 				while ((count < samplesize || samplesize < 0) && sampleList.size() > 0) {
 					int randidx = (int) (Math.random() * sampleList.size());
-					selectedSamples.add(randidx);
+					selectedSamples.add(sampleList.get(randidx));
 					sampleList.remove(randidx);
 					count++;
 				}
@@ -130,8 +130,8 @@ public class ARFFProcessor {
 		for (int lineIndex : lines) {
 			StringBuilder line = new StringBuilder();
 			line.append(inputImage.getIntensityValue(lineIndex));
-			int x = lineIndex % inputImage.getWidth();
-			int y = lineIndex / inputImage.getWidth();
+			int y = lineIndex % inputImage.getHeight();
+			int x = lineIndex / inputImage.getHeight();
 			result.add(line.toString() + "; x: " + x + ", y: " + y);
 		}
 		inputImage.finalizeGetIntensityReading();
@@ -218,20 +218,21 @@ public class ARFFProcessor {
 						if (mask[x + y * width] == background)
 							continue;
 					
-					for (int b = 0; b < bands; b++)
+					for (int b = 0; b < bands; b++) {
 						line += cubeSliceXY[b][x][y] + ",";
-					
-					if (line.length() > 0) {
-						// appends the string to the file
-						fw.write(line + "?" + System.lineSeparator());
-						// .add(line + "; x: " + x + ", y: " + y);
-						line = "";
+						
+						if (line.length() > 0) {
+							// appends the string to the file
+							fw.write(line + "?" + System.lineSeparator());
+							// .add(line + "; x: " + x + ", y: " + y);
+							line = "";
+						}
 					}
 				}
+				fw.write("%");
 			}
-			fw.write("%");
+			return fileName;
 		}
-		return fileName;
 	}
 	
 	public static String makeNice(String imageLabel) {

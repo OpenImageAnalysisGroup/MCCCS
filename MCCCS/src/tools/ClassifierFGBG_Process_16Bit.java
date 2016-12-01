@@ -8,7 +8,7 @@ import workflow.Settings;
 import de.ipk.ag_ba.image.structures.ImageStack;
 
 /**
- * @author pape, klukas
+ * @author Jean-Michel Pape, Christian Klukas
  */
 public class ClassifierFGBG_Process_16Bit extends AbstractClassifier_16Bit {
 	
@@ -33,6 +33,8 @@ public class ClassifierFGBG_Process_16Bit extends AbstractClassifier_16Bit {
 			is.show("input images");
 			masks.show("mask images");
 			applyedM.show("masked");
+			fgbg[0].show("fgbg_0");
+			fgbg[1].show("fgbg_1");
 		}
 		// back values:
 		// (float) -1.6777216E7,
@@ -69,8 +71,8 @@ public class ClassifierFGBG_Process_16Bit extends AbstractClassifier_16Bit {
 		String[] labels = applyedM.getLabels();
 		
 		for (int i = 0; i < applyedM.size(); i += 2) {
-			fgStack.addImage(labels[i], applyedM.getProcessor(i));
-			bgStack.addImage(labels[i + 1], applyedM.getProcessor(i + 1));
+			fgStack.addImage(labels[i].replaceAll("_[0-9]+", ""), applyedM.getProcessor(i));
+			bgStack.addImage(labels[i + 1].replaceAll("_[0-9]+", ""), applyedM.getProcessor(i + 1));
 		}
 		return new ImageStackAsARFF[] { fgStack, bgStack };
 	}

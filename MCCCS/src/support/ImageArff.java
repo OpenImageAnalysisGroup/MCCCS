@@ -18,6 +18,11 @@ public class ImageArff {
 	int w = -1;
 	int h = -1;
 	
+	FileReader intensityReadingFr = null;
+	BufferedReader intensityReadingBr = null;
+	boolean intensityReadingDataAvailable = false;
+	long intensityReadingLine = -1;
+	
 	public ImageArff(Image image, String datasetName, String intensityName) throws IOException {
 		w = image.getWidth();
 		h = image.getHeight();
@@ -34,6 +39,8 @@ public class ImageArff {
 		
 		String line = "";
 		File tf = File.createTempFile("mcccs_", ".arff");
+		tf.deleteOnExit();
+		content_tempFile = new File("");
 		content_tempFile.deleteOnExit();
 		try (FileWriter fw = new FileWriter(tf, false)) {
 			fw.write(header);
@@ -71,7 +78,7 @@ public class ImageArff {
 				}
 			}
 		}
-		return new Image(w, h, px);
+		return new Image(h, w, px);
 	}
 	
 	public int getWidth() {
@@ -81,11 +88,6 @@ public class ImageArff {
 	public int getHeight() {
 		return h;
 	}
-	
-	FileReader intensityReadingFr = null;
-	BufferedReader intensityReadingBr = null;
-	boolean intensityReadingDataAvailable = false;
-	long intensityReadingLine = -1;
 	
 	public void prepareGetIntensityReading() throws IOException {
 		
@@ -149,20 +151,30 @@ public class ImageArff {
 	
 	public boolean isNextLineBackground() throws IOException {
 		String currentLine = getIntensityValue(-1);
-		if (detectedBackgroundString == null) {
+		//if (detectedBackgroundString == null) {
 			float val = Float.parseFloat(currentLine);
-			if (val == backgroundAnalysisExpectedBackgroundValue) {
+
+//			if(val == 3.4028235E38f)
+//				if (new Float(val).compareTo((float) (3.4028235E38f)) == 0)
+//					System.out.println(val);
+			
+			//if (new Float(val).compareTo((float) (3.4028235E38f)) != 0)
+			//	System.out.println("b");
+			
+			// TODO detect arbitrary background values
+			if (val == backgroundAnalysisExpectedBackgroundValue || new Float(val).compareTo((float) (3.4028235E38f)) == 0 || new Float(val).compareTo((float) (0.0)) == 0) {
 				detectedBackgroundString = currentLine;
 				return true;
 			}
-		} else {
+			
+		//} else {
 			// If background has been detected once, Float.parse does not need
 			// to be performed any more. The strings are compared directly (assumption
 			// is, that the string representation for the same value is the same for
 			// all according lines in the input file).
-			if (detectedBackgroundString.equals(currentLine))
-				return true;
-		}
+		//	if (detectedBackgroundString.equals(currentLine))
+		//		return true;
+		//}
 		return false;
 	}
 }

@@ -42,7 +42,8 @@ public class ImageStackAsARFF {
 		for (String fn : fileName2image.keySet()) {
 			is.addImage(fn, fileName2image.get(fn).getImage());
 		}
-		is.show(title);
+		if (is.size() > 0)
+			is.show(title);
 	}
 	
 	public void addImage(String fileName, ImageArff imageArff) {
@@ -94,26 +95,29 @@ public class ImageStackAsARFF {
 		BitSet isBackgroundLine = getIsBackgroundStatusForLines(backgroundValue);
 		
 		for (int line = 0; line < width * height; line++) {
-			if (!isBackgroundLine.get(line))
+			boolean isb = isBackgroundLine.get(line);
+			if (!isb) {
 				sampleList.add(line);
+			}
 		}
 	}
 	
 	private BitSet getIsBackgroundStatusForLines(float backgroundValue) throws IOException {
 		BitSet result = new BitSet(getWidth() * getHeight());
 		String[] fna = fileName2image.keySet().toArray(new String[] {});
+
 		int bands = getBands();
 		for (int band = 0; band < bands; band++) {
 			fileName2image.get(fna[band]).prepareGetIntensityReading();
 			fileName2image.get(fna[band]).setExpectedBackgroundValue(backgroundValue);
 		}
 		for (int line = 0; line < getWidth() * getHeight(); line++) {
-			int bc = 0;
-			for (int band = 0; band < bands; band++) {
+			int numDetectedBgInChannelImagesLine = 0;
+			for (int band = 0; band < bands; band++) {				
 				if (fileName2image.get(fna[band]).isNextLineBackground())
-					bc++;
+					numDetectedBgInChannelImagesLine++;
 			}
-			result.set(line, bc == bands);
+			result.set(line, numDetectedBgInChannelImagesLine == bands);
 		}
 		for (int band = 0; band < bands; band++) {
 			fileName2image.get(fna[band]).finalizeGetIntensityReading();
@@ -152,6 +156,16 @@ public class ImageStackAsARFF {
 			ImageArff img = fileName2image.get(fn);
 			if (sb.length() > 0)
 				sb.append(",");
+//			String temp = "null";
+//
+//			while ("null".contentEquals(temp)) {
+//				temp = img.getIntensityValue(lineIndex);
+//				if (temp == null)
+//					temp = "null";
+//			}
+//
+//			String intensity = temp;
+//			sb.append(intensity);
 			sb.append(img.getIntensityValue(lineIndex));
 		}
 		return sb.toString();

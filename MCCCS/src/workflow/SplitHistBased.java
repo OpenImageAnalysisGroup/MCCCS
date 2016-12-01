@@ -12,9 +12,8 @@ import de.ipk.ag_ba.image.operation.canvas.ImageCanvas;
 import de.ipk.ag_ba.image.operations.segmentation.ClusterDetection;
 import de.ipk.ag_ba.image.operations.segmentation.Segmentation;
 import de.ipk.ag_ba.image.structures.Image;
-import iap.blocks.image_analysis_tools.leafClustering.CurveAnalysis;
+import iap.blocks.image_analysis_tools.leafClustering.CurveAnalysis1D;
 import ij.gui.Roi;
-import ij.plugin.filter.RankFilters;
 
 /**
  * Splits leaves within image (objects which all reach a certain top-position and which at the same time
@@ -61,7 +60,7 @@ public class SplitHistBased {
 					
 					// max search
 					int[] peaks = null;
-					peaks = CurveAnalysis.findMaximaIJ(hist, 150, true);
+					peaks = CurveAnalysis1D.findMaximaIJ(hist, 150, true);
 					
 					// may not good here
 					// peaks = CurveAnalysis.summarizeMaxima(peaks, peaks.length, 20, CurveAnalysis.SummarizeMode.SUM);

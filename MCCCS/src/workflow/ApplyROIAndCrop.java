@@ -3,7 +3,7 @@ package workflow;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.poi.ss.formula.eval.NotImplementedException;
 
 import ij.ImagePlus;
 import ij.io.FileSaver;

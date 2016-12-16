@@ -3,7 +3,7 @@ package workflow;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.poi.ss.formula.eval.NotImplementedException;
 
 import ij.ImagePlus;
 import ij.io.FileSaver;
@@ -11,6 +11,11 @@ import ij.process.FloatProcessor;
 
 /**
  * Apply a mask to given an image and return a cropped version with specified name (target file) and extension (file format).
+ * 
+ * @param	image
+ * @param	mask
+ * @param	target file name
+ * @param	file format
  * 
  * @author Jean-Michel Pape
  */

@@ -8,6 +8,12 @@ import org.graffiti.plugin.io.resources.FileSystemHandler;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
+ * Applies a mask on the input image, the output will be saved in a separate target file.
+ * 
+ * @param	image	path to input image
+ * @param	mask	path to mask image
+ * @param	target	path to output directory
+ * 
  * @author Jean-Michel Pape
  */
 public class ApplyMaskImage {

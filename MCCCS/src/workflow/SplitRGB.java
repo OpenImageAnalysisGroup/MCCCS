@@ -13,9 +13,10 @@ import de.ipk.ag_ba.image.structures.Image;
 import de.ipk.ag_ba.image.structures.ImageType;
 
 /**
- * SplitRGB
- * input: RGB image file
+ * Splits RGB image into separate channel images.
  * output:channel0.png, channel1.png, channel2.png or tiff files.
+ * 
+ * @param	image
  * 
  * @author Christian Klukas
  */
@@ -35,8 +36,8 @@ public class SplitRGB {
 					System.exit(2);
 				} else {
 					// get file type
-					String name = f.getName();
-					String f_ending = name.split("\\.")[1];
+//					String name = f.getName();
+					String f_ending = "tif"; //name.split("\\.")[1];
 					Image i = new Image(FileSystemHandler.getURL(f));
 					if (f_ending.toLowerCase().equals("tif") || f_ending.toLowerCase().equals("tiff")) {
 						if ((i.getStoredImage() instanceof CompositeImage) && ((CompositeImage) i.getStoredImage()).getNChannels() == 3) {

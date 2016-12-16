@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>MCCCS by OpenImageAnalysisGroup</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/github-light.css">
+    <script src="../javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">MCCCS</h1>
+        <p class="header">Multi Channel Classification and Clustering System</p>
+
+        <ul>
+	  <li class="download"><a class="buttons" href="https://github.com/OpenImageAnalysisGroup/MCCCS/releases/tag/MCCCS_v1.0.0">Release ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/OpenImageAnalysisGroup/MCCCS/zipball/master">Download ZIP</a></li>
+	  <li><a class="buttons github" href="https://github.com/OpenImageAnalysisGroup/MCCCS">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/OpenImageAnalysisGroup"><small>OpenImageAnalysisGroup</small></a></p>
+
+
+      </header>
+
+	<nav>
+		<div class="nav_button"><a class="buttonsnav" href="../index.html">Welcome!</a></div>
+<div class="nav_button"><a class="buttonsnav" href="download.html">Download</a></div>
+<div class="nav_button"><a class="buttonsnav" href="doc.html">Installation</a></div>
+<div class="nav_button_active"><a class="buttonsnav" href="exp.html">Examples</a></div>
+<div class="nav_button"><a class="buttonsnav" href="pub.html">Related Publications</a></div>
+<div class="nav_button"><a class="buttonsnav" href="about.html">About</a></div>
+	</nav>
+
+      <section>
+<h3>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Application examples</h3>
+
+The MCCCS contains support scripts, which process two main examples to show the capabilities of the system:
+<ol>
+<li>Three image sets (A1, A2, A3) from the <a href="http://www.plant-phenotyping.org/CVPPP2014-challenge">Leaf Segmentation Challenge (LSC) 2014</a><br>
+<li>A hyperspec example from <a href="http://cobweb.ecn.purdue.edu/~biehl/">Purdue Research Foundation</a>.
+<li>Disease classification for detached barley leaves (in preparation, not published yet).
+</ol>
+
+Once the MCCCS system has been downloaded, the example data can be automatically downloaded by running the <b><code>prepare_datasets.sh</code></b> command from the terminal. The script downloads and stores the needed data and libraries using the recommended naming and folder structure. The analysis can be started by navigating into a example subfolder, here the processing script has to be executed in a terminal.
+<h4>Segmentation Example</h4>
+Here we show some example for foreground/background segmentation of a top-view plant image by using an supervised classifier. The first image is used as input. The second shows the creation of a foreground label which will used as training data for the classifier. It is not mandatory to label the whole image, it is sufficient to label only parts. The third image shows the classification result.<br>
+<table border="0px" cellspacing="0">
+	<colgroup width="270" span="3"></colgroup>
+	<tr>
+	<td><img src="../images/app_exp/input.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/marking_gimp.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/applied.png" align="left" width="200px" height="200px"></td>
+	</tr>
+	<tr>
+	<td valign="top"><small>Input image (source: <a href="http://www.plant-phenotyping.org/CVPPP2014-challenge">LSC 2014</a>)</small></td>
+	<td valign="top"><small>Labeling foreground pixels (plant) during ground truth mask creation, by using gimp.</small></td>
+	<td valign="top"><small>Classification result</small></td>
+	</tr>
+</table>
+<h5>Results</h5>
+By using a Random Forest Classifier (tree-depth 100) we gain the following qualities in case of foreground/background segmentation. Here, we use no additional image processing filters e.g. to remove noise or artifacts which could be improve the results. Especially for the A3 dataset other plant parts are in focus, these are not considered by the provided ground truth labels and counted as miss-classified. This circumstance slightly decreases the classification result.<br><br>
+<table width="250px" border="1px" cellspacing="0">
+	<tr>
+	<td>Datasets</td>
+	<td>A1</td>
+	<td>A2</td>
+	<td>A3</td>
+	</tr>
+	<tr>
+	<td>FGBGDice</td>
+	<td>96.7</td>
+	<td>96.4</td>
+	<td>86.7</td>
+	</tr>
+</table>
+<h4>Classification and Clustering Example</h4>
+The system is also able to process hyperspectral data. Here a hyperspectral airbone data set is used to perform an un-supervised clustering and a supervised classification. The first image shows a RGB visualization (composite of 700 nm, 530 nm, 450 nm spectral bands). The second image includes the labeled classes by performing an clustering by using the EM (Expectation Maximization) algorithm. The third image shows the result of supervised classification. For this approach crude labels was prepared before and used for classifier training.<br>
+<table border="0px" cellspacing="0">
+	<colgroup width="270" span="3"></colgroup>
+	<tr>
+	<td><img src="../images/app_exp/hyper_RGB_comp.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/hyper_clu.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/hyper_class.png" align="left" width="200px" height="200px"></td>
+	</tr>
+	<tr>
+	<td valign="top"><small>RGB visualization (data source: <a href="http://cobweb.ecn.purdue.edu/~biehl/">Purdue Research Foundation</a>)</small></td>
+	<td valign="top"><small>Clustering result (using 7 classes)</small></td>
+	<td valign="top"><small>Classification result (using 7 ground truth masks for training)</small></td>
+	</tr>
+</table>
+<br><br>
+The machine learning approach generally calculates probabilities for each class. The following images visualize these probabilities for the classification (black indicates P(0), white indicates P(1)).
+<table border="0px" cellspacing="0">
+	<colgroup width="270" span="3"></colgroup>
+	<tr>
+	<td><img src="../images/app_exp/probability_0.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/probability_1.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/probability_2.png" align="left" width="200px" height="200px"></td>
+	</tr>
+	<tr>
+	<td valign="top"><small>Class 1 (vegetation, grass)</small></td>
+	<td valign="top"><small>Class 2 (streets, trails)</small></td>
+	<td valign="top"><small>Class 3 (buildings)</small></td>
+	</tr>
+	<tr>
+	<td><img src="../images/app_exp/probability_3.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/probability_4.png" align="left" width="200px" height="200px"></td>
+	<td><img src="../images/app_exp/probability_5.png" align="left" width="200px" height="200px"></td>
+	</tr>
+	<tr>
+	<td valign="top"><small>Class 4 (shadows)</small></td>
+	<td valign="top"><small>Class 5 (streets, trails)</small></td>
+	<td valign="top"><small>Class 6 (vegetation, trees)</small></td>
+	</tr>
+	<tr>
+	<td><img src="../images/app_exp/probability_6.png" align="left" width="200px" height="200px"></td>
+	<td></td>
+	<td></td>
+	</tr>
+	<tr>
+	<td valign="top"><small>Class 7 (water)</small></td>
+	</tr>
+</table>
+
+
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> adaption based on the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>

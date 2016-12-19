@@ -13,13 +13,16 @@ import de.ipk.ag_ba.image.operation.channels.Channel;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * RgbBayerArff
- * input: RGB image files
- * output:one 'output.arff'
+ * Converts RGB image (Bayer pattern) to an ARFF file.
+ * 
+ * @param	R/G/B image files
+ * @param	bayer pattern
+ * 
+ * @return	one 'output.arff'
  * 
  * @author Christian Klukas
  */
-public class RgbBayerArff {
+public class RgbBayer2Arff {
 	public static void main(String[] args) throws IOException, Exception {
 		{
 			new Settings();

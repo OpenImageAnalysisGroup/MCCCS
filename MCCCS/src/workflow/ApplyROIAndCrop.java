@@ -17,6 +17,8 @@ import ij.process.FloatProcessor;
  * @param	target file name
  * @param	file format
  * 
+ * @return	image file
+ * 
  * @author Jean-Michel Pape
  */
 public class ApplyROIAndCrop {

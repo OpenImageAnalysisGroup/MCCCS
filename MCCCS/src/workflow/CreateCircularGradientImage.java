@@ -7,12 +7,16 @@ import org.graffiti.plugin.io.resources.FileSystemHandler;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Creates an circular gradient image (tiff float), the most far point from the
+ * Creates an circular gradient image (tif float), the most far point from the
  * center has value 0, the center point has value 1. The dimensions of the
- * target image are determined from the given input (template) image. input:
- * filename output: filename for gradient image (should have tiff extension)
+ * target image are determined from the given input (template) image. 
  * 
- * @author klukas
+ * @param	input image
+ * @param	filename output (should have tif extension)
+ * 
+ * @return	image file
+ * 
+ * @author Christian Klukas
  */
 public class CreateCircularGradientImage {
 	

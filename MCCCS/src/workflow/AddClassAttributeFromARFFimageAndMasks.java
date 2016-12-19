@@ -8,17 +8,28 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * @author klukas
- *         Reads the image ARFF file, and all provided mask ARFF files.
- *         Outputs N rows for each class.
- *         Requires less memory, as all input ARFF files are read row by row, so only
- *         one row of each input ARFF needs to stay in memory. In addition sets of valid row indices for
- *         each mask file need to be constructed, to allow random selection of random samples. From the
- *         mask ARFF files, the correct class of the current image row is detected, and the according class
- *         information is added at the end of each image ARFF line.
- *         The input mask files need to be read two times, the first time the number of
- *         samples in each class are determined, so that in the main run the correct number
- *         of samples may be selected randomly from the class rows.
+ * Reads the image ARFF file, and all provided mask ARFF files.
+ * Outputs N rows for each class.
+ * Requires less memory, as all input ARFF files are read row by row, so only
+ * one row of each input ARFF needs to stay in memory. In addition sets of valid row indices for
+ * each mask file need to be constructed, to allow random selection of random samples. From the
+ * mask ARFF files, the correct class of the current image row is detected, and the according class
+ * information is added at the end of each image ARFF line.
+ * The input mask files need to be read two times, the first time the number of
+ * samples in each class are determined, so that in the main run the correct number
+ * of samples may be selected randomly from the class rows. At least two mask arff files should be provided (though one would be enough, but then all image rows would belong to a single class.
+ *         
+ * @param	class sample size N
+ * @param	output arff file
+ * @param	image arff file
+ * @param	mask arff file 0
+ * @param	mask arff file 1
+ * @param	mask arff file 2 
+ * @param	[..]
+ * 
+ * @return	ARFF file
+ *         
+ * @author Christian Klukas
  */
 public class AddClassAttributeFromARFFimageAndMasks {
 	public static void main(String[] args) throws InterruptedException, IOException {

@@ -11,9 +11,17 @@ import tools.ImageFeatureExtraction;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Based on an input image an image operation is performed and a target result file is saved..
+ * Based on an input image an image operation is performed and a target result file is saved.
  * 
- * @author Christian Klukas
+ * @param	input image
+ * @param	target file
+ * @param	mask size (int)
+ * @param	sigma for gaussian blur (double)
+ * @param	operation mode (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)
+ * 
+ * @return	filtered result image
+ * 
+ * @author Christian Klukas, Jean-Michel Pape
  */
 public class FILTER {
 	

@@ -20,7 +20,11 @@ import de.ipk.ag_ba.image.structures.ImageStack;
 
 /**
  * Converts image into an ARFF file.
- * input: class-count, filename
+ * 
+ * @param	class-count
+ * @param	input filename
+ * 
+ * @return ARFF file
  * 
  * @author Jean-Michel Pape, Christian Klukas
  */

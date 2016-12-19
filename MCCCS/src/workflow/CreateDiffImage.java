@@ -11,8 +11,12 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Create difference image, indicating true positive and true negative in white.
  * False positive in blue and false negative in red.
- * input: param 1 ground truth mask, params 2 prediction, param 3 output file name for difference image.
- * output: difference image according to param 3
+ * 
+ * @param	ground truth mask
+ * @param	prediction
+ * @param	output file name for difference image
+ * 
+ * @return	difference image
  * 
  * @author Christian Klukas
  */

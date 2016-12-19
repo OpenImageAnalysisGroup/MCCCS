@@ -14,6 +14,8 @@ import de.ipk.ag_ba.image.structures.Image;
  * @param	mask	path to mask image
  * @param	target	path to output directory
  * 
+ * @return	image file
+ * 
  * @author Jean-Michel Pape
  */
 public class ApplyMaskImage {

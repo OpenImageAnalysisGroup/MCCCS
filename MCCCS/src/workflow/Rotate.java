@@ -10,7 +10,12 @@ import org.graffiti.plugin.io.resources.FileSystemHandler;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Rotates an image in left or right direction, given by parameter 1 [l,r].
+ * Rotates an image in left or right direction by 90 degree.
+ * 
+ * @param	input image
+ * @param	direction [l,r]
+ * 
+ * @return	image
  * 
  * @author Jean-Michel Pape
  */

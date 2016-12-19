@@ -17,7 +17,12 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
  * Reads and image and quantifies (counts) the foreground pixels, marked with different colors.
  * For each color a the corresponding infection rate is calculated.
  * 
- * @author Christian Klukas
+ * @param	output mode (0 = percentage, 1 = absolute values)
+ * @param	image file (starting with classified_, cluster or ends with _cluster)
+ * 
+ * @return	csv file
+ * 
+ * @author Christian Klukas, Jean-Michel Pape
  */
 public class Quantify {
 	

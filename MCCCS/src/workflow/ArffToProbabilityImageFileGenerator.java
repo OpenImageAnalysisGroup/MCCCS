@@ -11,6 +11,12 @@ import tools.ARFFProcessor;
 /**
  * Converts classified ARFF result file (including pixel-probabilities for each class) to an grayscale-image (use of FG mask is possible).
  * 
+ * @param	channel count (positive value = .png output, negative value = .tif output)
+ * @param	threshold for acceptance
+ * @param	input filename(s) of ARFF file(s)
+ * 
+ * @return	grayscale image
+ * 
  * @author Jean-Michel Pape
  */
 public class ArffToProbabilityImageFileGenerator {

@@ -14,7 +14,8 @@ import de.ipk.ag_ba.image.structures.ImageType;
 
 /**
  * Splits RGB image into separate channel images.
- * output:channel0.png, channel1.png, channel2.png or tiff files.
+ * 
+ * @return	channel0.png, channel1.png, channel2.png or .tif files.
  * 
  * @param	image
  * 

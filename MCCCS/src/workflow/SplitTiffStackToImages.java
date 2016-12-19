@@ -17,6 +17,10 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Splits input Tiff-stack into separate images (e.g. useful for hyper-spectral datasets).
  * 
+ * @param	tif stack
+ * 
+ * @return	separate images, channel_1.tif, channel_2.tif, ...
+ * 
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class SplitTiffStackToImages {

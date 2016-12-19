@@ -10,9 +10,11 @@ import de.ipk.ag_ba.image.operation.channels.ChannelProcessing;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Create L/a/b image files.
- * input: R/G/B image files
- * output:channel_lab_l.png, channel_lab_a.png, channel_lab_b.png
+ * Create L/a/b image files from R/G/B files.
+ * 
+ * @param	R/G/B image files
+ *
+ * @return	channel_lab_l.png, channel_lab_a.png, channel_lab_b.png
  * 
  * @author Christian Klukas
  */

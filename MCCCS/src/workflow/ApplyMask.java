@@ -9,7 +9,11 @@ import de.ipk.ag_ba.image.structures.Image;
 
 /**
  * Converts classified ARFF result file to an image by using a labeled mask image.
- * input: filename
+ * 
+ * @param	directory with input file(s) images
+ * @param	directory with input file(s) images ROIs
+ * 
+ * @return	cleared image (by given ROI)
  * 
  * @author Jean-Michel Pape
  */

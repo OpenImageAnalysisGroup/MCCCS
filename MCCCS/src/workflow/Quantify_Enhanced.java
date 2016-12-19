@@ -25,6 +25,12 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
  * Compared to the simple Quantify command (works for one object in an image), it is possible to analyze and distinguish several separated objects in an image.
  * The results are saved into a .csv file and a debug image.
  * 
+ * @param	output mode (0 = percentage, 1 = absolute values)
+ * @param	image file
+ * 
+ * @return	csv file
+ * @return	debug image
+ * 
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class Quantify_Enhanced {

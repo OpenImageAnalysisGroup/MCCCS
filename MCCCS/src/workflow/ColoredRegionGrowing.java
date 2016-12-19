@@ -12,9 +12,15 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.editing_tools.script_helper
 
 /**
  * Nearest-neighbor approach, to find colorized areas near uncolored foreground
- * area. Assign color of nearest colorized pixel to uncolored pixels. Input:
+ * area. Assign color of nearest colorized pixel to uncolored pixels. Input is a
  * colored image, with some uncolored (white) areas, mask image, background
  * pixels (black) are ignored during processing.
+ * 
+ * @param	input image (RGB)
+ * @param	image for over-drawing (edges)
+ * @param	target filename
+ * 
+ * @return	result image
  * 
  * @author Christian Klukas
  */

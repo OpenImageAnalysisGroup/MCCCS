@@ -10,13 +10,14 @@ import de.ipk.ag_ba.image.operation.channels.ChannelProcessing;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Create H/S/V image files.
- * input: R/G/B image files
- * output:channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png
+ * Create H/S/B image files from R/G/B image files.
+ * 
+ * @param	R/G/B image files
+ * @return	channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png
  * 
  * @author Christian Klukas
  */
-public class RGB2HSV {
+public class RGB2HSB {
 	
 	public static void main(String[] args) throws IOException, Exception {
 		{

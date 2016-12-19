@@ -9,6 +9,15 @@ import org.graffiti.plugin.io.resources.FileSystemHandler;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
+ * Combines two probability images.
+ * 
+ * @param	image 1 (grayscale tif)
+ * @param	image 2 (grayscale tif)
+ * @param	taarget filename
+ * @param	Modes: 0 - img1 = X, img2 = Y; 1 - img1 = DIST, img2 = DEGREE*255/360
+ * 
+ * @return	image file
+ * 
  * @author Christian Klukas
  */
 public class CombineDirectionalProbabilityImages {

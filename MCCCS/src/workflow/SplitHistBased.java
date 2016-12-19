@@ -20,10 +20,10 @@ import ij.gui.Roi;
  * reach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which
  * are of less height, are removed. Then each object which full-fills these criteria, a new image with only
  * that specific object is created.
- * Input:
- * image file
- * Output:
- * file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers
+ * 
+ * @param	image file
+ * 
+ * @return	file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers
  * 
  * @author Jean-Michel Pape, Christian Klukas
  */

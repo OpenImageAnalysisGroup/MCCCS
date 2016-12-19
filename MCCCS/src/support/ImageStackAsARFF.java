@@ -156,17 +156,17 @@ public class ImageStackAsARFF {
 			ImageArff img = fileName2image.get(fn);
 			if (sb.length() > 0)
 				sb.append(",");
-//			String temp = "null";
-//
-//			while ("null".contentEquals(temp)) {
-//				temp = img.getIntensityValue(lineIndex);
-//				if (temp == null)
-//					temp = "null";
-//			}
-//
-//			String intensity = temp;
-//			sb.append(intensity);
-			sb.append(img.getIntensityValue(lineIndex));
+			String temp = "null";
+
+			while ("null".contentEquals(temp)) {
+				temp = img.getIntensityValue(lineIndex);
+				if (temp == null)
+					temp = "null";
+			}
+
+			String intensity = temp;
+			sb.append(intensity);
+//			sb.append(img.getIntensityValue(lineIndex));
 		}
 		return sb.toString();
 	}

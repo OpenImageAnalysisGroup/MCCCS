@@ -14,6 +14,10 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
  * renames infection color ids to human-readable traits.
  * Cleans-up some content of the column entries, fills empty with 0.0.
  * 
+ * @param	csv file
+ * 
+ * @return	csv file
+ * 
  * @author Christian Klukas, Jean-Michel Pape
  */
 public class TransformCSV {

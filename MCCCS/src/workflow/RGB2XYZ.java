@@ -10,9 +10,11 @@ import de.ipk.ag_ba.image.operation.channels.ChannelProcessing;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Create H/S/V image files.
- * input: R/G/B image files
- * output:channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png
+ * Transform R/G/B input image files to the corresponding X/Y/Z image files.
+ * 
+ * @param	R/G/B image files
+ * 
+ * @return	channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png
  * 
  * @author Christian Klukas
  */

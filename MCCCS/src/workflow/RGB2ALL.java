@@ -16,8 +16,13 @@ import colors.RgbColorSpaceExt;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Create color channel files in diverse color spaces. input: R/G/B image files
- * output:channel_xyz_x.png, ... (diverse set of color channels)
+ * Create color channel files in diverse color spaces.
+ * 
+ * @param	R/G/B input images (split channels)
+ * @param	color channel index (0..19, -1 = all, ? = list)
+ * @param	input color space index (0..4, -1 = all, ? = list)
+ * 
+ * @return	channel_xyz_x.png, ... (diverse set of color channels)
  * 
  * @author Christian Klukas
  */

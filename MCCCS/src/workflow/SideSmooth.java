@@ -20,6 +20,10 @@ import de.ipk.ag_ba.image.structures.Image;
  * Uses a polynom to fit a curve and reconstructs the image object with the smoothed-out
  * side borders.
  * 
+ * @param	binary image
+ * 
+ * @return	binary image
+ * 
  * @author Christian Klukas
  */
 public class SideSmooth {

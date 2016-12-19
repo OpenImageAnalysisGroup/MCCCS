@@ -11,7 +11,12 @@ public class ExportImagesFromHyperSpec {
 	
 	/**
 	 * Creates separate images from hyper-spectral image data set (BSQ, BIL format).
-	 * input: prefix for output filename, overflow threshold or negative value to disable, filenames (input)
+	 * 
+	 * @param	prefix for output filename
+	 * @param	overflow threshold or negative value to disable
+	 * @param	filenames (input)
+	 * 
+	 * @return	image files (channel images)
 	 * 
 	 * @author Jean-Michel Pape
 	 */

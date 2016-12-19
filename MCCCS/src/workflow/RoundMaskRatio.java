@@ -9,9 +9,14 @@ import org.graffiti.plugin.io.resources.FileSystemHandler;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Determine the difference in the brightness of a inner circle to the area of a outer ring around that circle.
- * input: image A, target File, outer circle radius, dark or bright. Function is related to BlSpotMatcher in IAP.
- * output: contrast image
+ * Determine the difference in the brightness of a inner circle to the area of a outer ring around that circle. Function is related to BlSpotMatcher in IAP.
+ * 
+ * @param	input image
+ * @param	target File
+ * @param	outer circle radius
+ * @param	dark or bright background
+ * 
+ * @return	contrast image
  * 
  * @author Christian Klukas
  */

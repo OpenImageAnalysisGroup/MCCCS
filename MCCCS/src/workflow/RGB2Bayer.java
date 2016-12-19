@@ -9,8 +9,10 @@ import de.ipk.ag_ba.image.structures.Image;
 
 /**
  * Create Bayer patterned image file (gray scale).
- * input: R/G/B image files
- * output: bayer_pattern image (tiff)
+ * 
+ * @param	R/G/B image files
+ * 
+ * @return	bayer_pattern image (tif)
  * 
  * @author Christian Klukas
  */

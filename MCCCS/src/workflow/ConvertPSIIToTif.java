@@ -16,8 +16,9 @@ import ij.process.ImageProcessor;
  *  .fimg (result image files, including the results for a feature as 
  *  calculated during PSII analysis) to .tif image files.
  *  
- *  input: folder including files for conversion
- *  output: same folder as used for input
+ * @param	path to folder including files for conversion
+ * 
+ * @return	converted images (saved into same folder as used for input)
  * 
  * @author Jean-Michel Pape
  *

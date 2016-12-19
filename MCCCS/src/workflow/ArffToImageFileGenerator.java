@@ -11,6 +11,11 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Converts classified ARFF result file to an image by using FG mask.
  * 
+ * @param	channel count (int)
+ * @param	input ARFF file(s)
+ * 
+ * @return	classified image
+ * 
  * @author Jean-Michel Pape
  */
 public class ArffToImageFileGenerator {

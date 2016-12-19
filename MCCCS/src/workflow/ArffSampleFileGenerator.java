@@ -13,7 +13,12 @@ import de.ipk.ag_ba.gui.picture_gui.LocalComputeJob;
 
 /**
  * Sample Extraction from input images, generates .arff file for classifier training.
- * input: channel-count, class-count (negative in case of foreground/background segmentation), sample-size, filenames
+ * 
+ * @param	class-count (negative in case of foreground/background segmentation)
+ * @param	sample-size
+ * @param	input filename(s)
+ * 
+ * @return	ARFF file
  * 
  * @author Jean-Michel Pape, Christian Klukas
  */

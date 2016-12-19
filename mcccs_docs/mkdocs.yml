@@ -1,0 +1,7 @@
+site_name: MCCCS docs
+pages:
+- Home: 'index.md'
+- Documentation:
+    - 'Installation': 'installation.md'
+    - 'Command descriptions': 'cmd/all.md'
+theme: readthedocs

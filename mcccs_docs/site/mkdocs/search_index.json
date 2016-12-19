@@ -1,0 +1,49 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Welcome to MCCCS documentation\n\n\nFor an overview and download of the MCCCS scripts please visit the project \nhompage\n.\n\n\nGetting started\n\n\nAbout", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#welcome-to-mcccs-documentation", 
+            "text": "For an overview and download of the MCCCS scripts please visit the project  hompage .", 
+            "title": "Welcome to MCCCS documentation"
+        }, 
+        {
+            "location": "/#getting-started", 
+            "text": "", 
+            "title": "Getting started"
+        }, 
+        {
+            "location": "/#about", 
+            "text": "", 
+            "title": "About"
+        }, 
+        {
+            "location": "/installation/", 
+            "text": "Installation", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/installation/#installation", 
+            "text": "", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/cmd/all/", 
+            "text": "Overview\n\n\nSplitRGB\n\n\nSplits RGB image into separate channel images.\n\n\n\n\n@return   channel0.png, channel1.png, channel2.png or .tif files.\n\n\n@param    image - input image", 
+            "title": "Command descriptions"
+        }, 
+        {
+            "location": "/cmd/all/#overview", 
+            "text": "", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/cmd/all/#splitrgb", 
+            "text": "Splits RGB image into separate channel images.   @return   channel0.png, channel1.png, channel2.png or .tif files.  @param    image - input image", 
+            "title": "SplitRGB"
+        }
+    ]
+}

@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Welcome to MCCCS documentation\n\n\nFor an overview and download of the MCCCS scripts please visit the project \nhompage\n.\n\n\nGetting started\n\n\nAbout", 
+            "text": "Welcome to MCCCS documentation\n\n\nFor an overview and download of the MCCCS scripts please visit the project \nhompage\n.\n\n\nGetting started\n\n\nAbout\n\n\n\n\n\n\nJean-Michel Pape - Method development, implementation and documentation.\n\n\n\n\n\n\nDr. Christian Klukas - Supervision of project, method development and implementation - head of group 'Image Analysis' at IPK during the development and from 2010 to April 2015", 
             "title": "Home"
         }, 
         {
@@ -17,33 +17,308 @@
         }, 
         {
             "location": "/#about", 
-            "text": "", 
+            "text": "Jean-Michel Pape - Method development, implementation and documentation.    Dr. Christian Klukas - Supervision of project, method development and implementation - head of group 'Image Analysis' at IPK during the development and from 2010 to April 2015", 
             "title": "About"
         }, 
         {
             "location": "/installation/", 
-            "text": "Installation", 
+            "text": "Installation\n\n\nThe MCCCS is a collection of several processing command which can be started from the command line (like bash or cygwin). To use the commands and for running the sample scripts some other frameworks or tools are recommended, the following steps guide the system setup.\n\n\nCompatibility Check and Installation of Support Programs\n\n\nThe system has been tested under CentOS (7), Mac OS X (Yosemite, 10.10) using the GNU Bash shell and Windows 7/8.1/10 using the Cygwin commandline interface. It is required to install the Java JRE or JDK and eventually (for running the application examples) the Wget, UnZip, xargs and bc command(s). It may also run under other operating systems, which provide Bash-script support and the xargs or parallel commands as well as Java support.\n\n\n\n\n\n\nBash - support: Start the bash command from the terminal. If no error appears, your system contains the bash shell.\n\n\n\n\n\n\nJava support: Start java -version command from the terminal, if the reported version is \"1.8.0\" or newer and the output contains the information that this is a 64-Bit version, all is fine. Otherwise, install the 64-Bit Java Runtime Environment (JRE) or the JDK for your operating system (Download-Link). \n\n\n\n\n\n\nAdditional commands for running the provided application examples:\n\n\n\n\n\n\nWget - support: Start the wget command from the terminal. If no error appears, your system contains the Wget program.\n\n\n\n\n\n\nUnzip - support: Start the unzip command from the terminal. If no error appears, your system contains the UnZip program.\n\n\n\n\n\n\nXargs - support: Start the xargs command from the terminal. If no error appears, your system contains the xargs command.\n\n\n\n\n\n\nBc - support: Start the bc command from the terminal. If no error appears, your system contains the bc (arbitrary-precision arithmetic language). \n\n\n\n\n\n\nInstallation hints\n\n\nLinux\n\n\nMost of the linux distributions include the missing packages in their repositories, by utilizing a package manager (like yum, apt-get, pacman) they can be easily installed.\n\n\nMAC\n\n\nThe missing support commands can be easily installed by using Rudix. For running the java commands the Java Development Kit (jdk) is needed.\n\n\nWindows\n\n\nDuring the Cygwin installation please make sure that you include the required commands. The screenshot below shows an example for adding the wget command, you can find the commands by utilizing the search function (the commands are in the following sub-menus: wget -\n Web, bc -\n Math, unzip -\n Archive). Also, it is recommended to use a user account without any space in the account name.\n\n\nUsage\n\n\nIt is recommended to use the application examples as basis for custom analysis scripts. The tutorial shows a detailed workflow for setting up and russing the application examples.", 
             "title": "Installation"
         }, 
         {
             "location": "/installation/#installation", 
-            "text": "", 
+            "text": "The MCCCS is a collection of several processing command which can be started from the command line (like bash or cygwin). To use the commands and for running the sample scripts some other frameworks or tools are recommended, the following steps guide the system setup.", 
             "title": "Installation"
         }, 
         {
+            "location": "/installation/#compatibility-check-and-installation-of-support-programs", 
+            "text": "The system has been tested under CentOS (7), Mac OS X (Yosemite, 10.10) using the GNU Bash shell and Windows 7/8.1/10 using the Cygwin commandline interface. It is required to install the Java JRE or JDK and eventually (for running the application examples) the Wget, UnZip, xargs and bc command(s). It may also run under other operating systems, which provide Bash-script support and the xargs or parallel commands as well as Java support.    Bash - support: Start the bash command from the terminal. If no error appears, your system contains the bash shell.    Java support: Start java -version command from the terminal, if the reported version is \"1.8.0\" or newer and the output contains the information that this is a 64-Bit version, all is fine. Otherwise, install the 64-Bit Java Runtime Environment (JRE) or the JDK for your operating system (Download-Link).     Additional commands for running the provided application examples:    Wget - support: Start the wget command from the terminal. If no error appears, your system contains the Wget program.    Unzip - support: Start the unzip command from the terminal. If no error appears, your system contains the UnZip program.    Xargs - support: Start the xargs command from the terminal. If no error appears, your system contains the xargs command.    Bc - support: Start the bc command from the terminal. If no error appears, your system contains the bc (arbitrary-precision arithmetic language).", 
+            "title": "Compatibility Check and Installation of Support Programs"
+        }, 
+        {
+            "location": "/installation/#installation-hints", 
+            "text": "", 
+            "title": "Installation hints"
+        }, 
+        {
+            "location": "/installation/#linux", 
+            "text": "Most of the linux distributions include the missing packages in their repositories, by utilizing a package manager (like yum, apt-get, pacman) they can be easily installed.", 
+            "title": "Linux"
+        }, 
+        {
+            "location": "/installation/#mac", 
+            "text": "The missing support commands can be easily installed by using Rudix. For running the java commands the Java Development Kit (jdk) is needed.", 
+            "title": "MAC"
+        }, 
+        {
+            "location": "/installation/#windows", 
+            "text": "During the Cygwin installation please make sure that you include the required commands. The screenshot below shows an example for adding the wget command, you can find the commands by utilizing the search function (the commands are in the following sub-menus: wget -  Web, bc -  Math, unzip -  Archive). Also, it is recommended to use a user account without any space in the account name.", 
+            "title": "Windows"
+        }, 
+        {
+            "location": "/installation/#usage", 
+            "text": "It is recommended to use the application examples as basis for custom analysis scripts. The tutorial shows a detailed workflow for setting up and russing the application examples.", 
+            "title": "Usage"
+        }, 
+        {
+            "location": "/app_exp/", 
+            "text": "Overview\n\n\nThe MCCCS includes several analysis scripts for image processing and file conversion. These scripts are arranged in custom pipelines to process different analysis tasks. Therefore we use the gnu bash shell which is a powerful tool, further more a command language. To understand the whole concept we provide several examples which are based on freely available datasets.\n\n\nData\n\n\n\n\nThree image sets (A1, A2, A3) from the Leaf Segmentation Challenge (LSC) 2014\n\n\nA hyperspec example from Purdue Research Foundation.\n\n\nDisease classification for detached barley leaves (in preparation, not published yet).\n\n\n\n\nSegmentation_example_1_classification\n\n\n\n\nThis example shows an application for foreground/background segmentation for top view plant images (Arabidopsis thaliana - A1, A2and tobacco - A3) using a supervised Random Forest classifier. Thethree data sets are split into a training set and a data set forprediction as well. After processing, the segmentation results, namedforeground.png, are stored in each sub folder, e.g. plant_003.\n\n\nHyper_example_1_classification\n\n\n\n\nThis example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set. Here partly pre-classifiedground-truth image masks are used to train a supervised Random Forestclassifier.Afterprocessing,thesegmentationresult,namedclassified.png is stored in the experiment sub folder (stack_images\u2192 dc).\n\n\nHyper_example_2_clustering\n\n\n\n\nThis example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set as used in the examplebefore. Instead of using pre-classified ground-truth data to train asupervised classifier here a clustering approach is performed. Afterprocessing, the segmentation result, named clustered.png is stored inthe experiment sub folder (stack_images \u2192 dc).\n\n\nPreparation\n\n\nAfter downloading and installing the required software tools (see installation instructions). The mcccs.zip container can be downloaded from the github releases and extracted on a local file system.\n\n\nDownload of application examples\n\n\nThe application examples can be downloaded and prepared by executing the prepare_datasets.sh in a terminal. The example data and needed libraries are automatically downloaded and transferred into the common folder structure for processing with the given example scripts. Please make sure that there is sufficient space left on the used device.\n\n\nRunning examples\n\n\nThe analysis can be started by navigating into the corresponding experiment folder, by executing the process_ ... .sh script in a terminal (e.g. segmentation_example_1_classification \u2192 execute process_segmentation_example_1_classification.sh in the experiment folder). The results, including a labeled result image and the belonging numeric data, named all_ ... .csv, are stored into the corresponding sub-folders.\n\n\nCustomization and usage hints", 
+            "title": "Running application examples"
+        }, 
+        {
+            "location": "/app_exp/#overview", 
+            "text": "The MCCCS includes several analysis scripts for image processing and file conversion. These scripts are arranged in custom pipelines to process different analysis tasks. Therefore we use the gnu bash shell which is a powerful tool, further more a command language. To understand the whole concept we provide several examples which are based on freely available datasets.", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/app_exp/#data", 
+            "text": "Three image sets (A1, A2, A3) from the Leaf Segmentation Challenge (LSC) 2014  A hyperspec example from Purdue Research Foundation.  Disease classification for detached barley leaves (in preparation, not published yet).", 
+            "title": "Data"
+        }, 
+        {
+            "location": "/app_exp/#segmentation_example_1_classification", 
+            "text": "This example shows an application for foreground/background segmentation for top view plant images (Arabidopsis thaliana - A1, A2and tobacco - A3) using a supervised Random Forest classifier. Thethree data sets are split into a training set and a data set forprediction as well. After processing, the segmentation results, namedforeground.png, are stored in each sub folder, e.g. plant_003.", 
+            "title": "Segmentation_example_1_classification"
+        }, 
+        {
+            "location": "/app_exp/#hyper_example_1_classification", 
+            "text": "This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set. Here partly pre-classifiedground-truth image masks are used to train a supervised Random Forestclassifier.Afterprocessing,thesegmentationresult,namedclassified.png is stored in the experiment sub folder (stack_images\u2192 dc).", 
+            "title": "Hyper_example_1_classification"
+        }, 
+        {
+            "location": "/app_exp/#hyper_example_2_clustering", 
+            "text": "This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set as used in the examplebefore. Instead of using pre-classified ground-truth data to train asupervised classifier here a clustering approach is performed. Afterprocessing, the segmentation result, named clustered.png is stored inthe experiment sub folder (stack_images \u2192 dc).", 
+            "title": "Hyper_example_2_clustering"
+        }, 
+        {
+            "location": "/app_exp/#preparation", 
+            "text": "After downloading and installing the required software tools (see installation instructions). The mcccs.zip container can be downloaded from the github releases and extracted on a local file system.", 
+            "title": "Preparation"
+        }, 
+        {
+            "location": "/app_exp/#download-of-application-examples", 
+            "text": "The application examples can be downloaded and prepared by executing the prepare_datasets.sh in a terminal. The example data and needed libraries are automatically downloaded and transferred into the common folder structure for processing with the given example scripts. Please make sure that there is sufficient space left on the used device.", 
+            "title": "Download of application examples"
+        }, 
+        {
+            "location": "/app_exp/#running-examples", 
+            "text": "The analysis can be started by navigating into the corresponding experiment folder, by executing the process_ ... .sh script in a terminal (e.g. segmentation_example_1_classification \u2192 execute process_segmentation_example_1_classification.sh in the experiment folder). The results, including a labeled result image and the belonging numeric data, named all_ ... .csv, are stored into the corresponding sub-folders.", 
+            "title": "Running examples"
+        }, 
+        {
+            "location": "/app_exp/#customization-and-usage-hints", 
+            "text": "", 
+            "title": "Customization and usage hints"
+        }, 
+        {
             "location": "/cmd/all/", 
-            "text": "Overview\n\n\nSplitRGB\n\n\nSplits RGB image into separate channel images.\n\n\n\n\n@return   channel0.png, channel1.png, channel2.png or .tif files.\n\n\n@param    image - input image", 
+            "text": "AddClassAttributeFromARFFimageAndMasks\n\n\nReads the image ARFF file, and all provided mask ARFF files.\nOutputs N rows for each class.\nRequires less memory, as all input ARFF files are read row by row, so only\none row of each input ARFF needs to stay in memory. In addition sets of valid row indices for\neach mask file need to be constructed, to allow random selection of random samples. From the\nmask ARFF files, the correct class of the current image row is detected, and the according class\ninformation is added at the end of each image ARFF line.\nThe input mask files need to be read two times, the first time the number of\nsamples in each class are determined, so that in the main run the correct number\nof samples may be selected randomly from the class rows. At least two mask arff files should be provided (though one would be enough, but then all image rows would belong to a single class.\n\n\n\n\n@param    class sample size N\n\n\n@param    output arff file\n\n\n@param    image arff file\n\n\n@param    mask arff file 0\n\n\n@param    mask arff file 1\n\n\n@param    mask arff file 2 \n\n\n\n\n@param    [..]\n\n\n\n\n\n\n@return   ARFF file\n\n\n\n\n\n\nApplyClass0ToGrayScaleImage\n\n\nConverts classified ARFF result file to an image by using a labeled mask image.\n\n\n\n\n@param    input filename(s)\n\n\n@return   image file\n\n\n\n\nApplyClass0ToImage\n\n\nConverts classified ARFF result file to an image by using a labeled mask image.\n\n\n\n\n@param    input filename(s) for ARFF files\n\n\n@return   visualization image of class 0 from input file\n\n\n\n\nApplyMask\n\n\nConverts classified ARFF result file to an image by using a labeled mask image.\n\n\n\n\n@param    directory with input file(s) images\n\n\n\n\n@param    directory with input file(s) images ROIs\n\n\n\n\n\n\n@return   cleared image (by given ROI)\n\n\n\n\n\n\nApplyMaskImage\n\n\nApplies a mask on the input image, the output will be saved in a separate target file.\n\n\n\n\n@param    image   path to input image\n\n\n@param    mask    path to mask image\n\n\n\n\n@param    target  path to output directory\n\n\n\n\n\n\n@return   image file\n\n\n\n\n\n\nApplyROIAndCrop\n\n\nApply a mask to given an image and return a cropped version with specified name (target file) and extension (file format).\n\n\n\n\n@param    image\n\n\n@param    mask\n\n\n@param    target file name\n\n\n\n\n@param    file format\n\n\n\n\n\n\n@return   image file\n\n\n\n\n\n\nArffFromImageFileGenerator\n\n\nConverts image into an ARFF file.\n\n\n\n\n@param    class-count\n\n\n\n\n@param    input filename\n\n\n\n\n\n\n@return ARFF file\n\n\n\n\n\n\nArffSampleFileGenerator\n\n\nSample Extraction from input images, generates .arff file for classifier training.\n\n\n\n\n@param    class-count (negative in case of foreground/background segmentation)\n\n\n@param    sample-size\n\n\n\n\n@param    input filename(s)\n\n\n\n\n\n\n@return   ARFF file\n\n\n\n\n\n\nArffToImageFileGenerator\n\n\nConverts classified ARFF result file to an image by using FG mask.\n\n\n\n\n@param    channel count (int)\n\n\n\n\n@param    input ARFF file(s)\n\n\n\n\n\n\n@return   classified image\n\n\n\n\n\n\nArffToProbabilityImageFileGenerator\n\n\nConverts classified ARFF result file (including pixel-probabilities for each class) to an grayscale-image (use of FG mask is possible).\n\n\n\n\n@param    channel count (positive value = .png output, negative value = .tif output)\n\n\n@param    threshold for acceptance\n\n\n\n\n@param    input filename(s) of ARFF file(s)\n\n\n\n\n\n\n@return   grayscale image\n\n\n\n\n\n\nClacImage\n\n\nCreate image by calculating the difference, sum, division or multiplication of two images.\n\n\n\n\n@param    image A\n\n\n@param    image B\n\n\n@param    output file\n\n\n@param    one of this: +,-,*,/, absdiff, and\n\n\n\n\n@param    RGB or Float mode\n\n\n\n\n\n\n@return   difference image according to operation mode\n\n\n\n\n\n\nCalculateDistanceMap\n\n\nCalculate distance map float image. Modes: 0 - eucl. distance map X, 1 - eucl. distance map Y, 2 - eucl. distance map dist, 3 - euchl. distance map degree*255/360.\n\n\n\n\n@param    mode 0/1/2/3\n\n\n@param    input mask\n\n\n\n\n@param    target TIFF file (distance map)\n\n\n\n\n\n\n@return   distance map image (tif)\n\n\n\n\n\n\nColoredRegionGrowing\n\n\nNearest-neighbor approach, to find colorized areas near uncolored foreground\narea. Assign color of nearest colorized pixel to uncolored pixels. Input is a\ncolored image, with some uncolored (white) areas, mask image, background\npixels (black) are ignored during processing.\n\n\n\n\n@param    input image (RGB)\n\n\n@param    image for over-drawing (edges)\n\n\n\n\n@param    target filename\n\n\n\n\n\n\n@return   result image\n\n\n\n\n\n\nColoredRegionGrowingSingle\n\n\nNearest-neighbor approach, to find colorized areas near uncolored foreground\narea. Assign color of nearest colorized pixel to uncolored pixels. Input is a\ncolored image, with some uncolored (white) areas, mask image, background\npixels (black) are ignored during processing.\n\n\n\n\n@param    input image (RGB)\n\n\n\n\n@param    target filename\n\n\n\n\n\n\n@return   result image\n\n\n\n\n\n\nCombineDirectionalProbabilityImages\n\n\nCombines two probability images.\n\n\n\n\n@param    image 1 (grayscale tif)\n\n\n@param    image 2 (grayscale tif)\n\n\n@param    taarget filename\n\n\n\n\n@param    Modes: 0 - img1 = X, img2 = Y; 1 - img1 = DIST, img2 = DEGREE*255/360\n\n\n\n\n\n\n@return   image file\n\n\n\n\n\n\nConvertPSIIToTif\n\n\nCommand to convert .dumm (raw image files for PSII measurements) and\n.fimg (result image files, including the results for a feature as \ncalculated during PSII analysis) to .tif image files.\n\n\n\n\n\n\n@param    path to folder including files for conversion\n\n\n\n\n\n\n@return   converted images (saved into same folder as used for input)\n\n\n\n\n\n\nCreateCircularGradientImage\n\n\nCreates an circular gradient image (tif float), the most far point from the\ncenter has value 0, the center point has value 1. The dimensions of the\ntarget image are determined from the given input (template) image. \n\n\n\n\n@param    input image\n\n\n\n\n@param    filename output (should have tif extension)\n\n\n\n\n\n\n@return   image file\n\n\n\n\n\n\nCreateDiffImage\n\n\nCreate difference image, indicating true positive and true negative in white.\nFalse positive in blue and false negative in red.\n\n\n\n\n@param    ground truth mask\n\n\n@param    prediction\n\n\n\n\n@param    output file name for difference image\n\n\n\n\n\n\n@return   difference image\n\n\n\n\n\n\nErode\n\n\nThis command performs the erode operation on a given input image (black pixels will be regarded as foreground, white as background).\n\n\n\n\n\n\n@param    input image\n\n\n\n\n\n\n@return   image\n\n\n\n\n\n\nExportImagesFromHyperSpec\n\n\nCreates separate images from hyper-spectral image data set (BSQ, BIL format).\n\n\n\n\n@param    prefix for output filename\n\n\n@param    overflow threshold or negative value to disable\n\n\n\n\n@param    filenames (input)\n\n\n\n\n\n\n@return   image files (channel images)\n\n\n\n\n\n\nFILTER\n\n\nBased on an input image an image operation is performed and a target result file is saved.\n\n\n\n\n@param    input image\n\n\n@param    target file\n\n\n@param    mask size (int)\n\n\n@param    sigma for gaussian blur (double)\n\n\n\n\n@param    operation mode (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)\n\n\n\n\n\n\n@return   filtered result image\n\n\n\n\n\n\nMakeRGBComposite\n\n\nThis command combines three images 'channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue) to an RGB composite image.\n\n\n\n\n\n\n@param    input R/G/B images ('channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue))\n\n\n\n\n\n\n@return   RGB composite image\n\n\n\n\n\n\nMergeArffFiles\n\n\nMerges two or more ARFF files (concatinates the column data)\n\n\n\n\n@param    target file\n\n\n@param    input filenames\n\n\n@param    -ColIndex for ARFF files to be merged specified\n\n\n@param    optionally specific columns may be removed from the output (1...x)\n\n\n\n\n@param    by adding +str an string can be added into the last column! Return Code 1\"\n\n\n\n\n\n\n@return   merged ARFF file\n\n\n\n\n\n\nPoersetGenerator\n\n\nGenerates inverted mask of given masks (AND + INV). Also generates a powerset of the input combinations of images.\nAll these images are then saved.\n\n\n\n\n@param    class count (int)\n\n\n\n\n@param    input image(s)\n\n\n\n\n\n\n@return   powerset combinations\n\n\n\n\n\n\nQuantifyEnhanced\n\n\nCompared to the simple Quantify command (works for one object in an image), it is possible to analyze and distinguish several separated objects in an image. The results are saved into a .csv file and a debug image.\n\n\n\n\n@param    output mode (0 = percentage, 1 = absolute values)\n\n\n\n\n@param    image file\n\n\n\n\n\n\n@return   csv file\n\n\n\n\n@return   debug image\n\n\n\n\nQuantify\n\n\nReads and image and quantifies (counts) the foreground pixels, marked with different colors.\nFor each color a the corresponding infection rate is calculated.\n\n\n\n\n@param    output mode (0 = percentage, 1 = absolute values)\n\n\n\n\n@param    image file (starting with classified_, cluster or ends with _cluster)\n\n\n\n\n\n\n@return   csv file\n\n\n\n\n\n\nRGB2ALL\n\n\nCreate color channel files in diverse color spaces.\n\n\n\n\n@param    R/G/B input images (split channels)\n\n\n@param    color channel index (0..19, -1 = all, ? = list)\n\n\n\n\n@param    input color space index (0..4, -1 = all, ? = list)\n\n\n\n\n\n\n@return   channel_xyz_x.png, ... (diverse set of color channels)\n\n\n\n\n\n\nRGB2Bayer\n\n\nCreate Bayer patterned image file (gray scale).\n\n\n\n\n\n\n@param    R/G/B image files\n\n\n\n\n\n\n@return   bayer_pattern image (tif)\n\n\n\n\n\n\nRGB2HSB\n\n\nCreate H/S/B image files from R/G/B image files.\n\n\n\n\n@param    R/G/B image files\n\n\n@return   channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png\n\n\n\n\nRGB2LAB\n\n\nCreate L/a/b image files from R/G/B files.\n\n\n\n\n\n\n@param    R/G/B image files\n\n\n\n\n\n\n@return   channel_lab_l.png, channel_lab_a.png, channel_lab_b.png\n\n\n\n\n\n\nRGB2XYZ\n\n\nTransform R/G/B input image files to the corresponding X/Y/Z image files.\n\n\n\n\n\n\n@param    R/G/B image files\n\n\n\n\n\n\n@return   channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png\n\n\n\n\n\n\nRgbBayer2Arff\n\n\nConverts RGB image (Bayer pattern) to an ARFF file.\n\n\n\n\n@param    R/G/B image files\n\n\n\n\n@param    bayer pattern\n\n\n\n\n\n\n@return   one 'output.arff'\n\n\n\n\n\n\nRotate\n\n\nRotates an image in left or right direction by 90 degree.\n\n\n\n\n@param    input image\n\n\n\n\n@param    direction [l,r]\n\n\n\n\n\n\n@return   image\n\n\n\n\n\n\nRoundMaskRatio\n\n\nDetermine the difference in the brightness of a inner circle to the area of a outer ring around that circle. Function is related to BlSpotMatcher in IAP.\n\n\n\n\n@param    input image\n\n\n@param    target File\n\n\n@param    outer circle radius\n\n\n\n\n@param    dark or bright background\n\n\n\n\n\n\n@return   contrast image\n\n\n\n\n\n\nSideSmooth\n\n\nSmoothes the left and right-hand side borders of a single object within the image.\nUses a polynom to fit a curve and reconstructs the image object with the smoothed-out\nside borders.\n\n\n\n\n\n\n@param    binary image\n\n\n\n\n\n\n@return   binary image\n\n\n\n\n\n\nSplit\n\n\nSplits leaves within image (objects which all reach a certain top-position and which at the same time\nreach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which\nare of less height, are removed. Then each object which full-fills these criteria, a new image with only\nthat specific object is created.\n\n\n\n\n@input    image file\n\n\n@return   file_1.png, file_2.png, file_3.png, ...  - objects separated\n\n\n\n\nSplitHistBased\n\n\nSplits leaves within image (objects which all reach a certain top-position and which at the same time\nreach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which\nare of less height, are removed. Then each object which full-fills these criteria, a new image with only\nthat specific object is created.\n\n\n\n\n\n\n@param    image file\n\n\n\n\n\n\n@return   file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers\n\n\n\n\n\n\nSplitRGB\n\n\nSplits RGB image into separate channel images.\n\n\n\n\n@return   channel0.png, channel1.png, channel2.png or .tif files.\n\n\n@param    image - input image\n\n\n\n\nSplitTiffStackToImages\n\n\nSplits input Tiff-stack into separate images (e.g. useful for hyper-spectral datasets).\n\n\n\n\n\n\n@param    tif stack\n\n\n\n\n\n\n@return   separate images, channel_1.tif, channel_2.tif, ...\n\n\n\n\n\n\nThresholdGTforFGBG\n\n\nApply threshold to ground truth (GT) images to generate binary foreground- and background-masks, and the corresponding ARFF files for classifier training.\n\n\n\n\n@param    colored ground truth image\n\n\n@return   mask_1.png, mask_2.png (forground and background mask images), and according mask_1.arff, mask_2.arff files!\n\n\n\n\nTransformCSV\n\n\nReads the CSV result file and transforms some rows to columns and\nrenames infection color ids to human-readable traits.\nCleans-up some content of the column entries, fills empty with 0.0.\n\n\n\n\n@param    csv file\n\n\n@return   csv file", 
             "title": "Command descriptions"
         }, 
         {
-            "location": "/cmd/all/#overview", 
-            "text": "", 
-            "title": "Overview"
+            "location": "/cmd/all/#addclassattributefromarffimageandmasks", 
+            "text": "Reads the image ARFF file, and all provided mask ARFF files.\nOutputs N rows for each class.\nRequires less memory, as all input ARFF files are read row by row, so only\none row of each input ARFF needs to stay in memory. In addition sets of valid row indices for\neach mask file need to be constructed, to allow random selection of random samples. From the\nmask ARFF files, the correct class of the current image row is detected, and the according class\ninformation is added at the end of each image ARFF line.\nThe input mask files need to be read two times, the first time the number of\nsamples in each class are determined, so that in the main run the correct number\nof samples may be selected randomly from the class rows. At least two mask arff files should be provided (though one would be enough, but then all image rows would belong to a single class.   @param    class sample size N  @param    output arff file  @param    image arff file  @param    mask arff file 0  @param    mask arff file 1  @param    mask arff file 2    @param    [..]    @return   ARFF file", 
+            "title": "AddClassAttributeFromARFFimageAndMasks"
+        }, 
+        {
+            "location": "/cmd/all/#applyclass0tograyscaleimage", 
+            "text": "Converts classified ARFF result file to an image by using a labeled mask image.   @param    input filename(s)  @return   image file", 
+            "title": "ApplyClass0ToGrayScaleImage"
+        }, 
+        {
+            "location": "/cmd/all/#applyclass0toimage", 
+            "text": "Converts classified ARFF result file to an image by using a labeled mask image.   @param    input filename(s) for ARFF files  @return   visualization image of class 0 from input file", 
+            "title": "ApplyClass0ToImage"
+        }, 
+        {
+            "location": "/cmd/all/#applymask", 
+            "text": "Converts classified ARFF result file to an image by using a labeled mask image.   @param    directory with input file(s) images   @param    directory with input file(s) images ROIs    @return   cleared image (by given ROI)", 
+            "title": "ApplyMask"
+        }, 
+        {
+            "location": "/cmd/all/#applymaskimage", 
+            "text": "Applies a mask on the input image, the output will be saved in a separate target file.   @param    image   path to input image  @param    mask    path to mask image   @param    target  path to output directory    @return   image file", 
+            "title": "ApplyMaskImage"
+        }, 
+        {
+            "location": "/cmd/all/#applyroiandcrop", 
+            "text": "Apply a mask to given an image and return a cropped version with specified name (target file) and extension (file format).   @param    image  @param    mask  @param    target file name   @param    file format    @return   image file", 
+            "title": "ApplyROIAndCrop"
+        }, 
+        {
+            "location": "/cmd/all/#arfffromimagefilegenerator", 
+            "text": "Converts image into an ARFF file.   @param    class-count   @param    input filename    @return ARFF file", 
+            "title": "ArffFromImageFileGenerator"
+        }, 
+        {
+            "location": "/cmd/all/#arffsamplefilegenerator", 
+            "text": "Sample Extraction from input images, generates .arff file for classifier training.   @param    class-count (negative in case of foreground/background segmentation)  @param    sample-size   @param    input filename(s)    @return   ARFF file", 
+            "title": "ArffSampleFileGenerator"
+        }, 
+        {
+            "location": "/cmd/all/#arfftoimagefilegenerator", 
+            "text": "Converts classified ARFF result file to an image by using FG mask.   @param    channel count (int)   @param    input ARFF file(s)    @return   classified image", 
+            "title": "ArffToImageFileGenerator"
+        }, 
+        {
+            "location": "/cmd/all/#arfftoprobabilityimagefilegenerator", 
+            "text": "Converts classified ARFF result file (including pixel-probabilities for each class) to an grayscale-image (use of FG mask is possible).   @param    channel count (positive value = .png output, negative value = .tif output)  @param    threshold for acceptance   @param    input filename(s) of ARFF file(s)    @return   grayscale image", 
+            "title": "ArffToProbabilityImageFileGenerator"
+        }, 
+        {
+            "location": "/cmd/all/#clacimage", 
+            "text": "Create image by calculating the difference, sum, division or multiplication of two images.   @param    image A  @param    image B  @param    output file  @param    one of this: +,-,*,/, absdiff, and   @param    RGB or Float mode    @return   difference image according to operation mode", 
+            "title": "ClacImage"
+        }, 
+        {
+            "location": "/cmd/all/#calculatedistancemap", 
+            "text": "Calculate distance map float image. Modes: 0 - eucl. distance map X, 1 - eucl. distance map Y, 2 - eucl. distance map dist, 3 - euchl. distance map degree*255/360.   @param    mode 0/1/2/3  @param    input mask   @param    target TIFF file (distance map)    @return   distance map image (tif)", 
+            "title": "CalculateDistanceMap"
+        }, 
+        {
+            "location": "/cmd/all/#coloredregiongrowing", 
+            "text": "Nearest-neighbor approach, to find colorized areas near uncolored foreground\narea. Assign color of nearest colorized pixel to uncolored pixels. Input is a\ncolored image, with some uncolored (white) areas, mask image, background\npixels (black) are ignored during processing.   @param    input image (RGB)  @param    image for over-drawing (edges)   @param    target filename    @return   result image", 
+            "title": "ColoredRegionGrowing"
+        }, 
+        {
+            "location": "/cmd/all/#coloredregiongrowingsingle", 
+            "text": "Nearest-neighbor approach, to find colorized areas near uncolored foreground\narea. Assign color of nearest colorized pixel to uncolored pixels. Input is a\ncolored image, with some uncolored (white) areas, mask image, background\npixels (black) are ignored during processing.   @param    input image (RGB)   @param    target filename    @return   result image", 
+            "title": "ColoredRegionGrowingSingle"
+        }, 
+        {
+            "location": "/cmd/all/#combinedirectionalprobabilityimages", 
+            "text": "Combines two probability images.   @param    image 1 (grayscale tif)  @param    image 2 (grayscale tif)  @param    taarget filename   @param    Modes: 0 - img1 = X, img2 = Y; 1 - img1 = DIST, img2 = DEGREE*255/360    @return   image file", 
+            "title": "CombineDirectionalProbabilityImages"
+        }, 
+        {
+            "location": "/cmd/all/#convertpsiitotif", 
+            "text": "Command to convert .dumm (raw image files for PSII measurements) and\n.fimg (result image files, including the results for a feature as \ncalculated during PSII analysis) to .tif image files.    @param    path to folder including files for conversion    @return   converted images (saved into same folder as used for input)", 
+            "title": "ConvertPSIIToTif"
+        }, 
+        {
+            "location": "/cmd/all/#createcirculargradientimage", 
+            "text": "Creates an circular gradient image (tif float), the most far point from the\ncenter has value 0, the center point has value 1. The dimensions of the\ntarget image are determined from the given input (template) image.    @param    input image   @param    filename output (should have tif extension)    @return   image file", 
+            "title": "CreateCircularGradientImage"
+        }, 
+        {
+            "location": "/cmd/all/#creatediffimage", 
+            "text": "Create difference image, indicating true positive and true negative in white.\nFalse positive in blue and false negative in red.   @param    ground truth mask  @param    prediction   @param    output file name for difference image    @return   difference image", 
+            "title": "CreateDiffImage"
+        }, 
+        {
+            "location": "/cmd/all/#erode", 
+            "text": "This command performs the erode operation on a given input image (black pixels will be regarded as foreground, white as background).    @param    input image    @return   image", 
+            "title": "Erode"
+        }, 
+        {
+            "location": "/cmd/all/#exportimagesfromhyperspec", 
+            "text": "Creates separate images from hyper-spectral image data set (BSQ, BIL format).   @param    prefix for output filename  @param    overflow threshold or negative value to disable   @param    filenames (input)    @return   image files (channel images)", 
+            "title": "ExportImagesFromHyperSpec"
+        }, 
+        {
+            "location": "/cmd/all/#filter", 
+            "text": "Based on an input image an image operation is performed and a target result file is saved.   @param    input image  @param    target file  @param    mask size (int)  @param    sigma for gaussian blur (double)   @param    operation mode (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)    @return   filtered result image", 
+            "title": "FILTER"
+        }, 
+        {
+            "location": "/cmd/all/#makergbcomposite", 
+            "text": "This command combines three images 'channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue) to an RGB composite image.    @param    input R/G/B images ('channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue))    @return   RGB composite image", 
+            "title": "MakeRGBComposite"
+        }, 
+        {
+            "location": "/cmd/all/#mergearfffiles", 
+            "text": "Merges two or more ARFF files (concatinates the column data)   @param    target file  @param    input filenames  @param    -ColIndex for ARFF files to be merged specified  @param    optionally specific columns may be removed from the output (1...x)   @param    by adding +str an string can be added into the last column! Return Code 1\"    @return   merged ARFF file", 
+            "title": "MergeArffFiles"
+        }, 
+        {
+            "location": "/cmd/all/#poersetgenerator", 
+            "text": "Generates inverted mask of given masks (AND + INV). Also generates a powerset of the input combinations of images.\nAll these images are then saved.   @param    class count (int)   @param    input image(s)    @return   powerset combinations", 
+            "title": "PoersetGenerator"
+        }, 
+        {
+            "location": "/cmd/all/#quantifyenhanced", 
+            "text": "Compared to the simple Quantify command (works for one object in an image), it is possible to analyze and distinguish several separated objects in an image. The results are saved into a .csv file and a debug image.   @param    output mode (0 = percentage, 1 = absolute values)   @param    image file    @return   csv file   @return   debug image", 
+            "title": "QuantifyEnhanced"
+        }, 
+        {
+            "location": "/cmd/all/#quantify", 
+            "text": "Reads and image and quantifies (counts) the foreground pixels, marked with different colors.\nFor each color a the corresponding infection rate is calculated.   @param    output mode (0 = percentage, 1 = absolute values)   @param    image file (starting with classified_, cluster or ends with _cluster)    @return   csv file", 
+            "title": "Quantify"
+        }, 
+        {
+            "location": "/cmd/all/#rgb2all", 
+            "text": "Create color channel files in diverse color spaces.   @param    R/G/B input images (split channels)  @param    color channel index (0..19, -1 = all, ? = list)   @param    input color space index (0..4, -1 = all, ? = list)    @return   channel_xyz_x.png, ... (diverse set of color channels)", 
+            "title": "RGB2ALL"
+        }, 
+        {
+            "location": "/cmd/all/#rgb2bayer", 
+            "text": "Create Bayer patterned image file (gray scale).    @param    R/G/B image files    @return   bayer_pattern image (tif)", 
+            "title": "RGB2Bayer"
+        }, 
+        {
+            "location": "/cmd/all/#rgb2hsb", 
+            "text": "Create H/S/B image files from R/G/B image files.   @param    R/G/B image files  @return   channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png", 
+            "title": "RGB2HSB"
+        }, 
+        {
+            "location": "/cmd/all/#rgb2lab", 
+            "text": "Create L/a/b image files from R/G/B files.    @param    R/G/B image files    @return   channel_lab_l.png, channel_lab_a.png, channel_lab_b.png", 
+            "title": "RGB2LAB"
+        }, 
+        {
+            "location": "/cmd/all/#rgb2xyz", 
+            "text": "Transform R/G/B input image files to the corresponding X/Y/Z image files.    @param    R/G/B image files    @return   channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png", 
+            "title": "RGB2XYZ"
+        }, 
+        {
+            "location": "/cmd/all/#rgbbayer2arff", 
+            "text": "Converts RGB image (Bayer pattern) to an ARFF file.   @param    R/G/B image files   @param    bayer pattern    @return   one 'output.arff'", 
+            "title": "RgbBayer2Arff"
+        }, 
+        {
+            "location": "/cmd/all/#rotate", 
+            "text": "Rotates an image in left or right direction by 90 degree.   @param    input image   @param    direction [l,r]    @return   image", 
+            "title": "Rotate"
+        }, 
+        {
+            "location": "/cmd/all/#roundmaskratio", 
+            "text": "Determine the difference in the brightness of a inner circle to the area of a outer ring around that circle. Function is related to BlSpotMatcher in IAP.   @param    input image  @param    target File  @param    outer circle radius   @param    dark or bright background    @return   contrast image", 
+            "title": "RoundMaskRatio"
+        }, 
+        {
+            "location": "/cmd/all/#sidesmooth", 
+            "text": "Smoothes the left and right-hand side borders of a single object within the image.\nUses a polynom to fit a curve and reconstructs the image object with the smoothed-out\nside borders.    @param    binary image    @return   binary image", 
+            "title": "SideSmooth"
+        }, 
+        {
+            "location": "/cmd/all/#split", 
+            "text": "Splits leaves within image (objects which all reach a certain top-position and which at the same time\nreach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which\nare of less height, are removed. Then each object which full-fills these criteria, a new image with only\nthat specific object is created.   @input    image file  @return   file_1.png, file_2.png, file_3.png, ...  - objects separated", 
+            "title": "Split"
+        }, 
+        {
+            "location": "/cmd/all/#splithistbased", 
+            "text": "Splits leaves within image (objects which all reach a certain top-position and which at the same time\nreach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which\nare of less height, are removed. Then each object which full-fills these criteria, a new image with only\nthat specific object is created.    @param    image file    @return   file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers", 
+            "title": "SplitHistBased"
         }, 
         {
             "location": "/cmd/all/#splitrgb", 
             "text": "Splits RGB image into separate channel images.   @return   channel0.png, channel1.png, channel2.png or .tif files.  @param    image - input image", 
             "title": "SplitRGB"
+        }, 
+        {
+            "location": "/cmd/all/#splittiffstacktoimages", 
+            "text": "Splits input Tiff-stack into separate images (e.g. useful for hyper-spectral datasets).    @param    tif stack    @return   separate images, channel_1.tif, channel_2.tif, ...", 
+            "title": "SplitTiffStackToImages"
+        }, 
+        {
+            "location": "/cmd/all/#thresholdgtforfgbg", 
+            "text": "Apply threshold to ground truth (GT) images to generate binary foreground- and background-masks, and the corresponding ARFF files for classifier training.   @param    colored ground truth image  @return   mask_1.png, mask_2.png (forground and background mask images), and according mask_1.arff, mask_2.arff files!", 
+            "title": "ThresholdGTforFGBG"
+        }, 
+        {
+            "location": "/cmd/all/#transformcsv", 
+            "text": "Reads the CSV result file and transforms some rows to columns and\nrenames infection color ids to human-readable traits.\nCleans-up some content of the column entries, fills empty with 0.0.   @param    csv file  @return   csv file", 
+            "title": "TransformCSV"
         }
     ]
 }

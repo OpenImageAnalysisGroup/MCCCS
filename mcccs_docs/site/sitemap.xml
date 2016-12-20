@@ -18,6 +18,16 @@
     </url>
         
     <url>
+     <loc>/app_exp/</loc>
+     <lastmod>2016-12-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
      <loc>/cmd/all/</loc>
      <lastmod>2016-12-19</lastmod>
      <changefreq>daily</changefreq>

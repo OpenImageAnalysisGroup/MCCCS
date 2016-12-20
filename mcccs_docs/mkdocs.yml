@@ -2,6 +2,11 @@ site_name: MCCCS docs
 pages:
 - Home: 'index.md'
 - Documentation:
-    - 'Installation': 'installation.md'
-    - 'Command descriptions': 'cmd/all.md'
+  - 'Installation': 'installation.md'
+  - 'Running application examples': 'app_exp.md'
+#  - Tutorials:
+#    - 'Classification tutorial': 'tutorial_1.md'
+#    - 'Hyperspec tutorial': 'tutorial_2.md'
+  - 'Command descriptions': 'cmd/all.md'
+- FAQ: 'faq.md'
 theme: readthedocs

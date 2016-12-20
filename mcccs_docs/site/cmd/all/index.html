@@ -66,14 +66,147 @@
 
         
             
+    <li class="toctree-l1 ">
+        <a class="" href="../../app_exp/">Running application examples</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Documentation</span></li>
+
+        
+            
     <li class="toctree-l1 current">
         <a class="current" href="./">Command descriptions</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#overview">Overview</a></li>
+                <li class="toctree-l3"><a href="#addclassattributefromarffimageandmasks">AddClassAttributeFromARFFimageAndMasks</a></li>
                 
-                    <li><a class="toctree-l4" href="#splitrgb">SplitRGB</a></li>
+            
+                <li class="toctree-l3"><a href="#applyclass0tograyscaleimage">ApplyClass0ToGrayScaleImage</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#applyclass0toimage">ApplyClass0ToImage</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#applymask">ApplyMask</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#applymaskimage">ApplyMaskImage</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#applyroiandcrop">ApplyROIAndCrop</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#arfffromimagefilegenerator">ArffFromImageFileGenerator</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#arffsamplefilegenerator">ArffSampleFileGenerator</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#arfftoimagefilegenerator">ArffToImageFileGenerator</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#arfftoprobabilityimagefilegenerator">ArffToProbabilityImageFileGenerator</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#clacimage">ClacImage</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#calculatedistancemap">CalculateDistanceMap</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#coloredregiongrowing">ColoredRegionGrowing</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#coloredregiongrowingsingle">ColoredRegionGrowingSingle</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#combinedirectionalprobabilityimages">CombineDirectionalProbabilityImages</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#convertpsiitotif">ConvertPSIIToTif</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#createcirculargradientimage">CreateCircularGradientImage</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#creatediffimage">CreateDiffImage</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#erode">Erode</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#exportimagesfromhyperspec">ExportImagesFromHyperSpec</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#filter">FILTER</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#makergbcomposite">MakeRGBComposite</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#mergearfffiles">MergeArffFiles</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#poersetgenerator">PoersetGenerator</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#quantifyenhanced">QuantifyEnhanced</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#quantify">Quantify</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rgb2all">RGB2ALL</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rgb2bayer">RGB2Bayer</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rgb2hsb">RGB2HSB</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rgb2lab">RGB2LAB</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rgb2xyz">RGB2XYZ</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rgbbayer2arff">RgbBayer2Arff</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#rotate">Rotate</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#roundmaskratio">RoundMaskRatio</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#sidesmooth">SideSmooth</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#split">Split</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#splithistbased">SplitHistBased</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#splitrgb">SplitRGB</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#splittiffstacktoimages">SplitTiffStackToImages</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#thresholdgtforfgbg">ThresholdGTforFGBG</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#transformcsv">TransformCSV</a></li>
                 
             
             </ul>
@@ -120,12 +253,473 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="overview">Overview</h1>
-<h2 id="splitrgb">SplitRGB</h2>
+                <h1 id="addclassattributefromarffimageandmasks">AddClassAttributeFromARFFimageAndMasks</h1>
+<p>Reads the image ARFF file, and all provided mask ARFF files.
+Outputs N rows for each class.
+Requires less memory, as all input ARFF files are read row by row, so only
+one row of each input ARFF needs to stay in memory. In addition sets of valid row indices for
+each mask file need to be constructed, to allow random selection of random samples. From the
+mask ARFF files, the correct class of the current image row is detected, and the according class
+information is added at the end of each image ARFF line.
+The input mask files need to be read two times, the first time the number of
+samples in each class are determined, so that in the main run the correct number
+of samples may be selected randomly from the class rows. At least two mask arff files should be provided (though one would be enough, but then all image rows would belong to a single class.</p>
+<ul>
+<li>@param    class sample size N</li>
+<li>@param    output arff file</li>
+<li>@param    image arff file</li>
+<li>@param    mask arff file 0</li>
+<li>@param    mask arff file 1</li>
+<li>@param    mask arff file 2 </li>
+<li>
+<p>@param    [..]</p>
+</li>
+<li>
+<p>@return   ARFF file</p>
+</li>
+</ul>
+<h1 id="applyclass0tograyscaleimage">ApplyClass0ToGrayScaleImage</h1>
+<p>Converts classified ARFF result file to an image by using a labeled mask image.</p>
+<ul>
+<li>@param    input filename(s)</li>
+<li>@return   image file</li>
+</ul>
+<h1 id="applyclass0toimage">ApplyClass0ToImage</h1>
+<p>Converts classified ARFF result file to an image by using a labeled mask image.</p>
+<ul>
+<li>@param    input filename(s) for ARFF files</li>
+<li>@return   visualization image of class 0 from input file</li>
+</ul>
+<h1 id="applymask">ApplyMask</h1>
+<p>Converts classified ARFF result file to an image by using a labeled mask image.</p>
+<ul>
+<li>@param    directory with input file(s) images</li>
+<li>
+<p>@param    directory with input file(s) images ROIs</p>
+</li>
+<li>
+<p>@return   cleared image (by given ROI)</p>
+</li>
+</ul>
+<h1 id="applymaskimage">ApplyMaskImage</h1>
+<p>Applies a mask on the input image, the output will be saved in a separate target file.</p>
+<ul>
+<li>@param    image   path to input image</li>
+<li>@param    mask    path to mask image</li>
+<li>
+<p>@param    target  path to output directory</p>
+</li>
+<li>
+<p>@return   image file</p>
+</li>
+</ul>
+<h1 id="applyroiandcrop">ApplyROIAndCrop</h1>
+<p>Apply a mask to given an image and return a cropped version with specified name (target file) and extension (file format).</p>
+<ul>
+<li>@param    image</li>
+<li>@param    mask</li>
+<li>@param    target file name</li>
+<li>
+<p>@param    file format</p>
+</li>
+<li>
+<p>@return   image file</p>
+</li>
+</ul>
+<h1 id="arfffromimagefilegenerator">ArffFromImageFileGenerator</h1>
+<p>Converts image into an ARFF file.</p>
+<ul>
+<li>@param    class-count</li>
+<li>
+<p>@param    input filename</p>
+</li>
+<li>
+<p>@return ARFF file</p>
+</li>
+</ul>
+<h1 id="arffsamplefilegenerator">ArffSampleFileGenerator</h1>
+<p>Sample Extraction from input images, generates .arff file for classifier training.</p>
+<ul>
+<li>@param    class-count (negative in case of foreground/background segmentation)</li>
+<li>@param    sample-size</li>
+<li>
+<p>@param    input filename(s)</p>
+</li>
+<li>
+<p>@return   ARFF file</p>
+</li>
+</ul>
+<h1 id="arfftoimagefilegenerator">ArffToImageFileGenerator</h1>
+<p>Converts classified ARFF result file to an image by using FG mask.</p>
+<ul>
+<li>@param    channel count (int)</li>
+<li>
+<p>@param    input ARFF file(s)</p>
+</li>
+<li>
+<p>@return   classified image</p>
+</li>
+</ul>
+<h1 id="arfftoprobabilityimagefilegenerator">ArffToProbabilityImageFileGenerator</h1>
+<p>Converts classified ARFF result file (including pixel-probabilities for each class) to an grayscale-image (use of FG mask is possible).</p>
+<ul>
+<li>@param    channel count (positive value = .png output, negative value = .tif output)</li>
+<li>@param    threshold for acceptance</li>
+<li>
+<p>@param    input filename(s) of ARFF file(s)</p>
+</li>
+<li>
+<p>@return   grayscale image</p>
+</li>
+</ul>
+<h1 id="clacimage">ClacImage</h1>
+<p>Create image by calculating the difference, sum, division or multiplication of two images.</p>
+<ul>
+<li>@param    image A</li>
+<li>@param    image B</li>
+<li>@param    output file</li>
+<li>@param    one of this: +,-,*,/, absdiff, and</li>
+<li>
+<p>@param    RGB or Float mode</p>
+</li>
+<li>
+<p>@return   difference image according to operation mode</p>
+</li>
+</ul>
+<h1 id="calculatedistancemap">CalculateDistanceMap</h1>
+<p>Calculate distance map float image. Modes: 0 - eucl. distance map X, 1 - eucl. distance map Y, 2 - eucl. distance map dist, 3 - euchl. distance map degree*255/360.</p>
+<ul>
+<li>@param    mode 0/1/2/3</li>
+<li>@param    input mask</li>
+<li>
+<p>@param    target TIFF file (distance map)</p>
+</li>
+<li>
+<p>@return   distance map image (tif)</p>
+</li>
+</ul>
+<h1 id="coloredregiongrowing">ColoredRegionGrowing</h1>
+<p>Nearest-neighbor approach, to find colorized areas near uncolored foreground
+area. Assign color of nearest colorized pixel to uncolored pixels. Input is a
+colored image, with some uncolored (white) areas, mask image, background
+pixels (black) are ignored during processing.</p>
+<ul>
+<li>@param    input image (RGB)</li>
+<li>@param    image for over-drawing (edges)</li>
+<li>
+<p>@param    target filename</p>
+</li>
+<li>
+<p>@return   result image</p>
+</li>
+</ul>
+<h1 id="coloredregiongrowingsingle">ColoredRegionGrowingSingle</h1>
+<p>Nearest-neighbor approach, to find colorized areas near uncolored foreground
+area. Assign color of nearest colorized pixel to uncolored pixels. Input is a
+colored image, with some uncolored (white) areas, mask image, background
+pixels (black) are ignored during processing.</p>
+<ul>
+<li>@param    input image (RGB)</li>
+<li>
+<p>@param    target filename</p>
+</li>
+<li>
+<p>@return   result image</p>
+</li>
+</ul>
+<h1 id="combinedirectionalprobabilityimages">CombineDirectionalProbabilityImages</h1>
+<p>Combines two probability images.</p>
+<ul>
+<li>@param    image 1 (grayscale tif)</li>
+<li>@param    image 2 (grayscale tif)</li>
+<li>@param    taarget filename</li>
+<li>
+<p>@param    Modes: 0 - img1 = X, img2 = Y; 1 - img1 = DIST, img2 = DEGREE*255/360</p>
+</li>
+<li>
+<p>@return   image file</p>
+</li>
+</ul>
+<h1 id="convertpsiitotif">ConvertPSIIToTif</h1>
+<p>Command to convert .dumm (raw image files for PSII measurements) and
+.fimg (result image files, including the results for a feature as 
+calculated during PSII analysis) to .tif image files.</p>
+<ul>
+<li>
+<p>@param    path to folder including files for conversion</p>
+</li>
+<li>
+<p>@return   converted images (saved into same folder as used for input)</p>
+</li>
+</ul>
+<h1 id="createcirculargradientimage">CreateCircularGradientImage</h1>
+<p>Creates an circular gradient image (tif float), the most far point from the
+center has value 0, the center point has value 1. The dimensions of the
+target image are determined from the given input (template) image. </p>
+<ul>
+<li>@param    input image</li>
+<li>
+<p>@param    filename output (should have tif extension)</p>
+</li>
+<li>
+<p>@return   image file</p>
+</li>
+</ul>
+<h1 id="creatediffimage">CreateDiffImage</h1>
+<p>Create difference image, indicating true positive and true negative in white.
+False positive in blue and false negative in red.</p>
+<ul>
+<li>@param    ground truth mask</li>
+<li>@param    prediction</li>
+<li>
+<p>@param    output file name for difference image</p>
+</li>
+<li>
+<p>@return   difference image</p>
+</li>
+</ul>
+<h1 id="erode">Erode</h1>
+<p>This command performs the erode operation on a given input image (black pixels will be regarded as foreground, white as background).</p>
+<ul>
+<li>
+<p>@param    input image</p>
+</li>
+<li>
+<p>@return   image</p>
+</li>
+</ul>
+<h1 id="exportimagesfromhyperspec">ExportImagesFromHyperSpec</h1>
+<p>Creates separate images from hyper-spectral image data set (BSQ, BIL format).</p>
+<ul>
+<li>@param    prefix for output filename</li>
+<li>@param    overflow threshold or negative value to disable</li>
+<li>
+<p>@param    filenames (input)</p>
+</li>
+<li>
+<p>@return   image files (channel images)</p>
+</li>
+</ul>
+<h1 id="filter">FILTER</h1>
+<p>Based on an input image an image operation is performed and a target result file is saved.</p>
+<ul>
+<li>@param    input image</li>
+<li>@param    target file</li>
+<li>@param    mask size (int)</li>
+<li>@param    sigma for gaussian blur (double)</li>
+<li>
+<p>@param    operation mode (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)</p>
+</li>
+<li>
+<p>@return   filtered result image</p>
+</li>
+</ul>
+<h1 id="makergbcomposite">MakeRGBComposite</h1>
+<p>This command combines three images 'channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue) to an RGB composite image.</p>
+<ul>
+<li>
+<p>@param    input R/G/B images ('channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue))</p>
+</li>
+<li>
+<p>@return   RGB composite image</p>
+</li>
+</ul>
+<h1 id="mergearfffiles">MergeArffFiles</h1>
+<p>Merges two or more ARFF files (concatinates the column data)</p>
+<ul>
+<li>@param    target file</li>
+<li>@param    input filenames</li>
+<li>@param    -ColIndex for ARFF files to be merged specified</li>
+<li>@param    optionally specific columns may be removed from the output (1...x)</li>
+<li>
+<p>@param    by adding +str an string can be added into the last column! Return Code 1"</p>
+</li>
+<li>
+<p>@return   merged ARFF file</p>
+</li>
+</ul>
+<h1 id="poersetgenerator">PoersetGenerator</h1>
+<p>Generates inverted mask of given masks (AND + INV). Also generates a powerset of the input combinations of images.
+All these images are then saved.</p>
+<ul>
+<li>@param    class count (int)</li>
+<li>
+<p>@param    input image(s)</p>
+</li>
+<li>
+<p>@return   powerset combinations</p>
+</li>
+</ul>
+<h1 id="quantifyenhanced">QuantifyEnhanced</h1>
+<p>Compared to the simple Quantify command (works for one object in an image), it is possible to analyze and distinguish several separated objects in an image. The results are saved into a .csv file and a debug image.</p>
+<ul>
+<li>@param    output mode (0 = percentage, 1 = absolute values)</li>
+<li>
+<p>@param    image file</p>
+</li>
+<li>
+<p>@return   csv file</p>
+</li>
+<li>@return   debug image</li>
+</ul>
+<h1 id="quantify">Quantify</h1>
+<p>Reads and image and quantifies (counts) the foreground pixels, marked with different colors.
+For each color a the corresponding infection rate is calculated.</p>
+<ul>
+<li>@param    output mode (0 = percentage, 1 = absolute values)</li>
+<li>
+<p>@param    image file (starting with classified_, cluster or ends with _cluster)</p>
+</li>
+<li>
+<p>@return   csv file</p>
+</li>
+</ul>
+<h1 id="rgb2all">RGB2ALL</h1>
+<p>Create color channel files in diverse color spaces.</p>
+<ul>
+<li>@param    R/G/B input images (split channels)</li>
+<li>@param    color channel index (0..19, -1 = all, ? = list)</li>
+<li>
+<p>@param    input color space index (0..4, -1 = all, ? = list)</p>
+</li>
+<li>
+<p>@return   channel_xyz_x.png, ... (diverse set of color channels)</p>
+</li>
+</ul>
+<h1 id="rgb2bayer">RGB2Bayer</h1>
+<p>Create Bayer patterned image file (gray scale).</p>
+<ul>
+<li>
+<p>@param    R/G/B image files</p>
+</li>
+<li>
+<p>@return   bayer_pattern image (tif)</p>
+</li>
+</ul>
+<h1 id="rgb2hsb">RGB2HSB</h1>
+<p>Create H/S/B image files from R/G/B image files.</p>
+<ul>
+<li>@param    R/G/B image files</li>
+<li>@return   channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png</li>
+</ul>
+<h1 id="rgb2lab">RGB2LAB</h1>
+<p>Create L/a/b image files from R/G/B files.</p>
+<ul>
+<li>
+<p>@param    R/G/B image files</p>
+</li>
+<li>
+<p>@return   channel_lab_l.png, channel_lab_a.png, channel_lab_b.png</p>
+</li>
+</ul>
+<h1 id="rgb2xyz">RGB2XYZ</h1>
+<p>Transform R/G/B input image files to the corresponding X/Y/Z image files.</p>
+<ul>
+<li>
+<p>@param    R/G/B image files</p>
+</li>
+<li>
+<p>@return   channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png</p>
+</li>
+</ul>
+<h1 id="rgbbayer2arff">RgbBayer2Arff</h1>
+<p>Converts RGB image (Bayer pattern) to an ARFF file.</p>
+<ul>
+<li>@param    R/G/B image files</li>
+<li>
+<p>@param    bayer pattern</p>
+</li>
+<li>
+<p>@return   one 'output.arff'</p>
+</li>
+</ul>
+<h1 id="rotate">Rotate</h1>
+<p>Rotates an image in left or right direction by 90 degree.</p>
+<ul>
+<li>@param    input image</li>
+<li>
+<p>@param    direction [l,r]</p>
+</li>
+<li>
+<p>@return   image</p>
+</li>
+</ul>
+<h1 id="roundmaskratio">RoundMaskRatio</h1>
+<p>Determine the difference in the brightness of a inner circle to the area of a outer ring around that circle. Function is related to BlSpotMatcher in IAP.</p>
+<ul>
+<li>@param    input image</li>
+<li>@param    target File</li>
+<li>@param    outer circle radius</li>
+<li>
+<p>@param    dark or bright background</p>
+</li>
+<li>
+<p>@return   contrast image</p>
+</li>
+</ul>
+<h1 id="sidesmooth">SideSmooth</h1>
+<p>Smoothes the left and right-hand side borders of a single object within the image.
+Uses a polynom to fit a curve and reconstructs the image object with the smoothed-out
+side borders.</p>
+<ul>
+<li>
+<p>@param    binary image</p>
+</li>
+<li>
+<p>@return   binary image</p>
+</li>
+</ul>
+<h1 id="split">Split</h1>
+<p>Splits leaves within image (objects which all reach a certain top-position and which at the same time
+reach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which
+are of less height, are removed. Then each object which full-fills these criteria, a new image with only
+that specific object is created.</p>
+<ul>
+<li>@input    image file</li>
+<li>@return   file_1.png, file_2.png, file_3.png, ...  - objects separated</li>
+</ul>
+<h1 id="splithistbased">SplitHistBased</h1>
+<p>Splits leaves within image (objects which all reach a certain top-position and which at the same time
+reach a certain lower-end position. Objects which don't 'touch' these virtual top and lower borders, which
+are of less height, are removed. Then each object which full-fills these criteria, a new image with only
+that specific object is created.</p>
+<ul>
+<li>
+<p>@param    image file</p>
+</li>
+<li>
+<p>@return   file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers</p>
+</li>
+</ul>
+<h1 id="splitrgb">SplitRGB</h1>
 <p>Splits RGB image into separate channel images.</p>
 <ul>
 <li>@return   channel0.png, channel1.png, channel2.png or .tif files.</li>
 <li>@param    image - input image</li>
+</ul>
+<h1 id="splittiffstacktoimages">SplitTiffStackToImages</h1>
+<p>Splits input Tiff-stack into separate images (e.g. useful for hyper-spectral datasets).</p>
+<ul>
+<li>
+<p>@param    tif stack</p>
+</li>
+<li>
+<p>@return   separate images, channel_1.tif, channel_2.tif, ...</p>
+</li>
+</ul>
+<h1 id="thresholdgtforfgbg">ThresholdGTforFGBG</h1>
+<p>Apply threshold to ground truth (GT) images to generate binary foreground- and background-masks, and the corresponding ARFF files for classifier training.</p>
+<ul>
+<li>@param    colored ground truth image</li>
+<li>@return   mask_1.png, mask_2.png (forground and background mask images), and according mask_1.arff, mask_2.arff files!</li>
+</ul>
+<h1 id="transformcsv">TransformCSV</h1>
+<p>Reads the CSV result file and transforms some rows to columns and
+renames infection color ids to human-readable traits.
+Cleans-up some content of the column entries, fills empty with 0.0.</p>
+<ul>
+<li>@param    csv file</li>
+<li>@return   csv file</li>
 </ul>
               
             </div>
@@ -135,7 +729,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../app_exp/" class="btn btn-neutral" title="Running application examples"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -161,7 +755,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../../app_exp/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
     </span>

@@ -66,10 +66,31 @@
             
                 <li class="toctree-l3"><a href="#installation">Installation</a></li>
                 
+                    <li><a class="toctree-l4" href="#compatibility-check-and-installation-of-support-programs">Compatibility Check and Installation of Support Programs</a></li>
+                
+                    <li><a class="toctree-l4" href="#installation-hints">Installation hints</a></li>
+                
+                    <li><a class="toctree-l4" href="#usage">Usage</a></li>
+                
             
             </ul>
         
     </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../app_exp/">Running application examples</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Documentation</span></li>
 
         
             
@@ -119,6 +140,41 @@
             <div class="section">
               
                 <h1 id="installation">Installation</h1>
+<p>The MCCCS is a collection of several processing command which can be started from the command line (like bash or cygwin). To use the commands and for running the sample scripts some other frameworks or tools are recommended, the following steps guide the system setup.</p>
+<h2 id="compatibility-check-and-installation-of-support-programs">Compatibility Check and Installation of Support Programs</h2>
+<p>The system has been tested under CentOS (7), Mac OS X (Yosemite, 10.10) using the GNU Bash shell and Windows 7/8.1/10 using the Cygwin commandline interface. It is required to install the Java JRE or JDK and eventually (for running the application examples) the Wget, UnZip, xargs and bc command(s). It may also run under other operating systems, which provide Bash-script support and the xargs or parallel commands as well as Java support.</p>
+<ul>
+<li>
+<p>Bash - support: Start the bash command from the terminal. If no error appears, your system contains the bash shell.</p>
+</li>
+<li>
+<p>Java support: Start java -version command from the terminal, if the reported version is "1.8.0" or newer and the output contains the information that this is a 64-Bit version, all is fine. Otherwise, install the 64-Bit Java Runtime Environment (JRE) or the JDK for your operating system (Download-Link). </p>
+</li>
+</ul>
+<p>Additional commands for running the provided application examples:</p>
+<ul>
+<li>
+<p>Wget - support: Start the wget command from the terminal. If no error appears, your system contains the Wget program.</p>
+</li>
+<li>
+<p>Unzip - support: Start the unzip command from the terminal. If no error appears, your system contains the UnZip program.</p>
+</li>
+<li>
+<p>Xargs - support: Start the xargs command from the terminal. If no error appears, your system contains the xargs command.</p>
+</li>
+<li>
+<p>Bc - support: Start the bc command from the terminal. If no error appears, your system contains the bc (arbitrary-precision arithmetic language). </p>
+</li>
+</ul>
+<h2 id="installation-hints">Installation hints</h2>
+<h3 id="linux">Linux</h3>
+<p>Most of the linux distributions include the missing packages in their repositories, by utilizing a package manager (like yum, apt-get, pacman) they can be easily installed.</p>
+<h3 id="mac">MAC</h3>
+<p>The missing support commands can be easily installed by using Rudix. For running the java commands the Java Development Kit (jdk) is needed.</p>
+<h3 id="windows">Windows</h3>
+<p>During the Cygwin installation please make sure that you include the required commands. The screenshot below shows an example for adding the wget command, you can find the commands by utilizing the search function (the commands are in the following sub-menus: wget -&gt; Web, bc -&gt; Math, unzip -&gt; Archive). Also, it is recommended to use a user account without any space in the account name.</p>
+<h2 id="usage">Usage</h2>
+<p>It is recommended to use the application examples as basis for custom analysis scripts. The tutorial shows a detailed workflow for setting up and russing the application examples.</p>
               
             </div>
           </div>
@@ -126,7 +182,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../cmd/all/" class="btn btn-neutral float-right" title="Command descriptions">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../app_exp/" class="btn btn-neutral float-right" title="Running application examples">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -158,7 +214,7 @@
         <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../cmd/all/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../app_exp/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

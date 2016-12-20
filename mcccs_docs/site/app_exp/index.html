@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Running application examples - MCCCS docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Running application examples";
+    var mkdocs_page_input_path = "app_exp.md";
+    var mkdocs_page_url = "/app_exp/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> MCCCS docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Documentation</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../installation/">Installation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Running application examples</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#overview">Overview</a></li>
+                
+                    <li><a class="toctree-l4" href="#data">Data</a></li>
+                
+                    <li><a class="toctree-l4" href="#segmentation_example_1_classification">Segmentation_example_1_classification</a></li>
+                
+                    <li><a class="toctree-l4" href="#hyper_example_1_classification">Hyper_example_1_classification</a></li>
+                
+                    <li><a class="toctree-l4" href="#hyper_example_2_clustering">Hyper_example_2_clustering</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#preparation">Preparation</a></li>
+                
+                    <li><a class="toctree-l4" href="#download-of-application-examples">Download of application examples</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#running-examples">Running examples</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#customization-and-usage-hints">Customization and usage hints</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Documentation</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../cmd/all/">Command descriptions</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">MCCCS docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Documentation &raquo;</li>
+        
+      
+    
+    <li>Running application examples</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="overview">Overview</h2>
+<p>The MCCCS includes several analysis scripts for image processing and file conversion. These scripts are arranged in custom pipelines to process different analysis tasks. Therefore we use the gnu bash shell which is a powerful tool, further more a command language. To understand the whole concept we provide several examples which are based on freely available datasets.</p>
+<h3 id="data">Data</h3>
+<ul>
+<li>Three image sets (A1, A2, A3) from the Leaf Segmentation Challenge (LSC) 2014</li>
+<li>A hyperspec example from Purdue Research Foundation.</li>
+<li>Disease classification for detached barley leaves (in preparation, not published yet).</li>
+</ul>
+<h3 id="segmentation_example_1_classification">Segmentation_example_1_classification</h3>
+<hr />
+<p>This example shows an application for foreground/background segmentation for top view plant images (Arabidopsis thaliana - A1, A2and tobacco - A3) using a supervised Random Forest classifier. Thethree data sets are split into a training set and a data set forprediction as well. After processing, the segmentation results, namedforeground.png, are stored in each sub folder, e.g. plant_003.</p>
+<h3 id="hyper_example_1_classification">Hyper_example_1_classification</h3>
+<hr />
+<p>This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set. Here partly pre-classifiedground-truth image masks are used to train a supervised Random Forestclassifier.Afterprocessing,thesegmentationresult,namedclassified.png is stored in the experiment sub folder (stack_images→ dc).</p>
+<h3 id="hyper_example_2_clustering">Hyper_example_2_clustering</h3>
+<hr />
+<p>This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set as used in the examplebefore. Instead of using pre-classified ground-truth data to train asupervised classifier here a clustering approach is performed. Afterprocessing, the segmentation result, named clustered.png is stored inthe experiment sub folder (stack_images → dc).</p>
+<h2 id="preparation">Preparation</h2>
+<p>After downloading and installing the required software tools (see installation instructions). The mcccs.zip container can be downloaded from the github releases and extracted on a local file system.</p>
+<h3 id="download-of-application-examples">Download of application examples</h3>
+<p>The application examples can be downloaded and prepared by executing the prepare_datasets.sh in a terminal. The example data and needed libraries are automatically downloaded and transferred into the common folder structure for processing with the given example scripts. Please make sure that there is sufficient space left on the used device.</p>
+<h2 id="running-examples">Running examples</h2>
+<p>The analysis can be started by navigating into the corresponding experiment folder, by executing the process_ ... .sh script in a terminal (e.g. segmentation_example_1_classification → execute process_segmentation_example_1_classification.sh in the experiment folder). The results, including a labeled result image and the belonging numeric data, named all_ ... .csv, are stored into the corresponding sub-folders.</p>
+<h2 id="customization-and-usage-hints">Customization and usage hints</h2>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../cmd/all/" class="btn btn-neutral float-right" title="Command descriptions">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../cmd/all/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

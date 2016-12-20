@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2016-12-19</lastmod>
+     <lastmod>2016-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,26 +13,30 @@
         
     <url>
      <loc>/installation/</loc>
-     <lastmod>2016-12-19</lastmod>
+     <lastmod>2016-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/app_exp/</loc>
-     <lastmod>2016-12-19</lastmod>
+     <lastmod>2016-12-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/cmd/all/</loc>
+     <lastmod>2016-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     
 
     
-        
     <url>
-     <loc>/cmd/all/</loc>
-     <lastmod>2016-12-19</lastmod>
+     <loc>/faq/</loc>
+     <lastmod>2016-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     
 
 </urlset>

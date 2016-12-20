@@ -24,7 +24,7 @@ public class ClassifierFGBG_Process_16Bit extends AbstractClassifier_16Bit {
 		ImageStackAsARFF masks = isl[1];
 		
 		// apply masks ...
-		ImageStackAsARFF applyedM = applyMasks(is, masks, false);
+		ImageStackAsARFF applyedM = applyMasks(is, masks, false, f);
 		
 		// get fg & bg
 		ImageStackAsARFF[] fgbg = getFGBG(applyedM);

@@ -115,9 +115,9 @@ public class IO_MCCCS {
 				Image img = new Image(new ImagePlus(pathOrURL));
 				
 				if (r == ReadMode.MASKS)
-					ip = new ImageArff(img.io().threshold(127, 0, Color.WHITE.getRGB()).getImage(), "thresholded_image_masked", "intensity");
+					ip = new ImageArff(img.io().threshold(127, 0, Color.WHITE.getRGB()).getImage(), "thresholded_image_masked", "intensity", pathToTestingData);
 				else
-					ip = new ImageArff(img, "thresholded_image_not_masked", "intensity");
+					ip = new ImageArff(img, "thresholded_image_not_masked", "intensity", pathToTestingData);
 				
 				synchronized (res) {
 					res.put(idxxx, ip);

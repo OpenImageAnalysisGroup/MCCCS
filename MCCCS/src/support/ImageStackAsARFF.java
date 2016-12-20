@@ -22,11 +22,11 @@ public class ImageStackAsARFF {
 		// empty
 	}
 	
-	public ImageStackAsARFF(ImageStack convertThisStack, String datasetName) throws IOException {
+	public ImageStackAsARFF(ImageStack convertThisStack, String datasetName, File templocation) throws IOException {
 		for (int idx = 0; idx < convertThisStack.size(); idx++) {
 			Image img = convertThisStack.getImage(idx);
 			String lbl = convertThisStack.getLabels()[idx];
-			ImageArff ia = new ImageArff(img, datasetName, lbl);
+			ImageArff ia = new ImageArff(img, datasetName, lbl, templocation);
 			fileName2image.put(ia.content_tempFile.getAbsolutePath(), ia);
 		}
 	}

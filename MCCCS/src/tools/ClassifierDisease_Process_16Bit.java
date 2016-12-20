@@ -29,13 +29,13 @@ public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
 		boolean removeFromStack = !showOutput;
 		
 		// apply masks ...
-		ImageStackAsARFF applyedM = applyMasks(is, masks, removeFromStack);
+		ImageStackAsARFF applyedM = applyMasks(is, masks, removeFromStack, f);
 		
 		// get fg & bg
 		ImageStackAsARFF[] fgbg = getFGBG2(applyedM);
 		
 		// apply gt
-		ImageStackAsARFF[] gtApplied = applyGTImages(fgbg, gt, false);
+		ImageStackAsARFF[] gtApplied = applyGTImages(fgbg, gt, false, f);
 		
 		if (showOutput) {
 			is.show("input images");
@@ -66,7 +66,7 @@ public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
 	 * @return
 	 * @throws IOException
 	 */
-	private ImageStackAsARFF[] applyGTImages(ImageStackAsARFF[] fgbg, ImageStackAsARFF gt, boolean removeFromStack) throws IOException {
+	private ImageStackAsARFF[] applyGTImages(ImageStackAsARFF[] fgbg, ImageStackAsARFF gt, boolean removeFromStack, File templocation) throws IOException {
 		ImageStackAsARFF fg = fgbg[0];
 		
 		if (Settings.debug_IO) {
@@ -86,7 +86,7 @@ public class ClassifierDisease_Process_16Bit extends AbstractClassifier_16Bit {
 			for (int j = 0; j < gt.size(); j++) {
 				ImageProcessor d = fg.getProcessor(removeFromStack ? 0 : i).getImage().getAsImagePlus().getProcessor();
 				d.fill(gt.getProcessor(j).getImage().getAsImagePlus().getProcessor().convertToByteProcessor());
-				ImageArff ia = new ImageArff(new Image(d), fglabels[i], fglabels[i]);
+				ImageArff ia = new ImageArff(new Image(d), fglabels[i], fglabels[i], templocation);
 				stacks[j].addImage(fglabels[i], ia);
 			}
 			if (removeFromStack)

@@ -22,7 +22,7 @@ public abstract class AbstractClassifier_16Bit {
 	public abstract void createSampleDataFromArff(ImageStackAsARFF[] isl, File outputPathForArrfFile, int numberofsamples) throws InterruptedException,
 			IOException;
 	
-	protected ImageStackAsARFF applyMasks(ImageStackAsARFF imgst, ImageStackAsARFF maskst, boolean removeFromStack) throws IOException {
+	protected ImageStackAsARFF applyMasks(ImageStackAsARFF imgst, ImageStackAsARFF maskst, boolean removeFromStack, File templocation) throws IOException {
 		ImageStackAsARFF out = new ImageStackAsARFF();
 		int size = imgst.size();
 		
@@ -33,7 +33,7 @@ public abstract class AbstractClassifier_16Bit {
 			for (ImageArff m : maskst.values()) {
 				ImageProcessor applyed = img.getImage().getAsImagePlus().getProcessor();
 				applyed.fill(m.getImage().getAsImagePlus().getProcessor().convertToByteProcessor());
-				out.addImage(imgst.getImageLabel(removeFromStack ? 1 : img_count + 1) + "_"+ idx, new ImageArff(new Image(applyed), "some_applied_image", "intensity"));
+				out.addImage(imgst.getImageLabel(removeFromStack ? 1 : img_count + 1) + "_"+ idx, new ImageArff(new Image(applyed), "some_applied_image", "intensity", templocation));
 				idx++;
 			}
 			if (removeFromStack)

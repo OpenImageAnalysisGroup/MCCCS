@@ -23,7 +23,7 @@ public class ImageArff {
 	boolean intensityReadingDataAvailable = false;
 	long intensityReadingLine = -1;
 	
-	public ImageArff(Image image, String datasetName, String intensityName) throws IOException {
+	public ImageArff(Image image, String datasetName, String intensityName, File templocation) throws IOException {
 		w = image.getWidth();
 		h = image.getHeight();
 		
@@ -38,7 +38,7 @@ public class ImageArff {
 		int height = image.getHeight();
 		
 		String line = "";
-		File tf = File.createTempFile("mcccs_", ".arff");
+		File tf = File.createTempFile("mcccs_", ".arff", templocation);
 		tf.deleteOnExit();
 		content_tempFile = new File("");
 		content_tempFile.deleteOnExit();

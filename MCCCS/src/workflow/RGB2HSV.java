@@ -17,7 +17,7 @@ import de.ipk.ag_ba.image.structures.Image;
  * 
  * @author Christian Klukas
  */
-public class RGB2HSB {
+public class RGB2HSV {
 	
 	public static void main(String[] args) throws IOException, Exception {
 		{

@@ -339,9 +339,9 @@ public class ARFFProcessor {
 			boolean goToStart = false;
 			int savedX = 0;
 			int savedY = 0;
+
 			out: for (int x = 0; x < mask_img.getWidth(); x++) {
 				for (int y = 0; y < mask_img.getHeight(); y++) {
-					
 					if (goToStart) {
 						x = savedX;
 						y = savedY;
@@ -357,15 +357,12 @@ public class ARFFProcessor {
 							break out;
 						if (line.length() == 0) {
 							// skip empty lines in arff file
-							if (useArffClassInformation) {
-								goToStart = true;
-							} else {
-								goToStart = true;
-								savedX = x;
-								savedY = y;
-							}
+							goToStart = true;
+							savedX = x;
+							savedY = y;
 							continue;
 						}
+						
 						String[] s = line.split(",");
 						if (useArffClassInformation) {
 							if (grayScaleFromProbability) {
@@ -412,8 +409,8 @@ public class ARFFProcessor {
 				}
 			}
 		}
-		
-		// new Image(mask).show("test");
+
+		//new Image(mask).show("mask applyclass0ToImage");
 		if (useArffClassInformation)
 			new Image(mask).saveToFile(parent + "/foreground.png");
 		else

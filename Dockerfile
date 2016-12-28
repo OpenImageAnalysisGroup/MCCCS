@@ -17,6 +17,8 @@ RUN unzip -j weka-3-6-12.zip weka-3-6-12/weka.jar -d /start/lib
 RUN cd /
 RUN git clone --depth=1 https://github.com/OpenImageAnalysisGroup/MCCCS.git
 RUN mkdir -p /MCCCS/MCCCS/bin
+RUN echo "Libs:"
+RUN echo $(find start/lib -name "*.jar" | paste -sd ":" -)
 RUN javac -cp $(find start/lib -name "*.jar" | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ -name "*.java" | paste -sd " ") -d /MCCCS/MCCCS/bin/
 RUN ant -f MCCCS/MCCCS/create_mcccs_jar.xml
 RUN cp /MCCCS/MCCCS/release/mcccs.jar start

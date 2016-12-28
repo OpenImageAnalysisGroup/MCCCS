@@ -21,8 +21,10 @@ RUN cd /
 RUN git clone --depth=1 https://github.com/OpenImageAnalysisGroup/MCCCS.git
 RUN mkdir -p /MCCCS/MCCCS/bin
 RUN echo "Libs:"
-RUN echo $(find start/lib -name "*.jar" | paste -sd ":" -)
-RUN javac -cp $(find start/lib -name "*.jar" | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ -name "*.java" | paste -sd " ") -d /MCCCS/MCCCS/bin/
+RUN echo $(find /start/lib | grep jar$ | paste -sd ":" -)
+RUN echo "Compile command:"
+RUN echo javac -cp $(find /start/lib | grep jar$ | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ | grep java$ | paste -sd " ") -d /MCCCS/MCCCS/bin/
+RUN javac -cp $(find /start/lib | grep jar$ | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ | grep java$ | paste -sd " ") -d /MCCCS/MCCCS/bin/
 RUN ant -f MCCCS/MCCCS/create_mcccs_jar.xml
 RUN cp /MCCCS/MCCCS/release/mcccs.jar start
 RUN cp -r /MCCCS/MCCCS/main/* start

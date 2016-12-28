@@ -14,6 +14,7 @@ RUN wget -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bio
 RUN wget -N "http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar"
 RUN git clone --depth=1 https://github.com/OpenImageAnalysisGroup/MCCCS.git
 RUN mkdir /MCCCS/MCCCS/bin
+RUN shopt -s globstar
 RUN javac -cp $(ls -1 /start/**/*.jar | paste -sd ":" -)  /MCCCS/MCCCS/src/**/*.java -d /MCCCS/MCCCS/bin/
 RUN ant -f MCCCS/MCCCS/create_mcccs_jar.xml
 RUN cp /MCCCS/MCCCS/release/mcccs.jar start

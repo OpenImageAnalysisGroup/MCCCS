@@ -10,11 +10,11 @@ RUN mkdir start
 RUN mkdir start/lib
 RUN cp iap_2_0.jar /start/lib/iap.jar
 RUN cd start/lib
-RUN wget -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
-RUN wget -N "http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar"
+RUN wget -nv -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
+RUN wget -nv -N "http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar"
 RUN git clone --depth=1 https://github.com/OpenImageAnalysisGroup/MCCCS.git
 RUN mkdir /MCCCS/MCCCS/bin
-RUN javac -cp $(ls -1 /start/*.jar | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ -name "*.java") -d /MCCCS/MCCCS/bin/
+RUN javac -cp $(find start/lib -name "*.jar" | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ -name "*.java" | paste -sd " ") -d /MCCCS/MCCCS/bin/
 RUN ant -f MCCCS/MCCCS/create_mcccs_jar.xml
 RUN cp /MCCCS/MCCCS/release/mcccs.jar start
 RUN cp -r /MCCCS/MCCCS/main/* start

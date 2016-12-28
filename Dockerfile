@@ -15,9 +15,7 @@ RUN wget -nv -N "http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFea
 RUN mkdir -p weka
 RUN cd weka/
 RUN wget -nv -N "http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip"
-RUN unzip -o -q weka-3-6-12.zip
-RUN cp /lib/weka/weka-3-6-12/weka.jar /start/lib/weka.jar
-RUN rm -r weka-3-6-12
+RUN unzip -j weka-3-6-12.zip weka-3-6-12/weka.jar -d /start/lib
 RUN cd /
 RUN git clone --depth=1 https://github.com/OpenImageAnalysisGroup/MCCCS.git
 RUN mkdir -p /MCCCS/MCCCS/bin

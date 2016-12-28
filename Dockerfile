@@ -12,8 +12,6 @@ RUN cp iap_2_0.jar /start/lib/iap.jar
 RUN cd start/lib
 RUN wget -nv -N "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
 RUN wget -nv -N "http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar"
-RUN mkdir -p weka
-RUN cd weka/
 RUN wget -nv -N "http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip"
 RUN unzip -j weka-3-6-12.zip weka-3-6-12/weka.jar -d /start/lib
 RUN cd /

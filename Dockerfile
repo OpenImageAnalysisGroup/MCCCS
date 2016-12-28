@@ -12,8 +12,10 @@ RUN cp iap_2_0.jar /start/lib/iap.jar
 RUN cd start/lib
 RUN wget -nv "http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
 RUN pwd && ls -lh bioformats_package.jar
+RUN mv bioformats_package.jar /start/lib/bioformats_package.jar
 RUN wget -nv "http://central.maven.org/maven2/de/lmu/ifi/dbs/jfeaturelib/JFeatureLib/1.6.1/JFeatureLib-1.6.1.jar"
 RUN pwd && ls -lh JFeatureLib-1.6.1.jar
+RUN mv JFeatureLib-1.6.1.jar /start/lib/JFeatureLib-1.6.1.jar
 RUN wget -nv "http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip"
 RUN pwd && ls -lh weka-3-6-12.zip
 RUN unzip -j weka-3-6-12.zip weka-3-6-12/weka.jar -d /start/lib

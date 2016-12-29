@@ -31,14 +31,14 @@ $SPLITCMD "${dir}" "${dir}_2.arff" "true" "fgbg" "250000000"
 
 echo -n "f"
 #create foreground png
-cp "${dir}/channel_rgb_r.png" "${dir}/fgbgresult.png"
-$JAVA.ApplyClass0ToImage "${dir}/fgbgresult.png"
-rm "${dir}/fgbgresult.png"
+cp "${dir}/channel_rgb_r.tif" "${dir}/fgbgresult.tif"
+$JAVA.ApplyClass0ToImage "${dir}/fgbgresult.tif"
+rm "${dir}/fgbgresult.tif"
 
 echo -n "g"
-cp "${dir}/foreground.png" "${dir}/foreground_cluster.png"
+cp "${dir}/foreground.tif" "${dir}/foreground_cluster.tif"
 $JAVA.Quantify 0 ${dir}/foreground
-rm "${dir}/foreground_cluster.png"
+rm "${dir}/foreground_cluster.tif"
 cat ${dir}/*_quantified.csv >> all_prediction_results.csv
 
 rm -f ${dir}/channel_*

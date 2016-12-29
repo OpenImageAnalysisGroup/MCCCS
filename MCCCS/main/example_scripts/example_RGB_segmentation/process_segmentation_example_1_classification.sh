@@ -21,6 +21,7 @@ echo "°           !!  Last output is READY in case of no error !!         °"
 echo "°                                                                   °"
 echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°"
 set -e
+chmod +x *.sh
 bash ./train_FGBG_CVPPP.sh .. A1_training h A1
 bash ./predict_CVPPP.sh .. A1_prediction A1_training/fgbg.model m A1
 

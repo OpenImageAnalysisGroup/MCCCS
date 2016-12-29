@@ -1,5 +1,6 @@
 APPPATH=$(realpath $(realpath $1)/..)
-export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar"
+export JARLIST=$(find $APPPATH/lib | grep jar$ | paste -sd ":" -)
+export MBP="$APPPATH/mcccs.jar:$JARLIST"
 if [[ "$(uname)" == CYGWIN* ]]
 then
 	MBP=$(cygpath -mp $MBP)

@@ -77,8 +77,8 @@ echo "(b) Apply model (prediction step)."
 echo "(c) Create foreground/background (FGBG) mask."
 echo "(d) Create difference image of training masks vs. predicted result image."
 echo "(e) Quantify areas."
-export MODELPATH="$(pwd)/"
-echo "Path to model file: $MODELPATH"
+#export MODELPATH="$(pwd)/"
+#echo "Path to model file: $MODELPATH"
 WORKDIR=$(pwd)
 cd "$WORKDIR"
 find * -maxdepth 0 -type d | grep -F -v CVS | $par $PREDICTCMD $WORKDIR {}

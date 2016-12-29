@@ -12,9 +12,9 @@ $JAVA.SplitRGB ${dir}/*rgb*
 
 #apply filter
 echo -n "b"
-$JAVA.RGB2HSV ${dir}/*rgb_r.png ${dir}/*rgb_g.png ${dir}/*rgb_b.png 8
-$JAVA.RGB2XYZ ${dir}/*rgb_r.png ${dir}/*rgb_g.png ${dir}/*rgb_b.png 8
-$JAVA.RGB2LAB ${dir}/*rgb_r.png ${dir}/*rgb_g.png ${dir}/*rgb_b.png 8
+$JAVA.RGB2HSV ${dir}/*rgb_r.tif ${dir}/*rgb_g.tif ${dir}/*rgb_b.tif 8
+$JAVA.RGB2XYZ ${dir}/*rgb_r.tif ${dir}/*rgb_g.tif ${dir}/*rgb_b.tif 8
+$JAVA.RGB2LAB ${dir}/*rgb_r.tif ${dir}/*rgb_g.tif ${dir}/*rgb_b.tif 8
 
 echo -n "c"
 for img in ${dir}/channel*;

@@ -36,9 +36,9 @@ $JAVA.ApplyClass0ToImage "${dir}/fgbgresult.tif"
 rm "${dir}/fgbgresult.tif"
 
 echo -n "g"
-cp "${dir}/foreground.tif" "${dir}/foreground_cluster.tif"
+cp "${dir}/foreground.png" "${dir}/foreground_cluster.png"
 $JAVA.Quantify 0 ${dir}/foreground
-rm "${dir}/foreground_cluster.tif"
+rm "${dir}/foreground_cluster.png"
 cat ${dir}/*_quantified.csv >> all_prediction_results.csv
 
 rm -f ${dir}/channel_*

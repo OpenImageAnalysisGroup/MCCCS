@@ -25,12 +25,12 @@ if [ "$#" -ne 5 ]; then
 	exit 1
 fi
 APPPATH=$(realpath $1)
-export MODELPATH=$(realpath $3)
+export MODELFILE=$(realpath $3)
 WEKAJAR=$APPPATH/lib/weka.jar
 if [[ "$(uname)" == CYGWIN* ]]
 then
 	WEKAJAR=$(cygpath -mp $WEKAJAR)
-	export MODELPATH=$(cygpath ../$3)
+	export MODELFILE=$(cygpath ../$3)
 fi
 source prepare.sh
 #echo $WEKAJAR
@@ -40,13 +40,13 @@ then
 	MBP=$(cygpath -mp $MBP)
 fi
 #echo "MCCCS jar & IAP jar:" $MBP
-export JAVA="java -Xmx5g -cp $MBP workflow"
-export WEKA="java -Xmx5g -cp $WEKAJAR"
-if [ "$(uname)" == "Darwin" ]; then
-	JAVA="java -Xmx5g -Dapple.awt.UIElement=true -cp $MBP workflow"
-	WEKA="java -Xmx5g -Dapple.awt.UIElement=true -cp $WEKAJAR"
-fi 
-echo "Path to model file: $MODELPATH"
+#export JAVA="java -Xmx5g -cp $MBP workflow"
+#export WEKA="java -Xmx5g -cp $WEKAJAR"
+#if [ "$(uname)" == "Darwin" ]; then
+#	JAVA="java -Xmx5g -Dapple.awt.UIElement=true -cp $MBP workflow"
+#	WEKA="java -Xmx5g -Dapple.awt.UIElement=true -cp $WEKAJAR"
+#fi 
+echo "Model file name: $MODELFILE"
 WORKDIR=$(pwd)
 cd "$WORKDIR"
 echo

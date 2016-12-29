@@ -21,7 +21,7 @@ do
 	
 	cat "$1/header.arff" $splitarff > $splitarff".arff"
 	# classification by WEKA
-	$WEKA weka.filters.supervised.attribute.AddClassification -i "$splitarff.arff" -serialized $MODELPATH/$4.model -classification -remove-old-class -o "$1""/split_arff_result$IDX"".arff" -c last
+	$WEKA weka.filters.supervised.attribute.AddClassification -i "$splitarff.arff" -serialized $MODELFILE -classification -remove-old-class -o "$1""/split_arff_result$IDX"".arff" -c last
 	rm $splitarff".arff"
 	IDX=$((10#$IDX + 1))
 done

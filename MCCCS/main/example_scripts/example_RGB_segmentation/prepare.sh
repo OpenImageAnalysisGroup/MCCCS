@@ -1,6 +1,8 @@
 APPPATH=$(realpath $(realpath $1)/..)
 export JARLIST=$(find $APPPATH/lib | grep jar$ | paste -sd ":" -)
 export MBP="$APPPATH/mcccs.jar:$JARLIST"
+# avoid parallel warning message, by setting shell variable
+export SHELL=/bin/bash
 if [[ "$(uname)" == CYGWIN* ]]
 then
 	MBP=$(cygpath -mp $MBP)

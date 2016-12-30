@@ -3,7 +3,8 @@ if [ "$#" -ne 3 ]; then
 	exit 1
 fi
 APPPATH=$(realpath $(realpath $1)/..)
-export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar:$APPPATH/lib/bio.jar"
+export JARLIST=$(find $APPPATH/lib | grep jar$ | paste -sd ":" -)
+export MBP="$APPPATH/mcccs.jar:$JARLIST"
 if [[ "$(uname)" == CYGWIN* ]]
 then
 	MBP=$(cygpath -mp $MBP)

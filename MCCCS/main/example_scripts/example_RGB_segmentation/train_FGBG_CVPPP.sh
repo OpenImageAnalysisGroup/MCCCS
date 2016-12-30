@@ -30,15 +30,17 @@ source prepare.sh
 echo Java command: $JAVA
 echo
 echo "Steps per directory:"
-echo "(a) Split RGB to channel images."
-echo "(b) Convert images to HSV, XYZ, LAB."
-echo "(c) Perform image operations to extend the channel list."
-echo "(d) Generate ARFF files from training data." 
-echo "(e) Create or extend ARFF file 'all_fbgb.arff'."
+echo "(a) Split RGB to channel images"
+echo "(b) Convert images to H/S/V, X/Y/Z, L/A/B (one image per channel)"
+echo "(c) Perform image operations median and blur to extend the channel list"
+echo "(d) Threshold ground-truth"
+echo "(e) Generate ARFF files from color channels and image operation results"
 echo
+echo "Generate training data:"
 find * -maxdepth 0 -type d | grep -F -v CVS | $par $PRES $2 {}
 echo
-echo "Create overall FB/GB training data set file 'all_fgbg.arff'..."
+echo
+echo "Create overall FB/GB training data set file 'all_fgbg.arff':"
 FIRST="yes"
 for dir in */;
 do
@@ -55,6 +57,7 @@ do
 		cat "${dir}fgbgTraining.arff" | grep -v @ | grep -v "%"   >> all_fgbg.arff
 	fi
 	FIRST="no"
+	echo -n "."
 done
 echo
 echo
@@ -69,16 +72,18 @@ $WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model 
 echo
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)
+echo
 echo "Completed training of classifier model in $DIFF seconds (file 'fgbg.model')."
 echo
 echo "Use model to predict result for training data:"
-echo "(a) Convert images to ARFF."
-echo "(b) Apply model (prediction step)."
-echo "(c) Create foreground/background (FGBG) mask."
-echo "(d) Create difference image of training masks vs. predicted result image."
-echo "(e) Quantify areas."
-#export MODELPATH="$(pwd)/"
-#echo "Path to model file: $MODELPATH"
+echo "(e) Apply model (prediction step)"
+echo "(f) Create foreground/background (FGBG) mask"
+echo "(g) Quantify areas"
+echo "(h) Create difference image of training masks vs. predicted result image"
+export MODELPATH="$(pwd)/"
+echo
+echo
+echo "Path to model file: $MODELPATH"
 WORKDIR=$(pwd)
 cd "$WORKDIR"
 find * -maxdepth 0 -type d | grep -F -v CVS | $par $PREDICTCMD $WORKDIR {}

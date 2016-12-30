@@ -9,6 +9,9 @@ echo -n "a"
 rm -f ${dir}/channel_*
 rm -f ${dir}/mask_1.png
 rm -f ${dir}/mask_2.png
+rm -f ${dir}/*.arff
+rm -f ${dir}/*_quantified.csv
+rm -f ${dir}/foreground*
 $JAVA.SplitRGB ${dir}/*rgb*
 
 echo -n "b"

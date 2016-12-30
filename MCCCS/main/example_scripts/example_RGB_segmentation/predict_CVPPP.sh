@@ -24,29 +24,16 @@ if [ "$#" -ne 5 ]; then
     	echo "Illegal number of parameters: 1 - path to mcccs.jar, 2 - path to testing data folder, 3 - path to model file and s-single-threaded, m-multi-threaded as parameter 4, description of data set to improve progress output as parameter 5"
 	exit 1
 fi
-APPPATH=$(realpath $1)
-export MODELFILE=$(realpath $3)
-WEKAJAR=$APPPATH/lib/weka.jar
+
+export MODELPATH=$(realpath $4)
 if [[ "$(uname)" == CYGWIN* ]]
 then
-	WEKAJAR=$(cygpath -mp $WEKAJAR)
-	export MODELFILE=$(cygpath ../$3)
+	export MODELPATH=$(cygpath ../$4)
 fi
+
 source prepare.sh
-#echo $WEKAJAR
-export MBP="$APPPATH/mcccs.jar:$APPPATH/lib/iap.jar"
-if [[ "$(uname)" == CYGWIN* ]]
-then
-	MBP=$(cygpath -mp $MBP)
-fi
-#echo "MCCCS jar & IAP jar:" $MBP
-#export JAVA="java -Xmx5g -cp $MBP workflow"
-#export WEKA="java -Xmx5g -cp $WEKAJAR"
-#if [ "$(uname)" == "Darwin" ]; then
-#	JAVA="java -Xmx5g -Dapple.awt.UIElement=true -cp $MBP workflow"
-#	WEKA="java -Xmx5g -Dapple.awt.UIElement=true -cp $WEKAJAR"
-#fi 
-echo "Model file name: $MODELFILE"
+
+echo "Path to model file: $MODELPATH"
 WORKDIR=$(pwd)
 cd "$WORKDIR"
 echo
@@ -58,17 +45,16 @@ echo Java command: $JAVA
 echo Weka command: $WEKA
 echo
 echo "Use model to predict result for data:"
-echo "(a) Split RGB channels."
-echo "(b) Convert RGB to HSV, XYZ, LAB to extend channel list."
-echo "(c) Apply filter (blur, median) to extend channel list."
-echo "(d) Create ARFF files from images."
-echo "(e) Use trained 'fgbg.model' knowledge to detect fgbg areas."
-echo "(f) Apply mask to result image."
-echo "(g) Quantify predicted areas."
+echo "(a) Split RGB channels"
+echo "(b) Convert RGB to HSV, XYZ, LAB to extend channel list"
+echo "(c) Apply filter (blur, median) to extend channel list"
+echo "(d) Create ARFF files from images"
+echo "(e) Use trained 'fgbg.model' knowledge to detect fgbg areas"
+echo "(f) Apply mask to result image"
+echo "(g) Quantify predicted areas"
 echo
 echo "[Depending on the number of images, the prediction phase may take a longer time]"
 echo
-#ls -1 -d */ | grep -v CVS | $par $PF $2 {}
 find * -maxdepth 0 -type d | grep -F -v CVS | $par $PF $WORKDIR {}
 echo
 echo "Transform result CSV file into column oriented CSV file..."

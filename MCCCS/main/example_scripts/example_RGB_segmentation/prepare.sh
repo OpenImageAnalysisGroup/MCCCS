@@ -62,7 +62,5 @@ export SYSTEM_cpu_n=$NPROCS
 
 #if parallel is not installed use xargs instead:
 par="parallel --gnu -j $NPROCS"
-#type parallel >/dev/null 2>&1
-# ||  
-#par="xargs -n1 -P$NPROCS -I{}" 
+type parallel >/dev/null 2>&1 || par="xargs -n1 -P$NPROCS -I{}" 
 echo "Parallel command: $par"

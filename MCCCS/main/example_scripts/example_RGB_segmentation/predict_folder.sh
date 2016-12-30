@@ -33,16 +33,16 @@ echo -n "f"
 #create foreground png
 cp "${dir}/channel_rgb_r.tif" "${dir}/fgbgresult.tif"
 $JAVA.ApplyClass0ToImage "${dir}/fgbgresult.tif"
-#rm "${dir}/fgbgresult.tif"
+rm "${dir}/fgbgresult.tif"
 
 echo -n "g"
 cp "${dir}/foreground.png" "${dir}/foreground_cluster.png"
 $JAVA.Quantify 0 ${dir}/foreground
-#rm "${dir}/foreground_cluster.png"
+rm "${dir}/foreground_cluster.png"
 cat ${dir}/*_quantified.csv >> all_prediction_results.csv
 
-#rm -f ${dir}/channel_*
-#rm -f ${dir}/*.arff
+rm -f ${dir}/channel_*
+rm -f ${dir}/*.arff
 
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)

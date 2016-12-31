@@ -8,6 +8,7 @@ echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
 # stop in case of error:
 set -e
+chmod +x *.sh
 PF="$(pwd)/predict_folder.sh"
 export SPLITCMD="$(pwd)/splitArff.sh"
 if ! [[ "$(uname)" == CYGWIN* ]]

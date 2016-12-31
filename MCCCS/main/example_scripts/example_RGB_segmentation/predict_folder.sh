@@ -27,7 +27,7 @@ echo -n "d"
 $JAVA.ArffFromImageFileGenerator 2 "${dir}"
 
 echo -n "e"
-$SPLITCMD "${dir}" "${dir}_2.arff" "true" "fgbg" "250000000"
+$SPLITCMD "${dir}" "${dir}_2.arff" "true" "fgbg" "1000000000"
 
 echo -n "f"
 #create foreground png

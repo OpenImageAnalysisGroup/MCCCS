@@ -41,4 +41,4 @@ cat "$1/header_result.arff" $1"/tempresult.arff" > $1"/$4result.arff"
 rm $1"/tempresult.arff"
 rm $1"/split_arff"*
 exit
-changes to make docker integration and example work
+

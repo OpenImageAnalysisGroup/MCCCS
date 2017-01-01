@@ -74,7 +74,7 @@ public class ArffSampleFileGenerator {
 				LinkedList<LocalComputeJob> wait = new LinkedList<>();
 				LinkedList<LocalComputeJob> wait_inner = new LinkedList<>();
 				for (File f : fl) {
-					wait.add(BackgroundThreadDispatcher.addTask(() -> {
+					// wait.add(BackgroundThreadDispatcher.addTask(() -> {
 						// Read data for Training
 							try {
 								IO_MCCCS io = new IO_MCCCS(f);
@@ -89,7 +89,7 @@ public class ArffSampleFileGenerator {
 								// --------- Part1 Sample Extraction ---------
 								if (f_isFGBG) {
 									// segmentation fgbg
-									wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
+									//wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
 										ClassifierFGBG_Process_16Bit fgbgClassifier = new ClassifierFGBG_Process_16Bit("fgbgTraining");
 										try {
 											fgbgClassifier.createSampleDataFromArff(isl, f, Settings.sampleSize);
@@ -97,10 +97,10 @@ public class ArffSampleFileGenerator {
 											e.printStackTrace();
 											throw new RuntimeException(e);
 										}
-									}, "process fgbg"));
+									//}, "process fgbg"));
 								} else {
 									// disease classification
-									wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
+									//wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
 										ClassifierDisease_Process_16Bit diseaseClassifier = new ClassifierDisease_Process_16Bit("labelTraining");
 										try {
 											diseaseClassifier.createSampleDataFromArff(isl, f, Settings.sampleSize);
@@ -108,12 +108,12 @@ public class ArffSampleFileGenerator {
 											e.printStackTrace();
 											throw new RuntimeException(e);
 										}
-									}, "process label"));
+									//}, "process label"));
 								}
 							} catch (Exception e) {
 								throw new RuntimeException(e);
 							}
-						}, "process " + a));
+						// }, "process " + a));
 				}
 				
 				BackgroundThreadDispatcher.waitFor(wait);

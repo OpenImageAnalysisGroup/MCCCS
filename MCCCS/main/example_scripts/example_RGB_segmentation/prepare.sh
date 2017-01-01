@@ -3,8 +3,6 @@ APPPATH=$(realpath $1)
 LIBPATH=$(realpath $1/..)
 export JARLIST=$(find $LIBPATH/lib | grep jar$ | paste -sd ":" -)
 export MBP="$JARLIST:$LIBPATH/mcccs.jar"
-# avoid parallel warning message, by setting shell variable
-export SHELL=/bin/bash
 
 if [[ "$(uname)" == CYGWIN* ]]
 then
@@ -20,12 +18,12 @@ rm -f diseaseClassifier.data
 rm -f fgbg.model
 #echo "mcccs jar:" $MBP
 if [ "$(uname)" == "Darwin" ]; then
-	export JAVA="java -Dapple.awt.UIElement=true -cp $MBP workflow"
+	export JAVA="java -Dapple.awt.UIElement=true workflow"
 else
-	export JAVA="java -cp $MBP workflow"
+	export JAVA="java -workflow"
 fi 
-
-export WEKA="java -cp $JARLIST"
+export CLASSPATH=$MBP
+export WEKA="java "
 
 NPROCS=1
 OS=$(uname -s)
@@ -59,7 +57,12 @@ fi
 
 export SYSTEM_cpu_n=$NPROCS
 
+# avoid parallel warning message, by setting shell variable
+export SHELL=/bin/bash
+
 #if parallel is not installed use xargs instead:
 par="parallel --halt 2 -u --gnu -j $NPROCS"
 type parallel >/dev/null 2>&1 || par="xargs -n1 -P$NPROCS -I{}" 
+#use xargs always, for now
+par="xargs -n1 -P$NPROCS -I{}"
 echo "Parallel command: $par"

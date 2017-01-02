@@ -8,7 +8,7 @@ if [[ "$(uname)" == CYGWIN* ]]
 then
 	MBP=$(cygpath -mp $MBP)
 fi
-
+chmod +x *.sh
 cd "$2"
 rm -f all_results.csv
 rm -f all_fgbg.arff
@@ -20,7 +20,7 @@ rm -f fgbg.model
 if [ "$(uname)" == "Darwin" ]; then
 	export JAVA="java -Dapple.awt.UIElement=true workflow"
 else
-	export JAVA="java -workflow"
+	export JAVA="java workflow"
 fi 
 export CLASSPATH=$MBP
 export WEKA="java "

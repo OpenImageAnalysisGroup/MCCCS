@@ -3,6 +3,8 @@
 
 MCCCS is a system utilizing machine learning techniques for image processing and image analysis.
 
+Please refer to the MCCCS website (http://openimageanalysisgroup.github.io/MCCCS) for a general overview and details of the system. The Wiki (https://github.com/OpenImageAnalysisGroup/MCCCS/wiki) contains help and instructions on using MCCCS on the base of **docker**, further simplifying usage of MCCCS in case you are not using Linux or if you would like to use a test-environment that does not interfer with your remaining system.
+
 ### About
 
 **Multi Channel Classification and Clustering System**

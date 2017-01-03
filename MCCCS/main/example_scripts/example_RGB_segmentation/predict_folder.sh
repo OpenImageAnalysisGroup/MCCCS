@@ -1,4 +1,4 @@
-#!/bin/bash
+1#!/bin/bash
 dir=$2
 dir=${dir%*/}
 START=$(date +%s)
@@ -27,7 +27,7 @@ echo -n "d"
 $JAVA.ArffFromImageFileGenerator 2 "${dir}"
 
 echo -n "e"
-$SPLITCMD "${dir}" "${dir}_2.arff" "true" "fgbg" "50000000"
+$SPLITCMD "${dir}" "${dir}_2.arff" "true" "fgbg" "150000000"
 
 echo -n "f"
 #create foreground png

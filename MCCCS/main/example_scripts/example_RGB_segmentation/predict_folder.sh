@@ -1,4 +1,4 @@
-1#!/bin/bash
+#!/bin/bash
 dir=$2
 dir=${dir%*/}
 START=$(date +%s)

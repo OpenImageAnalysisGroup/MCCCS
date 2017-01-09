@@ -150,7 +150,7 @@
 </ul>
 <h3 id="segmentation-example-1-classification">Segmentation example 1 - classification</h3>
 <hr />
-<p>This example shows an application for foreground/background segmentation for top view plant images (Arabidopsis thaliana - A1, A2and tobacco - A3) using a supervised Random Forest classifier. Thethree data sets are split into a training set and a data set forprediction as well. After processing, the segmentation results, namedforeground.png, are stored in each sub folder, e.g. plant_003.</p>
+<p>This example shows an application for foreground/background segmentation for top view plant images (Arabidopsis thaliana - A1, A2 and tobacco - A3) using a supervised Random Forest classifier. Thethree data sets are split into a training set and a data set forprediction as well. After processing, the segmentation results, namedforeground.png, are stored in each sub folder, e.g. plant_003.</p>
 <h3 id="hyper-spectral-example-1-classification">Hyper-spectral example 1 - classification</h3>
 <hr />
 <p>This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set. Here partly pre-classifiedground-truth image masks are used to train a supervised Random Forestclassifier.Afterprocessing,thesegmentationresult,namedclassified.png is stored in the experiment sub folder (stack_images→ dc).</p>
@@ -163,7 +163,110 @@
 <p>The application examples can be downloaded and prepared by executing the prepare_datasets.sh in a terminal. The example data and needed libraries are automatically downloaded and transferred into the common folder structure for processing with the given example scripts. Please make sure that there is sufficient space left on the used device.</p>
 <h2 id="running-examples">Running examples</h2>
 <p>The analysis can be started by navigating into the corresponding experiment folder, by executing the process_ ... .sh script in a terminal (e.g. segmentation_example_1_classification → execute process_segmentation_example_1_classification.sh in the experiment folder). The results, including a labeled result image and the belonging numeric data, named all_ ... .csv, are stored into the corresponding sub-folders.</p>
+<p>exp images A1 training</p>
+<h3 id="analysis-statistics">Analysis statistics</h3>
+<p>The following table includes the number of images for training and prediction for each data set A1, A2 and A3. The second table gives an overview about the individual runtimes in seconds for the application examples and different use of processor units. The test was performed on a machine equipped with a Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz and 32 GB RAM (OS: Ubuntu 16.04).</p>
+<ul>
+<li>Table 1: Overview about the number of images # in the used data sets.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th># Training</th>
+<th># Prediction</th>
+<th>Image resolution (pixel)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>7</td>
+<td>128</td>
+<td>500 x 530</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>8</td>
+<td>31</td>
+<td>530 x 565</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>9</td>
+<td>27</td>
+<td>2448 x 2048</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Table 2: Overview about runtimes in sconds s, single = 1 cpu, half = 4 cpu, multi = 8 cpu units in use for parallel job processing (including virtual cpus). Thus of the heavily parallelization of the single commands the execution of parallel jobs shows the biggest effect during the model training.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Training s (m)</th>
+<th>Prediction s (m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1_single</td>
+<td>498 (8.3)</td>
+<td>1428 (23:8)</td>
+</tr>
+<tr>
+<td>A1_half</td>
+<td>361 (6.0)</td>
+<td>1597 (26.6)</td>
+</tr>
+<tr>
+<td>A1_multi</td>
+<td>213 (3.6)</td>
+<td>1396 (23.3)</td>
+</tr>
+<tr>
+<td>A2_single</td>
+<td>547 (9.1)</td>
+<td>319 (5.3)</td>
+</tr>
+<tr>
+<td>A2_half</td>
+<td>332 (5.5)</td>
+<td>353 (5.9)</td>
+</tr>
+<tr>
+<td>A2_multi</td>
+<td>216 (3.6)</td>
+<td>318 (5.3)</td>
+</tr>
+<tr>
+<td>A3_single</td>
+<td>7370 (122.8)</td>
+<td>3587 (59.8)</td>
+</tr>
+<tr>
+<td>A3_half</td>
+<td>4370 (72.8)</td>
+<td>3737 (62.3)</td>
+</tr>
+<tr>
+<td>A3_multi</td>
+<td>2774 (46.2)</td>
+<td>3591 (59.9)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="customization-and-usage-hints">Customization and usage hints</h2>
+<h3 id="parallel-job-execution">Parallel job execution</h3>
+<p>By excuting more jobs in parallel the RAM comsumption will increase, for less perfomance systems it is recommended to decrese the job number, the following options are possible:</p>
+<ul>
+<li>s - single job started</li>
+<li>h - job number is half number of available cpu units (automatic detection)</li>
+<li>m - job number equals all available cpu units (automatic detection)</li>
+<li>1 .. n - the used input number specifies the number of parallel started jobs</li>
+</ul>
 <p>To learn more about the pipeline details, please have a look in the tutorials section.</p>
               
             </div>

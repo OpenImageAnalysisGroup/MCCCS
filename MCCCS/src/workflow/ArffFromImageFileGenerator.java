@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -101,7 +100,7 @@ public class ArffFromImageFileGenerator {
 						// read images and create arff file
 						Iterator<Entry<String, String>> it = hmap.entrySet().iterator();
 					   while (it.hasNext()) {
-					      Map.Entry pair = it.next();
+					      Entry<String, String> pair = it.next();
 							String channel_name = (String) pair.getKey();
 							try {
 								String image_name = hmap.get(channel_name);

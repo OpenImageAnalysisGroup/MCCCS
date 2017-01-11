@@ -33,7 +33,7 @@ public abstract class AbstractClassifier_16Bit {
 			for (ImageArff m : maskst.values()) {
 				ImageProcessor applyed = img.getImage().getAsImagePlus().getProcessor();
 				applyed.fill(m.getImage().getAsImagePlus().getProcessor().convertToByteProcessor());
-				out.addImage(imgst.getImageLabel(removeFromStack ? 1 : img_count + 1) + "_"+ idx, new ImageArff(new Image(applyed), "some_applied_image", "intensity", templocation));
+				out.addImage(imgst.getImageLabel(removeFromStack ? 1 : img_count + 1)  + "#" + idx, new ImageArff(new Image(applyed), "some_applied_image", "intensity", templocation));
 				idx++;
 			}
 			if (removeFromStack)

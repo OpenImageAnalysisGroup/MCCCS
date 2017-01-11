@@ -3,7 +3,7 @@
     <!--ANT 1.7 is required -->
     <target name="build">
     	<jar destfile="release/mcccs.jar" filesetmanifest="mergewithoutmain">
-        	<fileset  dir="../MCCCS/bin"/>                
+        	<fileset  dir="../MCCCS/target/classes"/>                
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
             </manifest>

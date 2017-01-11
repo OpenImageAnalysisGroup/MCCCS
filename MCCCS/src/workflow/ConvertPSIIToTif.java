@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import org.graffiti.plugin.io.resources.FileSystemHandler;
-
 import PSI_IO.ConvertTools;
 import de.ipk.ag_ba.image.structures.Image;
 import ij.ImagePlus;

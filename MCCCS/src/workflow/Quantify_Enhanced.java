@@ -4,8 +4,6 @@ import iap.blocks.image_analysis_tools.methods.RegionLabeling;
 
 import java.awt.Color;
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -34,8 +32,6 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class Quantify_Enhanced {
-	
-	private static int i;
 	
 	public static void main(String[] args) throws Exception {
 		{

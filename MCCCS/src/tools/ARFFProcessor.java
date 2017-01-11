@@ -59,7 +59,8 @@ public class ARFFProcessor {
 		// create header
 		String attributes = "";
 		for (int i = 0; i < numberOfChannels; i++) {
-			attributes += "@attribute " + makeNice(inputImages[0].getImageLabel(i + 1)) + "\tNUMERIC" + System.lineSeparator();
+			String[] label = makeNice(inputImages[0].getImageLabel(i + 1)).split("#");
+			attributes += "@attribute " + (label.length > 0 ? label[0] + "\tNUMERIC" : "") + System.lineSeparator();
 		}
 		
 		File pathp = new File(path.getPath());
@@ -111,7 +112,7 @@ public class ARFFProcessor {
 					}
 				}
 				
-				if (debug)
+				if (true)
 					debugSampleImagesStack.addImage("Class " + classIndex, new Image(debugSampleImage));
 				
 				count = 0;

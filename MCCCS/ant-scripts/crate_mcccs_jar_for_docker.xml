@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build" name="build">
+    <!--ANT 1.7 is required -->
+    <target name="build">
+    	<jar destfile="release/mcccs.jar" filesetmanifest="mergewithoutmain">
+        	<fileset  dir="../MCCCS/bin"/>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+            </manifest>
+        </jar>
+    </target>
+</project>

@@ -27,7 +27,7 @@ RUN echo $(find /start | grep jar$ | paste -sd ":" -)
 RUN echo "Compile command:"
 RUN echo javac -cp $(find /start | grep jar$ | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ | grep java$ | paste -sd " ") -d /MCCCS/MCCCS/bin/
 RUN javac -cp $(find /start | grep jar$ | paste -sd ":" -) $(find /MCCCS/MCCCS/src/ | grep java$ | paste -sd " ") -d /MCCCS/MCCCS/bin/
-RUN ant -f MCCCS/MCCCS/create_mcccs_jar.xml
+RUN ant -f MCCCS/MCCCS/create_mcccs_jar_for_docker.xml
 RUN cp /MCCCS/MCCCS/release/mcccs.jar start
 RUN cp -r /MCCCS/MCCCS/main/* start
 RUN chmod +x start/*.sh

@@ -7,16 +7,18 @@ import java.util.LinkedList;
 import support.ARFFcontent;
 
 /**
- * Merges two or more ARFF files (concatinates the column data)
+ * Merges two or more ARFF files (concatenates the column data)
  * 
- * @param	target file
- * @param	input filenames
- * @param	-ColIndex for ARFF files to be merged specified
- * @param	optionally specific columns may be removed from the output (1...x)
- * @param	by adding +str an string can be added into the last column! Return Code 1"
- * 
- * @return	merged ARFF file
- * 
+ * @param target
+ *           file
+ * @param input
+ *           filenames
+ * @param -ColIndex for ARFF files to be merged specified
+ * @param optionally
+ *           specific columns may be removed from the output (1...x)
+ * @param by
+ *           adding +str an string can be added into the last column! Return Code 1"
+ * @return merged ARFF file
  * @author Christian Klukas
  */
 public class MergeArffFiles {

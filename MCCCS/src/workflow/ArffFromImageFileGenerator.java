@@ -4,7 +4,6 @@ import ij.ImagePlus;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -12,19 +11,16 @@ import java.util.TreeMap;
 import org.graffiti.plugin.io.resources.FileSystemHandler;
 
 import tools.ARFFProcessor;
-import tools.IO_MCCCS;
 import tools.IO_MCCCS.ReadMode;
 import de.ipk.ag_ba.image.structures.Image;
-import de.ipk.ag_ba.image.structures.ImageStack;
 
 /**
  * Converts image into an ARFF file.
  * 
- * @param	class-count
- * @param	input filename
- * 
+ * @param class-count
+ * @param input
+ *           filename
  * @return ARFF file
- * 
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class ArffFromImageFileGenerator {
@@ -59,7 +55,6 @@ public class ArffFromImageFileGenerator {
 					fl.add(new File(a));
 				}
 				
-				boolean NG = true;
 				ARFFProcessor ac = new ARFFProcessor();
 				
 				for (File f : fl) {
@@ -71,70 +66,49 @@ public class ArffFromImageFileGenerator {
 						name = split[0];
 					} else
 						name = f.getName();
-					String path = f.getPath();
 					
-					if (NG) {
-						String filename = ReadMode.IMAGES.getMode();
-						String extension = ".tif";
-						String[] flist = f.list();
+					String filename = ReadMode.IMAGES.getMode();
+					String extension = ".tif";
+					String[] flist = f.list();
+					
+					// read mask
+					File file = new File(f.getParent() + "/mask_0.png");
+					Image mask = null;
+					if (file.exists())
+						mask = new Image(FileSystemHandler.getURL(file));
+					
+					// search for all files channel*.tif
+					TreeMap<String, String> hmap = new TreeMap<String, String>();
+					for (String s : flist) {
+						if (!s.endsWith(extension))
+							continue;
+						if (!s.startsWith(filename))
+							continue;
 						
-						// read mask
-						File file = new File(f.getParent() + "/mask_0.png");
-						Image mask = null;
-						if (file.exists())
-							mask = new Image(FileSystemHandler.getURL(file));
-						
-						// search for all files channel*.tif
-						TreeMap<String, String> hmap = new TreeMap<String, String>();
-						for (String s : flist) {
-							if (!s.endsWith(extension))
-								continue;
-							if (!s.startsWith(filename))
-								continue;
-							
-							hmap.put(s.substring(0, s.lastIndexOf(".")), s);
-						}
-						
-						ArrayList<String> arffFiles = new ArrayList<>();
-						
-						// read images and create arff file
-						Iterator<Entry<String, String>> it = hmap.entrySet().iterator();
-					   while (it.hasNext()) {
-					      Entry<String, String> pair = it.next();
-							String channel_name = (String) pair.getKey();
-							try {
-								String image_name = hmap.get(channel_name);
-								ImagePlus ip = new ImagePlus(f.getAbsolutePath() + File.separator + image_name);;
-								
-								String pathOrURLToARFF = f.getAbsolutePath() + File.separator + channel_name;
-								
-								ac.convertImagesToArffNG(ip, pathOrURLToARFF, channel_name, name, mask, false);
-								arffFiles.add(pathOrURLToARFF + ".arff");
-							} catch (Exception e) {
-								throw new RuntimeException(e);
-							}
-						}
-						
-						arffFiles.add(0, f.getAbsolutePath() + File.separator + name + "_" + Settings.numberOfClasses + ".arff");
-						arffFiles.add("+?");
-						MergeArffFiles.main(arffFiles.toArray(new String[] {}));
-					} else {
-						
-						IO_MCCCS io = new IO_MCCCS(f);
-						ImageStack[] isl = io.readTestingData();
-						
-						if (Settings.debug_IO) {
-							for (ImageStack st : isl)
-								st.show("debug_IO");
-						}
-						
-						File file = new File(f.getParent() + "/mask_0.png");
-						Image mask = null;
-						if (file.exists())
-							mask = new Image(FileSystemHandler.getURL(file));
-						
-						ac.convertImagesToArff(isl[0], path, name + "_" + Settings.numberOfClasses, mask, false);
+						hmap.put(s.substring(0, s.lastIndexOf(".")), s);
 					}
+					
+					ArrayList<String> arffFiles = new ArrayList<>();
+					
+					// read images and create arff file
+					for (Entry<String, String> pair : hmap.entrySet()) {
+						String channel_name = pair.getKey();
+						try {
+							String image_name = hmap.get(channel_name);
+							ImagePlus ip = new ImagePlus(f.getAbsolutePath() + File.separator + image_name);;
+							
+							String pathOrURLToARFF = f.getAbsolutePath() + File.separator + channel_name;
+							
+							ac.convertImagesToArffNG(ip, pathOrURLToARFF, channel_name, name, mask, false);
+							arffFiles.add(pathOrURLToARFF + ".arff");
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+					}
+					
+					arffFiles.add(0, f.getAbsolutePath() + File.separator + name + "_" + Settings.numberOfClasses + ".arff");
+					arffFiles.add("+?");
+					MergeArffFiles.main(arffFiles.toArray(new String[] {}));
 				}
 			}
 		}

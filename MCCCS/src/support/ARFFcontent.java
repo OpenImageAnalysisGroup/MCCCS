@@ -1,6 +1,9 @@
 package support;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.webstart.TextFile;
 import workflow.Settings;
 
 /**
@@ -22,13 +24,20 @@ public class ARFFcontent {
 	private String relationName = "";
 	private List<String> headerLines = new ArrayList<>();
 	private ArrayList<File> columnData = new ArrayList<File>();
-	private ArrayList<Integer> columnDataLineCount = new ArrayList<Integer>();
+	private ArrayList<Long> columnDataLineCount = new ArrayList<Long>();
 	
 	public void appendColumnData(File f) throws IOException {
-		TextFile tf = new TextFile(f);
-		TextFile dataLines = new TextFile();
+		BufferedReader tf = new BufferedReader(new FileReader(f));
+		
+		File tempF = File.createTempFile("tmp_", "", new File(f.getParent()));
+		tempF.deleteOnExit();
+		
+		BufferedWriter dataLines = new BufferedWriter(new FileWriter(tempF));
+		
 		boolean header = true;
-		for (String l : tf) {
+		String l = null;
+		long lines = 0;
+		while ((l = tf.readLine()) != null) {
 			if (header) {
 				if (!l.startsWith("%"))
 					if (l.contains("@relation")) {
@@ -45,22 +54,25 @@ public class ARFFcontent {
 						else
 							header = false;
 			} else {
-				if (!l.startsWith("%"))
-					dataLines.add(l);
+				if (!l.startsWith("%")) {
+					dataLines.write(l);
+					dataLines.newLine();
+					lines++;
+				}
 			}
 		}
-		File tempF = File.createTempFile("tmp_", "", new File(f.getParent()));
-		tempF.deleteOnExit();
-		dataLines.write(tempF);
 		columnData.add(tempF);
-		columnDataLineCount.add(dataLines.size());
+		columnDataLineCount.add(lines);
+		
+		tf.close();
+		dataLines.close();
 	}
 	
 	public void writeTo(File file, HashSet<Integer> removeColumns, String addLast) throws IOException {
 		FileWriter tf = new FileWriter(file, true);
 		
 		tf.write("%" + System.lineSeparator());
-
+		
 		tf.write("@relation '" + relationName + "'" + System.lineSeparator());
 		
 		{
@@ -90,8 +102,8 @@ public class ARFFcontent {
 		
 		tf.flush();
 		
-		int maxLines = 0;
-		for (Integer lineCount : columnDataLineCount)
+		long maxLines = 0;
+		for (Long lineCount : columnDataLineCount)
 			if (lineCount > maxLines)
 				maxLines = lineCount;
 		
@@ -106,7 +118,7 @@ public class ARFFcontent {
 			file2input.put(f, null);
 		}
 		
-		for (int line = 0; line < maxLines; line++) {
+		for (long line = 0; line < maxLines; line++) {
 			StringBuilder sb = new StringBuilder();
 			
 			for (File f : file2input.keySet()) {
@@ -147,21 +159,18 @@ public class ARFFcontent {
 			}
 			
 			tf.write(val);
-			tf.flush();
 			
 			// append last
-			if(addLast.length() > 0)
+			if (addLast.length() > 0)
 				tf.write("," + addLast);
 			
 			tf.write(System.lineSeparator());
-			tf.flush();
 		}
 		
 		for (File f : file2stream.keySet())
 			file2stream.get(f).close();
 		
 		tf.write("%" + System.lineSeparator());
-		tf.flush();
 		
 		tf.close();
 	}

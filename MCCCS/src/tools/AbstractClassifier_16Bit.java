@@ -1,9 +1,11 @@
 package tools;
 
+import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import support.ImageArff;
 import support.ImageStackAsARFF;
@@ -26,20 +28,26 @@ public abstract class AbstractClassifier_16Bit {
 		ImageStackAsARFF out = new ImageStackAsARFF();
 		int size = imgst.size();
 		
-		// use counter, otherwise same label and images will be overwritten 
+		// use counter, otherwise same label and images will be overwritten
 		int idx = 0;
+		ArrayList<ByteProcessor> maskProcessors = new ArrayList<>();
+		for (ImageArff m : maskst.values())
+			maskProcessors.add(m.getImage().getAsImagePlus().getProcessor().convertToByteProcessor());
+		
 		for (int img_count = 0; img_count < size; img_count++) {
 			ImageArff img = imgst.getProcessor(removeFromStack ? 0 : img_count);
-			for (ImageArff m : maskst.values()) {
+			for (ByteProcessor mask : maskProcessors) {
 				ImageProcessor applyed = img.getImage().getAsImagePlus().getProcessor();
-				applyed.fill(m.getImage().getAsImagePlus().getProcessor().convertToByteProcessor());
-				out.addImage(imgst.getImageLabel(removeFromStack ? 1 : img_count + 1)  + "#" + idx, new ImageArff(new Image(applyed), "some_applied_image", "intensity", templocation));
+				applyed.fill(mask);
+				out.addImage(imgst.getImageLabel(removeFromStack ? 1 : img_count + 1) + "#" + idx, new ImageArff(new Image(applyed), "some_applied_image",
+						"intensity", templocation));
 				idx++;
 			}
+			
 			if (removeFromStack)
 				imgst.deleteSlice(1);
 		}
-
+		
 		return out;
 	}
 	
@@ -49,7 +57,7 @@ public abstract class AbstractClassifier_16Bit {
 		int idx = 0;
 		for (int img_count = 0; img_count < size; img_count++) {
 			ImageProcessor img = imgst.getProcessor(removeFromStack ? 0 : img_count);
-
+			
 			for (ImageProcessor m : maskst) {
 				ImageProcessor applyed = img.duplicate();
 				applyed.fill(m.convertToByteProcessor());

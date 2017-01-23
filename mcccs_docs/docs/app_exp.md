@@ -14,7 +14,7 @@ This example shows an application for foreground/background segmentation for top
 
 ### Hyper-spectral example 1 - classification
 ***
-This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set. Here partly pre-classifiedground-truth image masks are used to train a supervised Random Forestclassifier.Afterprocessing,thesegmentationresult,namedclassified.png is stored in the experiment sub folder (stack_images→ dc).
+This example shows an application for a multi-labeled segmentation onan airbone hyper-spectral image data set. Here partly pre-classifiedground-truth image masks are used to train a supervised Random Forestclassifier.Afterprocessing,thesegmentationresult,namedclassified.png is stored in the experiment sub folder (stack_images → dc).
 
 ### Hyper-spectral example 2 - clustering
 ***
@@ -32,11 +32,9 @@ The application examples can be downloaded and prepared by executing the prepare
 
 The analysis can be started by navigating into the corresponding experiment folder, by executing the process_ ... .sh script in a terminal (e.g. segmentation_example_1_classification → execute process_segmentation_example_1_classification.sh in the experiment folder). The results, including a labeled result image and the belonging numeric data, named all_ ... .csv, are stored into the corresponding sub-folders.
 
-exp images A1 training
-
 ### Analysis statistics
 
-The following table includes the number of images for training and prediction for each data set A1, A2 and A3. The second table gives an overview about the individual runtimes in seconds for the application examples and different use of processor units. The test was performed on a machine equipped with a Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz and 32 GB RAM (OS: Ubuntu 16.04).
+Table 1 includes the number of images for training and prediction for each data set A1, A2 and A3 of the segmentation examples. The second table gives an overview about the individual runtimes in seconds for all application examples and different use of processor units. Table 3 shows the runtimes for the hyperspectral examples. Tabel 4 gives an overview about the RAM and disk space consumption. All tests was performed on a machine equipped with a Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz and 32 GB RAM (OS: Ubuntu 16.04).
 
 * Table 1: Overview about the number of images # in the used data sets.
 
@@ -46,7 +44,7 @@ The following table includes the number of images for training and prediction fo
 |A2|8|31|530 x 565|
 |A3|9|27|2448 x 2048|
 
-* Table 2: Overview about runtimes in sconds s, single = 1 cpu, half = 4 cpu, multi = 8 cpu units in use for parallel job processing (including virtual cpus). Thus of the heavily parallelization of the single commands the execution of parallel jobs shows the biggest effect during the model training.
+* Table 2: Overview about runtimes of the segmentation examples in sconds s, single = 1 cpu, half = 4 cpu, multi = 8 cpu units in use for parallel job processing (including virtual cpus). Thus of the heavily parallelization of the single commands the execution of parallel jobs shows the biggest effect during the model training.
 
 | |Training s (m)|Prediction s (m)
 |-----------|--------------|----------------|
@@ -59,6 +57,26 @@ The following table includes the number of images for training and prediction fo
 |A3_single|7370 (122.8)|3587 (59.8)|
 |A3_half|4370 (72.8)|3737 (62.3)|
 |A3_multi|2774 (46.2)|3591 (59.9)|
+
+* Table 3: Runtimes for the hyperspectral analysis.
+
+|Dataset|Time
+|----------|----------|
+|classification|687 s|
+|clustering|102 s|
+
+* Table 4: Overview about RAM and disk space consumption.
+
+|Dataset|RAM (max)|disk space (max)
+|----------|----------|----------|
+|segmentation A1 training|xx|yy|
+|segmentation A1 prediction|xx|yy|
+|segmentation A2 training|xx|yy|
+|segmentation A2 prediction|xx|yy|
+|segmentation A3 training|xx|yy|
+|segmentation A3 prediction|xx|yy|
+|hyper_classification|xx|yy|
+|hyper_clustering|xx|yy|
 
 ## Customization and usage hints
 

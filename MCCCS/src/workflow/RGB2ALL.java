@@ -18,12 +18,13 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Create color channel files in diverse color spaces.
  * 
- * @param	R/G/B input images (split channels)
- * @param	color channel index (0..19, -1 = all, ? = list)
- * @param	input color space index (0..4, -1 = all, ? = list)
- * 
- * @return	channel_xyz_x.png, ... (diverse set of color channels)
- * 
+ * @param R/G/B
+ *           input images (split channels)
+ * @param color
+ *           channel index (0..19, -1 = all, ? = list)
+ * @param input
+ *           color space index (0..4, -1 = all, ? = list)
+ * @return channel_xyz_x.png, ... (diverse set of color channels)
  * @author Christian Klukas
  */
 public class RGB2ALL {
@@ -34,7 +35,8 @@ public class RGB2ALL {
 		}
 		if (args == null || args.length != 6) {
 			System.err
-					.println("Params: [r] [g] [b] [source bit range 8/16/..] [color channel index 0..19, -1 all, ? list] [input color space index 0..4, -1 all, ? list] ! Return Code 1");
+					.println(
+							"Params: [r] [g] [b] [source bit range 8/16/..] [color channel index 0..19, -1 all, ? list] [input color space index 0..4, -1 all, ? list] ! Return Code 1");
 			System.exit(1);
 		}
 		if ("?".equals(args[4])) {
@@ -121,7 +123,7 @@ public class RGB2ALL {
 						}
 					}
 				}
-		
+			
 	}
 	
 	private static float[] getFloat(Image r) {

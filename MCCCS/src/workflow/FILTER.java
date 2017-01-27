@@ -13,14 +13,17 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Based on an input image an image operation is performed and a target result file is saved.
  * 
- * @param	input image
- * @param	target file
- * @param	mask size (int)
- * @param	sigma for gaussian blur (double)
- * @param	operation mode (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)
- * 
- * @return	filtered result image
- * 
+ * @param input
+ *           image
+ * @param target
+ *           file
+ * @param mask
+ *           size (int)
+ * @param sigma
+ *           for gaussian blur (double)
+ * @param operation
+ *           mode (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)
+ * @return filtered result image
  * @author Christian Klukas, Jean-Michel Pape
  */
 public class FILTER {
@@ -35,7 +38,8 @@ public class FILTER {
 					System.out.println("param " + pi + ": '" + args[pi] + "'");
 			}
 			System.err
-					.println("First parameter 'input image', second parameter 'output image', third parameter 'int parameter for opertion', fourth 'double param', fifth parameter 'operation mode' (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)! Return Code 1");
+					.println(
+							"First parameter 'input image', second parameter 'output image', third parameter 'int parameter for opertion', fourth 'double param', fifth parameter 'operation mode' (SHARPEN, BLUR, MEDIAN, TEXTURE, HARLICK, ALL)! Return Code 1");
 			System.out.println("Operation modes: " + StringManipulationTools.getStringList(ImageFeatureExtraction.FeatureMode.values(), ", "));
 			System.exit(1);
 		} else {
@@ -46,8 +50,7 @@ public class FILTER {
 			} else {
 				Image i;
 				i = new Image(FileSystemHandler.getURL(f));
-				TreeMap<String, Image> res = new ImageFeatureExtraction().processImage(i
-						, Integer.parseInt(args[2]),
+				TreeMap<String, Image> res = new ImageFeatureExtraction().processImage(i, Integer.parseInt(args[2]),
 						Double.parseDouble(args[3]),
 						ImageFeatureExtraction.FeatureMode.valueOf(args[4]));
 				for (String sop : res.keySet())

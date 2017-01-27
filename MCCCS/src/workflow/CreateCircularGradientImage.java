@@ -9,13 +9,13 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Creates an circular gradient image (tif float), the most far point from the
  * center has value 0, the center point has value 1. The dimensions of the
- * target image are determined from the given input (template) image. 
+ * target image are determined from the given input (template) image.
  * 
- * @param	input image
- * @param	filename output (should have tif extension)
- * 
- * @return	image file
- * 
+ * @param input
+ *           image
+ * @param filename
+ *           output (should have tif extension)
+ * @return image file
  * @author Christian Klukas
  */
 public class CreateCircularGradientImage {
@@ -30,9 +30,11 @@ public class CreateCircularGradientImage {
 			System.err
 					.println("Example 2: gradient from griven center point(120;120), output size 640x480: CreateCircularGradientImage 120 120 640 480 output.png");
 			System.err
-					.println("Example 3: gradient from center of gravity of input image, considering pixels up to 70% of max distance from center point: CreateCircularGradientImage inp.png output.png auto 0.7");
+					.println(
+							"Example 3: gradient from center of gravity of input image, considering pixels up to 70% of max distance from center point: CreateCircularGradientImage inp.png output.png auto 0.7");
 			System.err
-					.println("Example 4: gradient from center of gravity of input image, considering pixels up to 70% of max distance from center point, using inverted values: CreateCircularGradientImage lab_a.png output.png -auto 0.7");
+					.println(
+							"Example 4: gradient from center of gravity of input image, considering pixels up to 70% of max distance from center point, using inverted values: CreateCircularGradientImage lab_a.png output.png -auto 0.7");
 			System.exit(1);
 		} else {
 			int w, h;

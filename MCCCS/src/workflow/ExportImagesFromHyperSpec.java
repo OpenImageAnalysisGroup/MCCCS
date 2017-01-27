@@ -12,12 +12,13 @@ public class ExportImagesFromHyperSpec {
 	/**
 	 * Creates separate images from hyper-spectral image data set (BSQ, BIL format).
 	 * 
-	 * @param	prefix for output filename
-	 * @param	overflow threshold or negative value to disable
-	 * @param	filenames (input)
-	 * 
-	 * @return	image files (channel images)
-	 * 
+	 * @param prefix
+	 *           for output filename
+	 * @param overflow
+	 *           threshold or negative value to disable
+	 * @param filenames
+	 *           (input)
+	 * @return image files (channel images)
 	 * @author Jean-Michel Pape
 	 */
 	public static void main(String[] args) throws Exception {
@@ -26,7 +27,8 @@ public class ExportImagesFromHyperSpec {
 		}
 		if (args == null || args.length < 3) {
 			System.err
-					.println("No [prefix], [overflow threshold, -1 to keep input values, other negative values to divide the output values by the specified number] and [filenames] provided as parameters! Return Code 1");
+					.println(
+							"No [prefix], [overflow threshold, -1 to keep input values, other negative values to divide the output values by the specified number] and [filenames] provided as parameters! Return Code 1");
 			System.exit(1);
 		} else {
 			int idx = 0;

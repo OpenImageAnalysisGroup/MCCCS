@@ -13,9 +13,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Apply threshold to ground truth (GT) images to generate binary foreground- and background-masks, and the corresponding ARFF files for classifier training.
  * 
- * @param	colored ground truth image
- * @return	mask_1.png, mask_2.png (forground and background mask images), and according mask_1.arff, mask_2.arff files!
- * 
+ * @param colored
+ *           ground truth image
+ * @return mask_1.png, mask_2.png (forground and background mask images), and according mask_1.arff, mask_2.arff files!
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class ThresholdGTforFGBG {

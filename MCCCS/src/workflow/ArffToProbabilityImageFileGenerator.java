@@ -11,12 +11,13 @@ import tools.ARFFProcessor;
 /**
  * Converts classified ARFF result file (including pixel-probabilities for each class) to an grayscale-image (use of FG mask is possible).
  * 
- * @param	channel count (positive value = .png output, negative value = .tif output)
- * @param	threshold for acceptance
- * @param	input filename(s) of ARFF file(s)
- * 
- * @return	grayscale image
- * 
+ * @param channel
+ *           count (positive value = .png output, negative value = .tif output)
+ * @param threshold
+ *           for acceptance
+ * @param input
+ *           filename(s) of ARFF file(s)
+ * @return grayscale image
  * @author Jean-Michel Pape
  */
 public class ArffToProbabilityImageFileGenerator {
@@ -28,7 +29,7 @@ public class ArffToProbabilityImageFileGenerator {
 		if (args == null || args.length < 3) {
 			System.err
 					.println(
-					"No parameter for [channel-count (png output), -channel-count (negative for float tiff output)] and / or [percentage of acceptance (0 .. 1)] and / or no [filenames] provided as parameters! Return Code 1");
+							"No parameter for [channel-count (png output), -channel-count (negative for float tiff output)] and / or [percentage of acceptance (0 .. 1)] and / or no [filenames] provided as parameters! Return Code 1");
 			System.exit(1);
 		} else {
 			int parmCount = 0;

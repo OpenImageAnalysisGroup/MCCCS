@@ -12,11 +12,11 @@ import de.ipk.ag_ba.image.structures.ImageStack;
  * Generates inverted mask of given masks (AND + INV). Also generates a powerset of the input combinations of images.
  * All these images are then saved.
  * 
- * @param	class count (int)
- * @param	input image(s)
- * 
- * @return	powerset combinations
- * 
+ * @param class
+ *           count (int)
+ * @param input
+ *           image(s)
+ * @return powerset combinations
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class PowerSetGenerator {

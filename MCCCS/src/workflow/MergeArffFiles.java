@@ -13,7 +13,8 @@ import support.ARFFcontent;
  *           file
  * @param input
  *           filenames
- * @param -ColIndex for ARFF files to be merged specified
+ * @param -ColIndex
+ *           for ARFF files to be merged specified
  * @param optionally
  *           specific columns may be removed from the output (1...x)
  * @param by

@@ -11,13 +11,15 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Determine the difference in the brightness of a inner circle to the area of a outer ring around that circle. Function is related to BlSpotMatcher in IAP.
  * 
- * @param	input image
- * @param	target File
- * @param	outer circle radius
- * @param	dark or bright background
- * 
- * @return	contrast image
- * 
+ * @param input
+ *           image
+ * @param target
+ *           File
+ * @param outer
+ *           circle radius
+ * @param dark
+ *           or bright background
+ * @return contrast image
  * @author Christian Klukas
  */
 public class RoundMaskRatio {

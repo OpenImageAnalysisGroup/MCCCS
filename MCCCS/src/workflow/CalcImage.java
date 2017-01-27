@@ -12,14 +12,17 @@ import ij.plugin.ImageCalculator;
 /**
  * Create image by calculating the difference, sum, division or multiplication of two images.
  * 
- * @param	image A
- * @param	image B
- * @param	output file
- * @param	one of this: +,-,*,/, absdiff, and
- * @param	RGB or Float mode
- * 
- * @return	difference image according to operation mode
- * 
+ * @param image
+ *           A
+ * @param image
+ *           B
+ * @param output
+ *           file
+ * @param one
+ *           of this: +,-,*,/, absdiff, and
+ * @param RGB
+ *           or Float mode
+ * @return difference image according to operation mode
  * @author Christian Klukas
  */
 public class CalcImage {

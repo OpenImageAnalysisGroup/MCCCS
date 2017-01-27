@@ -11,10 +11,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Converts classified ARFF result file to an image by using a labeled mask image.
  * 
- * @param	input filename(s)
- * 
- * @return	image file
- * 
+ * @param input
+ *           filename(s)
+ * @return image file
  * @author Christian Klukas
  */
 public class ApplyClass0ToGrayScaleImage {

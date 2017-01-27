@@ -12,10 +12,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Transform R/G/B input image files to the corresponding X/Y/Z image files.
  * 
- * @param	R/G/B image files
- * 
- * @return	channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png
- * 
+ * @param R/G/B
+ *           image files
+ * @return channel_xyz_x.png, channel_xyz_y.png, channel_xyz_z.png
  * @author Christian Klukas
  */
 public class RGB2XYZ {

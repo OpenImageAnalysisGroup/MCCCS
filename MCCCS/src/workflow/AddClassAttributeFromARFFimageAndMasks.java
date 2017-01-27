@@ -17,27 +17,33 @@ import java.util.TreeSet;
  * information is added at the end of each image ARFF line.
  * The input mask files need to be read two times, the first time the number of
  * samples in each class are determined, so that in the main run the correct number
- * of samples may be selected randomly from the class rows. At least two mask arff files should be provided (though one would be enough, but then all image rows would belong to a single class.
- *         
- * @param	class sample size N
- * @param	output arff file
- * @param	image arff file
- * @param	mask arff file 0
- * @param	mask arff file 1
- * @param	mask arff file 2 
- * @param	[..]
+ * of samples may be selected randomly from the class rows. At least two mask arff files should be provided (though one would be enough, but then all image rows
+ * would belong to a single class.
  * 
- * @return	ARFF file
- *         
+ * @param class
+ *           sample size N
+ * @param output
+ *           arff file
+ * @param image
+ *           arff file
+ * @param mask
+ *           arff file 0
+ * @param mask
+ *           arff file 1
+ * @param mask
+ *           arff file 2
+ * @param [..]
+ * @return ARFF file
  * @author Christian Klukas
  */
 public class AddClassAttributeFromARFFimageAndMasks {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		if (args == null || args.length < 1) {
 			System.err
-					.println("The following parameters are required: [class sample size N] [output arff file] [image arff file] [mask arff file 0] [mask arff file 1] [mask arff file 2] [..] - "
-							+ "At least two mask arff files should be provided (though one would be enough, but then all"
-							+ "image rows would belong to a single class. Return Code 1");
+					.println(
+							"The following parameters are required: [class sample size N] [output arff file] [image arff file] [mask arff file 0] [mask arff file 1] [mask arff file 2] [..] - "
+									+ "At least two mask arff files should be provided (though one would be enough, but then all"
+									+ "image rows would belong to a single class. Return Code 1");
 			System.exit(1);
 		} else {
 			int sampleSize = Integer.parseInt(args[0]);

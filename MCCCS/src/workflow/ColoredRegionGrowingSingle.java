@@ -16,11 +16,11 @@ import de.ipk_gatersleben.ag_nw.graffiti.plugins.gui.editing_tools.script_helper
  * colored image, with some uncolored (white) areas, background
  * pixels (black) are ignored during processing.
  * 
- * @param	input image (RGB)
- * @param	target filename
- * 
- * @return	result image
- * 
+ * @param input
+ *           image (RGB)
+ * @param target
+ *           filename
+ * @return result image
  * @author Christian Klukas
  */
 public class ColoredRegionGrowingSingle {

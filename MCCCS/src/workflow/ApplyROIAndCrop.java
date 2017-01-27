@@ -12,13 +12,13 @@ import ij.process.FloatProcessor;
 /**
  * Apply a mask to given an image and return a cropped version with specified name (target file) and extension (file format).
  * 
- * @param	image
- * @param	mask
- * @param	target file name
- * @param	file format
- * 
- * @return	image file
- * 
+ * @param image
+ * @param mask
+ * @param target
+ *           file name
+ * @param file
+ *           format
+ * @return image file
  * @author Jean-Michel Pape
  */
 public class ApplyROIAndCrop {

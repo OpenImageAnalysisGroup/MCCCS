@@ -9,14 +9,16 @@ import de.ipk.ag_ba.image.operation.DistanceMapFloatMode;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
- * Calculate distance map float image. Modes: 0 - eucl. distance map X, 1 - eucl. distance map Y, 2 - eucl. distance map dist, 3 - euchl. distance map degree*255/360.
+ * Calculate distance map float image. Modes: 0 - eucl. distance map X, 1 - eucl. distance map Y, 2 - eucl. distance map dist, 3 - euchl. distance map
+ * degree*255/360.
  * 
- * @param	mode 0/1/2/3
- * @param	input mask
- * @param	target TIFF file (distance map)
- * 
- * @return	distance map image (tif)
- * 
+ * @param mode
+ *           0/1/2/3
+ * @param input
+ *           mask
+ * @param target
+ *           TIFF file (distance map)
+ * @return distance map image (tif)
  * @author Christian Klukas
  */
 public class CalculateDistance {

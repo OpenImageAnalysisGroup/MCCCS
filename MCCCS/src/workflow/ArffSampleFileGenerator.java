@@ -14,12 +14,12 @@ import de.ipk.ag_ba.gui.picture_gui.LocalComputeJob;
 /**
  * Sample Extraction from input images, generates .arff file for classifier training.
  * 
- * @param	class-count (negative in case of foreground/background segmentation)
- * @param	sample-size
- * @param	input filename(s)
- * 
- * @return	ARFF file
- * 
+ * @param class-count
+ *           (negative in case of foreground/background segmentation)
+ * @param sample-size
+ * @param input
+ *           filename(s)
+ * @return ARFF file
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class ArffSampleFileGenerator {
@@ -30,7 +30,8 @@ public class ArffSampleFileGenerator {
 		}
 		if (args == null || args.length < 3) { // [channel-count],
 			System.err
-					.println("No parameter for [[-]class-count, negative for FGBG separation], [sample-size] and / or no [filenames] provided as parameters! Return Code 1");
+					.println(
+							"No parameter for [[-]class-count, negative for FGBG separation], [sample-size] and / or no [filenames] provided as parameters! Return Code 1");
 			System.exit(1);
 		} else {
 			int parmCount = 0;
@@ -75,45 +76,45 @@ public class ArffSampleFileGenerator {
 				LinkedList<LocalComputeJob> wait_inner = new LinkedList<>();
 				for (File f : fl) {
 					// wait.add(BackgroundThreadDispatcher.addTask(() -> {
-						// Read data for Training
+					// Read data for Training
+					try {
+						IO_MCCCS io = new IO_MCCCS(f);
+						
+						ImageStackAsARFF[] isl = io.readTrainingDataAsARFF(false, f_isFGBG);
+						
+						if (Settings.debug_IO) {
+							for (ImageStackAsARFF st : isl)
+								st.show("debug_IO");
+						}
+						
+						// --------- Part1 Sample Extraction ---------
+						if (f_isFGBG) {
+							// segmentation fgbg
+							// wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
+							ClassifierFGBG_Process_16Bit fgbgClassifier = new ClassifierFGBG_Process_16Bit("fgbgTraining");
 							try {
-								IO_MCCCS io = new IO_MCCCS(f);
-								
-								ImageStackAsARFF[] isl = io.readTrainingDataAsARFF(false, f_isFGBG);
-								
-								if (Settings.debug_IO) {
-									for (ImageStackAsARFF st : isl)
-										st.show("debug_IO");
-								}
-								
-								// --------- Part1 Sample Extraction ---------
-								if (f_isFGBG) {
-									// segmentation fgbg
-									//wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
-										ClassifierFGBG_Process_16Bit fgbgClassifier = new ClassifierFGBG_Process_16Bit("fgbgTraining");
-										try {
-											fgbgClassifier.createSampleDataFromArff(isl, f, Settings.sampleSize);
-										} catch (Exception e) {
-											e.printStackTrace();
-											throw new RuntimeException(e);
-										}
-									//}, "process fgbg"));
-								} else {
-									// disease classification
-									//wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
-										ClassifierDisease_Process_16Bit diseaseClassifier = new ClassifierDisease_Process_16Bit("labelTraining");
-										try {
-											diseaseClassifier.createSampleDataFromArff(isl, f, Settings.sampleSize);
-										} catch (Exception e) {
-											e.printStackTrace();
-											throw new RuntimeException(e);
-										}
-									//}, "process label"));
-								}
+								fgbgClassifier.createSampleDataFromArff(isl, f, Settings.sampleSize);
 							} catch (Exception e) {
+								e.printStackTrace();
 								throw new RuntimeException(e);
 							}
-						// }, "process " + a));
+							// }, "process fgbg"));
+						} else {
+							// disease classification
+							// wait_inner.add(BackgroundThreadDispatcher.addTask(() -> {
+							ClassifierDisease_Process_16Bit diseaseClassifier = new ClassifierDisease_Process_16Bit("labelTraining");
+							try {
+								diseaseClassifier.createSampleDataFromArff(isl, f, Settings.sampleSize);
+							} catch (Exception e) {
+								e.printStackTrace();
+								throw new RuntimeException(e);
+							}
+							// }, "process label"));
+						}
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+					// }, "process " + a));
 				}
 				
 				BackgroundThreadDispatcher.waitFor(wait);

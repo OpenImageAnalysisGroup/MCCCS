@@ -12,10 +12,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Create L/a/b image files from R/G/B files.
  * 
- * @param	R/G/B image files
- *
- * @return	channel_lab_l.png, channel_lab_a.png, channel_lab_b.png
- * 
+ * @param R/G/B
+ *           image files
+ * @return channel_lab_l.png, channel_lab_a.png, channel_lab_b.png
  * @author Christian Klukas
  */
 public class RGB2LAB {

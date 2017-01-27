@@ -1,25 +1,33 @@
 package workflow;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 import org.graffiti.plugin.io.resources.FileSystemHandler;
 
-import de.ipk.ag_ba.image.operation.channels.Channel;
-import de.ipk.ag_ba.image.operation.channels.ChannelProcessing;
 import de.ipk.ag_ba.image.structures.Image;
 
 /**
  * Shift input image in X/Y direction and sample data. Create summary ARFF output file with sampled input data around each pixel and a last output column from
- * the target image file (if target file is grayscale). If target file is colored, multiple target columns (e.g. R/G/B, H/S/V or L/a/b) are created.
- * If input image is not gray scale, multiple columns for each pixel (R/G/B, H/S/V or L/a/b) are created.
+ * the target image file (gray scale).
  * 
  * @param input
- *           file (gray scale or colored)
+ *           input file (gray scale)
+ * @param mask
+ *           size X
+ *           mask size in x direction
+ * @param mask
+ *           size Y
+ *           mask size in y direction
  * @param target
- *           file (gray scale or colored)
- * @param color
- *           mode (RGB, HSV or Lab)
+ *           input file (gray scale)
+ * @param output
+ *           ARFF file
+ *           the result file name
  * @return summary ARFF file
  * @author Christian Klukas
  */
@@ -29,40 +37,81 @@ public class CreateTransferDataset {
 		{
 			new Settings();
 		}
-		// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-		if (args == null || args.length != 4) {
-			System.err.println("Params: [r] [g] [b] [source bit range 8/16/..] ! Return Code 1");
+		
+		if (args == null || args.length != 5) {
+			System.err.println("Params: [input grayscale image] [target grayscale image] [output ARFF file] ! Return Code 1");
 			System.exit(1);
 		} else {
-			File f_r = new File(args[0]);
-			File f_g = new File(args[1]);
-			File f_b = new File(args[2]);
-			if (!f_r.exists()) {
-				System.err.println("File RGB - R '" + f_r.getName() + "' could not be found! Return Code 2");
+			File input = new File(args[0]);
+			int maskX = Integer.parseInt(args[1]);
+			int maskY = Integer.parseInt(args[2]);
+			File target = new File(args[3]);
+			File arffOutput = new File(args[4]);
+			if (!input.exists()) {
+				System.err.println("Input image file '" + input.getName() + "' could not be found! Return Code 2");
 				System.exit(2);
-			} else
-				if (!f_g.exists()) {
-					System.err.println("File RGB - G '" + f_g.getName() + "' could not be found! Return Code 2");
-					System.exit(2);
-				} else
-					if (!f_b.exists()) {
-						System.err.println("File RGB - B '" + f_b.getName() + "' could not be found! Return Code 2");
-						System.exit(2);
-					} else {
-						Image r = new Image(FileSystemHandler.getURL(f_r));
-						Image g = new Image(FileSystemHandler.getURL(f_g));
-						Image b = new Image(FileSystemHandler.getURL(f_b));
-						float divistorFor8bitRangeTarget = (float) (Math.pow(2, Float.parseFloat(args[3])) / 256);
-						ChannelProcessing cp = new ChannelProcessing(
-								r.getAs1float(),
-								g.getAs1float(),
-								b.getAs1float(),
-								r.getWidth(),
-								r.getHeight(), divistorFor8bitRangeTarget);
-						cp.get(Channel.HSV_H).getImage().saveToFile(f_r.getParent() + File.separator + "channel_hsv_h.tif");
-						cp.get(Channel.HSV_S).getImage().saveToFile(f_r.getParent() + File.separator + "channel_hsv_s.tif");
-						cp.get(Channel.HSV_V).getImage().saveToFile(f_r.getParent() + File.separator + "channel_hsv_v.tif");
+			} else {
+				if (!target.exists()) {
+					System.err.println("Input target file '" + target.getName() + "' could not be found! Return Code 3");
+					System.exit(3);
+				} else {
+					Image inputImg = new Image(FileSystemHandler.getURL(input));
+					Image targetImg = new Image(FileSystemHandler.getURL(target));
+					
+					float[][] inputF = inputImg.getAs2Afloat();
+					float[][] targetF = targetImg.getAs2Afloat();
+					
+					inputImg = null;
+					targetImg = null;
+					
+					int startX = -maskX / 2;
+					int endX = maskX / 2;
+					int startY = -maskY / 2;
+					int endY = maskY / 2;
+					
+					PrintWriter out = null;
+					try {
+						out = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(arffOutput)), "UTF-8"));
+						out.println("@RELATION " + arffOutput.getName());
+						for (int xs = -startX; xs <= endX; xs++) {
+							for (int ys = -startY; ys <= endY; ys++) {
+								String xid = xs < 0 ? "M" + (-xs) : "P" + xs;
+								String yid = ys < 0 ? "M" + (-ys) : "P" + ys;
+								out.println("@ATTRIBUTE " + xid + "_" + yid + " NUMERIC");
+							}
+						}
+						out.println("@ATTRIBUTE target NUMERIC");
+						out.println("@data");
+						int w = inputF.length;
+						int h = inputF[0].length;
+						for (int x = 0; x < w; x++) {
+							for (int y = 0; y < h; y++) {
+								boolean content = false;
+								for (int xs = x - startX; xs <= x + endX; xs++) {
+									for (int ys = y - startY; ys <= y + endY; ys++) {
+										if (content)
+											out.print(",");
+										if (xs >= 0 && ys >= 0 && xs < w && ys < h)
+											out.print(inputF[xs][ys]);
+										else
+											out.print("?");
+										
+										content = true;
+									}
+								}
+								float targetValue = targetF[x][y];
+								out.print(",");
+								out.println(targetValue);
+							}
+						}
+					} finally {
+						if (out != null) {
+							out.flush();
+							out.close();
+						}
 					}
+				}
+			}
 		}
 	}
 }

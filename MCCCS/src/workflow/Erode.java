@@ -10,10 +10,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * This command performs the erode operation on a given input image (black pixels will be regarded as foreground, white as background).
  * 
- * @param	input image
- * 
- * @return	image
- * 
+ * @param input
+ *           image
+ * @return image
  * @author Jean-Michel Pape
  */
 public class Erode {

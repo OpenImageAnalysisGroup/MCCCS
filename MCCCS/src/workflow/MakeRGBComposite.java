@@ -14,10 +14,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * This command combines three images 'channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue) to an RGB composite image.
  * 
- * @param	input R/G/B images ('channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue))
- * 
- * @return	RGB composite image
- * 
+ * @param input
+ *           R/G/B images ('channel_0, channel_1, channel_2' (0 = red, 1 = green, 2 = blue))
+ * @return RGB composite image
  * @author Jean-Michel Pape
  */
 public class MakeRGBComposite {

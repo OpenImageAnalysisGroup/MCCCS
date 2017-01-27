@@ -19,10 +19,8 @@ import de.ipk.ag_ba.image.structures.Image;
  * are of less height, are removed. Then each object which full-fills these criteria, a new image with only
  * that specific object is created.
  * 
- * @input	image file
- * 
- * @return	file_1.png, file_2.png, file_3.png, ... - objects separated
- * 
+ * @input image file
+ * @return file_1.png, file_2.png, file_3.png, ... - objects separated
  * @author Christian Klukas
  */
 public class Split {
@@ -65,8 +63,7 @@ public class Split {
 						int vci = vc;
 						int[] rp = new int[ci.length];
 						for (int idx = 0; idx < rp.length; idx++) {
-							rp[idx] = ci[idx] == vci ?
-									ipix[idx] // Settings.foreground
+							rp[idx] = ci[idx] == vci ? ipix[idx] // Settings.foreground
 									: Settings.back;
 						}
 						new Image(i.getWidth(), i.getHeight(), rp)

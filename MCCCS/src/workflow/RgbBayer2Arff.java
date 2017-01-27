@@ -15,11 +15,11 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Converts RGB image (Bayer pattern) to an ARFF file.
  * 
- * @param	R/G/B image files
- * @param	bayer pattern
- * 
- * @return	one 'output.arff'
- * 
+ * @param R/G/B
+ *           image files
+ * @param bayer
+ *           pattern
+ * @return one 'output.arff'
  * @author Christian Klukas
  */
 public class RgbBayer2Arff {

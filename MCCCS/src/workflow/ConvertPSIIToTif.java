@@ -11,21 +11,19 @@ import ij.process.ImageProcessor;
 
 /**
  * Command to convert .dumm (raw image files for PSII measurements) and
- *  .fimg (result image files, including the results for a feature as 
- *  calculated during PSII analysis) to .tif image files.
- *  
- * @param	path to folder including files for conversion
+ * .fimg (result image files, including the results for a feature as
+ * calculated during PSII analysis) to .tif image files.
  * 
- * @return	converted images (saved into same folder as used for input)
- * 
+ * @param path
+ *           to folder including files for conversion
+ * @return converted images (saved into same folder as used for input)
  * @author Jean-Michel Pape
- *
  */
 public class ConvertPSIIToTif {
 	
 	/**
-	 * 
-	 * @param args [path to folder]
+	 * @param args
+	 *           [path to folder]
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
@@ -44,14 +42,14 @@ public class ConvertPSIIToTif {
 		
 		for (File inp : fl) {
 			ImageProcessor ip = null;
-		
-			if(inp.getName().endsWith(".dumm"))
+			
+			if (inp.getName().endsWith(".dumm"))
 				ip = ConvertTools.dummToTif(inp);
-		
-			if(inp.getName().endsWith(".fimg"))
+			
+			if (inp.getName().endsWith(".fimg"))
 				ip = ConvertTools.fimgToTif(inp);
-		
-			if(ip != null) {
+			
+			if (ip != null) {
 				ImagePlus imp = new ImagePlus("MCCCS conversion", ip);
 				String outf = inp.getParent() + File.separator + inp.getName().split("\\.")[0] + ".tif";
 				new Image(imp).saveToFile(outf);

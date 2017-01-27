@@ -12,11 +12,11 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Rotates an image in left or right direction by 90 degree.
  * 
- * @param	input image
- * @param	direction [l,r]
- * 
- * @return	image
- * 
+ * @param input
+ *           image
+ * @param direction
+ *           [l,r]
+ * @return image
  * @author Jean-Michel Pape
  */
 public class Rotate {

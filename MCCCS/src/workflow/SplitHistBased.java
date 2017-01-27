@@ -21,10 +21,9 @@ import ij.gui.Roi;
  * are of less height, are removed. Then each object which full-fills these criteria, a new image with only
  * that specific object is created.
  * 
- * @param	image file
- * 
- * @return	file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers
- * 
+ * @param image
+ *           file
+ * @return file_1.png, file_2.png, file_3.png - objects separated, sorted by x-position of the segment centers
  * @author Jean-Michel Pape, Christian Klukas
  */
 public class SplitHistBased {
@@ -54,7 +53,7 @@ public class SplitHistBased {
 							if (img_2d[x][y] == Settings.back)
 								hist[x]++;
 						}
-					
+						
 					// for (double dd : hist)
 					// System.out.println(dd);
 					

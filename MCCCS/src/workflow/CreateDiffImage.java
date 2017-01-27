@@ -12,12 +12,12 @@ import de.ipk.ag_ba.image.structures.Image;
  * Create difference image, indicating true positive and true negative in white.
  * False positive in blue and false negative in red.
  * 
- * @param	ground truth mask
- * @param	prediction
- * @param	output file name for difference image
- * 
- * @return	difference image
- * 
+ * @param ground
+ *           truth mask
+ * @param prediction
+ * @param output
+ *           file name for difference image
+ * @return difference image
  * @author Christian Klukas
  */
 public class CreateDiffImage {

@@ -12,9 +12,9 @@ import de.ipk.ag_ba.image.structures.Image;
 /**
  * Create H/S/B image files from R/G/B image files.
  * 
- * @param	R/G/B image files
- * @return	channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png
- * 
+ * @param R/G/B
+ *           image files
+ * @return channel_hsv_h.png, channel_hsv_s.png, channel_hsv_v.png
  * @author Christian Klukas
  */
 public class RGB2HSV {

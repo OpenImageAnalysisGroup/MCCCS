@@ -73,8 +73,8 @@ public class CreateTransferDataset {
 					try {
 						out = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(arffOutput)), "UTF-8"));
 						out.println("@RELATION " + arffOutput.getName());
-						for (int xs = -startX; xs <= endX; xs++) {
-							for (int ys = -startY; ys <= endY; ys++) {
+						for (int xs = startX; xs <= endX; xs++) {
+							for (int ys = startY; ys <= endY; ys++) {
 								String xid = xs < 0 ? "M" + (-xs) : "P" + xs;
 								String yid = ys < 0 ? "M" + (-ys) : "P" + ys;
 								out.println("@ATTRIBUTE " + xid + "_" + yid + " NUMERIC");
@@ -87,8 +87,8 @@ public class CreateTransferDataset {
 						for (int x = 0; x < w; x++) {
 							for (int y = 0; y < h; y++) {
 								boolean content = false;
-								for (int xs = x - startX; xs <= x + endX; xs++) {
-									for (int ys = y - startY; ys <= y + endY; ys++) {
+								for (int xs = x + startX; xs <= x + endX; xs++) {
+									for (int ys = y + startY; ys <= y + endY; ys++) {
 										if (content)
 											out.print(",");
 										if (xs >= 0 && ys >= 0 && xs < w && ys < h)

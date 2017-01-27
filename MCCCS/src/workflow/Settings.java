@@ -67,7 +67,7 @@ public class Settings {
 		if (debug) {
 			System.out.println("DEBUG: BACKGROUND=" + ColorUtil.getHexFromColor(ImageOperation.BACKGROUND_COLOR) + " / INT=" + ImageOperation.BACKGROUND_COLORint);
 			System.out.println("DEBUG: FOREGROUND=" + ColorUtil.getHexFromColor(new Color(foreground)) + " / INT=" + foreground);
-			System.out.println("HINT: Use environmen variables FOREGROUND and BACKGROUND using Hex-Color code (e.g. #99AAFF), to override these values.");
+			System.out.println("HINT: Use environment variables FOREGROUND and BACKGROUND using Hex-Color code (e.g. #99AAFF), to override these values.");
 			System.out.println("HINT: Color code may also start without '#', then the input is parsed as integer code.");
 		}
 	}

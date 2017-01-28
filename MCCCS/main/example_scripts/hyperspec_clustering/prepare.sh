@@ -49,6 +49,10 @@ then
 	NPROCS=$(wmic cpu get NumberOfLogicalProcessors | sed -n -e '2{p;q}' | sed ':a;N;$!ba;y/\n/ /' | sed 's/ //g')
 fi
 export SYSTEM_cpu_n=$NPROCS
+
+# avoid parallel warning message, by setting shell variable
+export SHELL=/bin/bash
+
 #if parallel is not installed use xargs instead:
 par="parallel --gnu"
 #type parallel >/dev/null 2>&1 ||  

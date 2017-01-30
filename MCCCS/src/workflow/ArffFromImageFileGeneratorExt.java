@@ -373,8 +373,9 @@ public class ArffFromImageFileGeneratorExt {
 		formatter.printHelp("java -cp mcccs.jar:... workflow.ArffFromImageFileGeneratorExt -i ... -t ... -o ...",
 				"MCCCS - Image-based transfer-function ARFF data file creator command",
 				options,
-				"Examples:\n"
-						+ "(1) java -cp mcccs.jar:iap.jar:bio.jar:weka.jar:jfeaturelib.jar workflow.ArffFromImageFileGeneratorExt -i input.tiff -t target.tiff -o result.arff\n"
+				"Call:\njava -cp mcccs.jar:iap.jar:bio.jar:weka.jar:jfeaturelib.jar workflow.ArffFromImageFileGeneratorExt\n"
+						+ "Parameters:\n"
+						+ "(1) -i input.tiff -t target.tiff -o result.arff\n"
 						+ "(2) -i input16bitRGB.tif -t target16bitRGB.tif -o result.arff -ics HSV -tcs HSV -si 16 -st 16");
 		System.out.println();
 		exp.printStackTrace();

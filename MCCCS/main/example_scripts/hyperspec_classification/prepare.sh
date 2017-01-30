@@ -51,6 +51,9 @@ then
 fi
 export SYSTEM_cpu_n=$NPROCS
 
+# avoid parallel warning message, by setting shell variable
+export SHELL=/bin/bash
+
 #if parallel is not installed use xargs instead:
 par="parallel --gnu -j $NPROCS"
 type parallel >/dev/null 2>&1 || par="xargs -n1 -P$NPROCS -I{}" 

@@ -45,13 +45,13 @@ public class RGB2LAB {
 						Image r = new Image(FileSystemHandler.getURL(f_r));
 						Image g = new Image(FileSystemHandler.getURL(f_g));
 						Image b = new Image(FileSystemHandler.getURL(f_b));
-						float divistorFor8bitRangeTarget = (float) (Math.pow(2, Float.parseFloat(args[3])) / 256);
+						float divisorFor8bitRangeTarget = (float) (Math.pow(2, Float.parseFloat(args[3])) / 256);
 						ChannelProcessing cp = new ChannelProcessing(
 								r.getAs1float(),
 								g.getAs1float(),
 								b.getAs1float(),
 								r.getWidth(),
-								r.getHeight(), divistorFor8bitRangeTarget);
+								r.getHeight(), divisorFor8bitRangeTarget);
 						cp.get(Channel.LAB_L).getImage().saveToFile(f_r.getParent() + File.separator + "channel_lab_l.tif");
 						cp.get(Channel.LAB_A).getImage().saveToFile(f_r.getParent() + File.separator + "channel_lab_a.tif");
 						cp.get(Channel.LAB_B).getImage().saveToFile(f_r.getParent() + File.separator + "channel_lab_b.tif");

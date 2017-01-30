@@ -1,8 +1,5 @@
 package tools;
 
-import ij.ImagePlus;
-import ij.process.ImageConverter;
-
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,10 +16,12 @@ import org.Colors;
 import org.GapList;
 import org.StringManipulationTools;
 
-import support.ImageStackAsARFF;
-import workflow.Settings;
 import de.ipk.ag_ba.image.structures.Image;
 import de.ipk.ag_ba.image.structures.ImageStack;
+import ij.ImagePlus;
+import ij.process.ImageConverter;
+import support.ImageStackAsARFF;
+import workflow.Settings;
 
 /**
  * @author pape, klukas
@@ -218,7 +217,7 @@ public class ARFFProcessor {
 					if (checkMask)
 						if (mask[x + y * width] == background)
 							continue;
-					
+						
 					for (int b = 0; b < bands; b++) {
 						line += cubeSliceXY[b][x][y] + ",";
 						
@@ -295,6 +294,9 @@ public class ARFFProcessor {
 		Image iii = new Image(ip);
 		
 		int[][] mask = iii.getAs2A();
+		float[][] maskF = null;
+		if (Settings.numberOfClasses == 1)
+			maskF = iii.getAs2Afloat();
 		
 		String fn = parent + "/" + name + ".arff";
 		File f = new File(fn);
@@ -368,12 +370,14 @@ public class ARFFProcessor {
 						if (useArffClassInformation) {
 							if (grayScaleFromProbability) {
 								// 2 classes => FGBG segmentation
-								if (Settings.numberOfClasses == 2) {
-									String probabilityForClass0 = s[s.length
-											- Settings.numberOfClasses];
-									Float p = Float
-											.parseFloat(probabilityForClass0);
-									mask[x][y] = new Color(p, p, p).getRGB();
+								// 1 classes => simple grayscale image from prediction column
+								if (Settings.numberOfClasses == 2 || Settings.numberOfClasses == 1) {
+									String probabilityForClass0 = s[s.length - Settings.numberOfClasses];
+									float p = Float.parseFloat(probabilityForClass0);
+									if (maskF != null)
+										maskF[x][y] = p;
+									else
+										mask[x][y] = new Color(p, p, p).getRGB();
 								} else {
 									System.err.println("Only FGBG supported!");
 								}
@@ -412,10 +416,13 @@ public class ARFFProcessor {
 		}
 		
 		// new Image(mask).show("mask applyclass0ToImage");
-		if (useArffClassInformation)
-			new Image(mask).saveToFile(parent + "/foreground.png");
+		if (maskF != null)
+			new Image(maskF).saveToFile(parent + "/" + name + ".result.tiff");
 		else
-			new Image(mask).saveToFile(parent + "/classified.png");
+			if (useArffClassInformation)
+				new Image(mask).saveToFile(parent + "/foreground.png");
+			else
+				new Image(mask).saveToFile(parent + "/classified.png");
 	}
 	
 	public void convertArffToImageMultiLabel(String parent, String name,
@@ -683,7 +690,7 @@ public class ARFFProcessor {
 					if (checkMask)
 						if (mask[x + y * width] == background)
 							continue;
-					
+						
 					line += XY[x][y];
 					
 					if (line.length() > 0) {

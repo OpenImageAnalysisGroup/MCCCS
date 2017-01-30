@@ -30,6 +30,10 @@ import workflow.Settings;
 public class ImageFeatureExtraction {
 	
 	public TreeMap<String, Image> processImage(Image img, int masksize, double parm_sigma, FeatureMode mode) {
+		return processImage(img, masksize, parm_sigma, mode, true);
+	}
+	
+	public TreeMap<String, Image> processImage(Image img, int masksize, double parm_sigma, FeatureMode mode, boolean haralickPreWorkMedian) {
 		TreeMap<String, Image> res = new TreeMap<String, Image>();
 		boolean br = true;
 		
@@ -39,69 +43,74 @@ public class ImageFeatureExtraction {
 		switch (mode) {
 			
 			case ALL:
-			br = false;
+				br = false;
 			case SHARPEN:
-			ImagePlus imgp = img.copy().getAsImagePlus();
-			imgp.getProcessor().sharpen();
-			res.put(FeatureMode.SHARPEN.name(), new Image(imgp));
-			if (br)
-				break;
+				ImagePlus imgp = img.copy().getAsImagePlus();
+				imgp.getProcessor().sharpen();
+				res.put(FeatureMode.SHARPEN.name(), new Image(imgp));
+				if (br)
+					break;
 				
 			case BLUR:
-			img.getAsImagePlus().getProcessor().blurGaussian(parm_sigma);
-			res.put(FeatureMode.BLUR.name(), img);
-			if (br)
-				break;
+				img.getAsImagePlus().getProcessor().blurGaussian(parm_sigma);
+				res.put(FeatureMode.BLUR.name(), img);
+				if (br)
+					break;
 				
 			case MEDIAN:
-			RankFilters rf = new RankFilters();
-			rf.rank(img.getAsImagePlus().getProcessor().convertToByteProcessor(), masksize, RankFilters.MEDIAN);
-			res.put(FeatureMode.MEDIAN.name(), img);
-			if (br)
-				break;
+				RankFilters rf = new RankFilters();
+				rf.rank(img.getAsImagePlus().getProcessor().convertToByteProcessor(), masksize, RankFilters.MEDIAN);
+				res.put(FeatureMode.MEDIAN.name(), img);
+				if (br)
+					break;
 				
 			case HARLICK:
-			is = run(FeatureMode.HARLICK, img, masksize);
-			idx = 1;
-			for (ImageProcessor i : is) {
-				// use Median filter to suppress noise (may caused by discontinuities)
-				RankFilters rf2 = new RankFilters();
-				rf2.rank(i, 2, RankFilters.MEDIAN);
-				Image filteredImage = new Image(i).io().getImage();
-				res.put(FeatureMode.HARLICK.name() + "_" + is.getImageLabel(idx++), filteredImage);
-			}
-			if (br)
-				break;
+				is = run(FeatureMode.HARLICK, img, masksize);
+				idx = 1;
+				for (ImageProcessor i : is) {
+					// use Median filter to suppress noise (may caused by discontinuities)
+					if (haralickPreWorkMedian) {
+						RankFilters rf2 = new RankFilters();
+						rf2.rank(i, 2, RankFilters.MEDIAN);
+						Image filteredImage = new Image(i).io().getImage();
+						res.put(FeatureMode.HARLICK.name() + "_" + is.getImageLabel(idx++), filteredImage);
+					} else
+						res.put(FeatureMode.HARLICK.name() + "_" + is.getImageLabel(idx++), new Image(i));
+				}
+				if (br)
+					break;
 				
 			case KIRSCH:
-			Kirsch kirschdetector = new Kirsch();
-			ImageProcessor kimg = img.getAsImagePlus().getProcessor().convertToByteProcessor();
-			kirschdetector.run(kimg);
-			res.put(FeatureMode.KIRSCH.name(), new Image(kimg));
-			if (br)
-				break;
+				Kirsch kirschdetector = new Kirsch();
+				ImageProcessor kimg = img.getAsImagePlus().getProcessor().convertToByteProcessor();
+				kirschdetector.run(kimg);
+				res.put(FeatureMode.KIRSCH.name(), new Image(kimg));
+				if (br)
+					break;
 				
 			case GABOR:
-			GaborFilter g = new GaborFilter(img.getAsImagePlus());
-			g.run();
-			new ImagePlus("gabor", g.getIs()).show();
-			is.setStack(g.getIs());
-			is.show("gabor");
-			idx = 1;
-			for (ImageProcessor i : is) {
-				Image filteredImage = new Image(i).io().getImage();
-				res.put(FeatureMode.GABOR.name() + "_" + is.getImageLabel(idx++), filteredImage);
-			}
-			// is = run(FeatureMode.GABOR, img, masksize);
-			// idx = 1;
-			// for (ImageProcessor i : is) {
-			// Image filteredImage = new Image(i).io().getImage();
-			// res.put(FeatureMode.GABOR.name() + "_" + is.getImageLabel(idx++), filteredImage);
-			// }
-			break;
+				if (true)
+					break;
+				GaborFilter g = new GaborFilter(img.getAsImagePlus());
+				g.run();
+				new ImagePlus("gabor", g.getIs()).show();
+				is.setStack(g.getIs());
+				is.show("gabor");
+				idx = 1;
+				for (ImageProcessor i : is) {
+					Image filteredImage = new Image(i).io().getImage();
+					res.put(FeatureMode.GABOR.name() + "_" + is.getImageLabel(idx++), filteredImage);
+				}
+				// is = run(FeatureMode.GABOR, img, masksize);
+				// idx = 1;
+				// for (ImageProcessor i : is) {
+				// Image filteredImage = new Image(i).io().getImage();
+				// res.put(FeatureMode.GABOR.name() + "_" + is.getImageLabel(idx++), filteredImage);
+				// }
+				break;
 			
 			default:
-			break;
+				break;
 		}
 		return res;
 	}
@@ -145,7 +154,7 @@ public class ImageFeatureExtraction {
 					names.add(i + "");
 				}
 			}
-			
+		
 		HashMap<String, double[][]> results = new HashMap<String, double[][]>();
 		
 		for (String n : names) {
@@ -156,13 +165,13 @@ public class ImageFeatureExtraction {
 		
 		{
 			for (int y = 0; y < h; y++) {
-			
+				
 				if (img2d[x][y] == Settings.back)
 					continue;
-					
+				
 				for (int i = 0; i < temp.length; i++)
 					temp[i] = Settings.back;
-					
+				
 				int count = 0;
 				for (int xMask = -halfmask; xMask < halfmask; xMask++) {
 					for (int yMask = -halfmask; yMask < halfmask; yMask++) {
@@ -209,7 +218,7 @@ public class ImageFeatureExtraction {
 						
 						for (double[] feature : features) {
 							for (int idx = 0; idx < feature.length; idx++)
-							results.get(names.get(idx))[x][y] = feature[idx];
+								results.get(names.get(idx))[x][y] = feature[idx];
 						}
 					case KIRSCH:
 						break;
@@ -219,10 +228,10 @@ public class ImageFeatureExtraction {
 						break;
 					default:
 						break;
-						
+					
 				}
 			}
-		} , (t, e) ->
+		}, (t, e) ->
 		
 		{
 			ErrorMsg.addErrorMessage(new RuntimeException(e));
@@ -263,21 +272,21 @@ public class ImageFeatureExtraction {
 		final int f_masksize = masksize;
 		
 		String[] harlickNames = { "Angular_Second_Moment",
-			"Contrast",
-			"Correlation",
-			"Variance",
-			"Inverse_Difference_Moment",
-			"Sum_Average",
-			"Sum_Variance",
-			"Sum_Entropy",
-			"Entropy",
-			"Difference_Variance",
-			"Difference_Entropy",
-			"Information_Measures_of_Correlation_1",
-			"Information_Measures_of_Correlation_2",
-			"Maximum_Correlation",
-			"Coefficient" };
-			
+				"Contrast",
+				"Correlation",
+				"Variance",
+				"Inverse_Difference_Moment",
+				"Sum_Average",
+				"Sum_Variance",
+				"Sum_Entropy",
+				"Entropy",
+				"Difference_Variance",
+				"Difference_Entropy",
+				"Information_Measures_of_Correlation_1",
+				"Information_Measures_of_Correlation_2",
+				"Maximum_Correlation",
+				"Coefficient" };
+		
 		HashMap<String, double[][]> results = new HashMap<String, double[][]>();
 		
 		for (String n : harlickNames) {
@@ -285,45 +294,45 @@ public class ImageFeatureExtraction {
 		}
 		
 		new StreamBackgroundTaskHelper<Integer>("Texture analysis for visualization").process(
-			IntStream.range(0, w), (x) -> {
-				for (int y = 0; y < h; y++) {
-					
-					if (img2d[x][y] == Settings.back)
-						continue;
+				IntStream.range(0, w), (x) -> {
+					for (int y = 0; y < h; y++) {
 						
-					for (int i = 0; i < temp.length; i++)
-						temp[i] = Settings.back;
+						if (img2d[x][y] == Settings.back)
+							continue;
 						
-					int count = 0;
-					for (int xMask = -halfmask; xMask < halfmask; xMask++) {
-						for (int yMask = -halfmask; yMask < halfmask; yMask++) {
-						if (x + xMask >= 0 && x + xMask < w && y + yMask >= 0 && y + yMask < h) {
-							if (img2d[x + xMask][y + yMask] != ImageOperation.BACKGROUND_COLORint)
-								temp[count] = img2d[x + xMask][y + yMask] & 0x0000ff;
-							else
-								temp[count] = img2d[x + xMask][y + yMask];
+						for (int i = 0; i < temp.length; i++)
+							temp[i] = Settings.back;
+						
+						int count = 0;
+						for (int xMask = -halfmask; xMask < halfmask; xMask++) {
+							for (int yMask = -halfmask; yMask < halfmask; yMask++) {
+								if (x + xMask >= 0 && x + xMask < w && y + yMask >= 0 && y + yMask < h) {
+									if (img2d[x + xMask][y + yMask] != ImageOperation.BACKGROUND_COLORint)
+										temp[count] = img2d[x + xMask][y + yMask] & 0x0000ff;
+									else
+										temp[count] = img2d[x + xMask][y + yMask];
+								}
+								count++;
+							}
 						}
-						count++;
+						// initialize the descriptor
+						Haralick descriptor = new Haralick();
+						
+						// run the descriptor and extract the features
+						descriptor.run(new Image(f_masksize, f_masksize, temp).getAsImagePlus().getProcessor());
+						
+						// obtain the features
+						List<double[]> features = descriptor.getFeatures();
+						
+						for (double[] feature : features) {
+							for (int idx = 0; idx < feature.length; idx++)
+								results.get(harlickNames[idx])[x][y] = feature[idx];
 						}
 					}
-					// initialize the descriptor
-					Haralick descriptor = new Haralick();
-					
-					// run the descriptor and extract the features
-					descriptor.run(new Image(f_masksize, f_masksize, temp).getAsImagePlus().getProcessor());
-					
-					// obtain the features
-					List<double[]> features = descriptor.getFeatures();
-					
-					for (double[] feature : features) {
-						for (int idx = 0; idx < feature.length; idx++)
-						results.get(harlickNames[idx])[x][y] = feature[idx];
-					}
-				}
-			} , (t, e) -> {
-				ErrorMsg.addErrorMessage(new RuntimeException(e));
-			});
-			
+				}, (t, e) -> {
+					ErrorMsg.addErrorMessage(new RuntimeException(e));
+				});
+		
 		ImageStack is = new ImageStack();
 		
 		Iterator<Entry<String, double[][]>> iter = results.entrySet().iterator();
@@ -370,67 +379,67 @@ public class ImageFeatureExtraction {
 		}
 		
 		new StreamBackgroundTaskHelper<Integer>("Texture analysis for visualization").process(
-			IntStream.range(0, w), (x) -> {
-				for (int y = 0; y < h; y++) {
-					
-					if (img2d[x][y] == Settings.back)
-						continue;
+				IntStream.range(0, w), (x) -> {
+					for (int y = 0; y < h; y++) {
 						
-					for (int i = 0; i < temp.length; i++)
-						temp[i] = Settings.back;
+						if (img2d[x][y] == Settings.back)
+							continue;
 						
-					int count = 0;
-					for (int xMask = -halfmask; xMask < halfmask; xMask++) {
-						for (int yMask = -halfmask; yMask < halfmask; yMask++) {
-						if (x + xMask >= 0 && x + xMask < w && y + yMask >= 0 && y + yMask < h) {
-							if (img2d[x + xMask][y + yMask] != ImageOperation.BACKGROUND_COLORint)
-								temp[count] = img2d[x + xMask][y + yMask] & 0x0000ff;
-							else
-								temp[count] = img2d[x + xMask][y + yMask];
+						for (int i = 0; i < temp.length; i++)
+							temp[i] = Settings.back;
+						
+						int count = 0;
+						for (int xMask = -halfmask; xMask < halfmask; xMask++) {
+							for (int yMask = -halfmask; yMask < halfmask; yMask++) {
+								if (x + xMask >= 0 && x + xMask < w && y + yMask >= 0 && y + yMask < h) {
+									if (img2d[x + xMask][y + yMask] != ImageOperation.BACKGROUND_COLORint)
+										temp[count] = img2d[x + xMask][y + yMask] & 0x0000ff;
+									else
+										temp[count] = img2d[x + xMask][y + yMask];
+								}
+								count++;
+							}
 						}
-						count++;
+						ImageTexture it = new ImageTexture(temp, f_masksize, f_masksize);
+						
+						it.calcTextureFeatures();
+						
+						for (FirstOrderTextureFeatures f : FirstOrderTextureFeatures.values()) {
+							double[][] arr = firstArrays.get(f);
+							arr[x][y] = it.firstOrderFeatures.get(f);
+						}
+						
+						it.calcGLCMTextureFeatures();
+						
+						for (GLCMTextureFeatures f : GLCMTextureFeatures.values()) {
+							double[][] arr = glcmArrays.get(f);
+							arr[x][y] = it.glcmFeatures.get(f);
 						}
 					}
-					ImageTexture it = new ImageTexture(temp, f_masksize, f_masksize);
-					
-					it.calcTextureFeatures();
-					
-					for (FirstOrderTextureFeatures f : FirstOrderTextureFeatures.values()) {
-						double[][] arr = firstArrays.get(f);
-						arr[x][y] = it.firstOrderFeatures.get(f);
-					}
-					
-					it.calcGLCMTextureFeatures();
-					
-					for (GLCMTextureFeatures f : GLCMTextureFeatures.values()) {
-						double[][] arr = glcmArrays.get(f);
-						arr[x][y] = it.glcmFeatures.get(f);
-					}
-				}
-			} , (t, e) -> {
-				ErrorMsg.addErrorMessage(new RuntimeException(e));
-			});
-			
+				}, (t, e) -> {
+					ErrorMsg.addErrorMessage(new RuntimeException(e));
+				});
+		
 		ImageStack is = new ImageStack();
 		// is.addImage("", img.getImage());
 		
 		{
 			Iterator<Entry<FirstOrderTextureFeatures, double[][]>> iter = firstArrays.entrySet().iterator();
 			while (iter.hasNext()) {
-			Entry<FirstOrderTextureFeatures, double[][]> pairs = iter.next();
-			FloatProcessor p = new FloatProcessor(pairs.getValue().length, pairs.getValue()[0].length, ArrayUtil.get1d(pairs.getValue()));
-			is.addImage(pairs.getKey().toString(), new Image(p));
-			iter.remove(); // avoids a ConcurrentModificationException
+				Entry<FirstOrderTextureFeatures, double[][]> pairs = iter.next();
+				FloatProcessor p = new FloatProcessor(pairs.getValue().length, pairs.getValue()[0].length, ArrayUtil.get1d(pairs.getValue()));
+				is.addImage(pairs.getKey().toString(), new Image(p));
+				iter.remove(); // avoids a ConcurrentModificationException
 			}
 		}
 		
 		{
 			Iterator<Entry<GLCMTextureFeatures, double[][]>> iter = glcmArrays.entrySet().iterator();
 			while (iter.hasNext()) {
-			Entry<GLCMTextureFeatures, double[][]> pairs = iter.next();
-			FloatProcessor p = new FloatProcessor(pairs.getValue().length, pairs.getValue()[0].length, ArrayUtil.get1d(pairs.getValue()));
-			is.addImage(pairs.getKey().toString(), new Image(p));
-			iter.remove(); // avoids a ConcurrentModificationException
+				Entry<GLCMTextureFeatures, double[][]> pairs = iter.next();
+				FloatProcessor p = new FloatProcessor(pairs.getValue().length, pairs.getValue()[0].length, ArrayUtil.get1d(pairs.getValue()));
+				is.addImage(pairs.getKey().toString(), new Image(p));
+				iter.remove(); // avoids a ConcurrentModificationException
 			}
 		}
 		is.show("debug texture stack");

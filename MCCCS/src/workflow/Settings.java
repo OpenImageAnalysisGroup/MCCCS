@@ -17,7 +17,6 @@ public class Settings {
 	public static int back = getBackground();
 	public static float back_16 = 0f;
 	public static boolean debug_IO = false;
-	// public static int numberOfChannels = 4;
 	public static int numberOfClasses = 2;
 	public static boolean print_IO = false;
 	
@@ -36,6 +35,10 @@ public class Settings {
 		
 		if (System.getenv("DEBUG") != null) {
 			debug = Boolean.parseBoolean(System.getenv("DEBUG"));
+		}
+		
+		if (System.getenv("CLASSES") != null) {
+			numberOfClasses = Integer.parseInt(System.getenv("CLASSES"));
 		}
 		
 		if (invertFGBG) {

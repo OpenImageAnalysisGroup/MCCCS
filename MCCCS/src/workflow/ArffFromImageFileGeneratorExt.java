@@ -31,12 +31,13 @@ import ij.process.ImageProcessor;
 import tools.CountingOutputStream;
 import tools.ImageFeatureExtraction;
 import tools.ImageFeatureExtraction.FeatureMode;
+import tools.ImageFloatOnDiskOrInMemory;
 
 /**
  * Shift input image in X/Y direction and sample data. Create summary ARFF output file with sampled input data around each pixel and a last output column from
  * the target image file.
  * 
- * @author Christian Klukas
+ * @author klukas
  */
 public class ArffFromImageFileGeneratorExt {
 	public static void main(String[] args) throws IOException, Exception {
@@ -60,8 +61,8 @@ public class ArffFromImageFileGeneratorExt {
 			
 			Vector2i imgSize = new Vector2i(-1, -1);
 			ArrayList<String> inputColumnNames = new ArrayList<>();
-			ArrayList<float[][]> inputF = new ArrayList<>();
-			ArrayList<float[][]> targetF = new ArrayList<>();
+			ArrayList<ImageFloatOnDiskOrInMemory> inputF = new ArrayList<>();
+			ArrayList<ImageFloatOnDiskOrInMemory> targetF = new ArrayList<>();
 			
 			processInputSourceImage(to, imgSize, inputColumnNames, inputF);
 			processInputTargetImage(to, imgSize, targetF);
@@ -78,7 +79,7 @@ public class ArffFromImageFileGeneratorExt {
 				out = new PrintWriter(new OutputStreamWriter(cos, "UTF-8"));
 				out.println("@relation " + to.arffOutput.getName());
 				
-				writeArffHeader(to, inputColumnNames, targetF, startX, endX, startY, endY, out);
+				writeArffHeader(to, inputColumnNames, targetF.size(), startX, endX, startY, endY, out);
 				out.flush();
 				cos.writingHeader = false;
 				for (int x = 0; x < imgSize.x; x++) {
@@ -127,7 +128,7 @@ public class ArffFromImageFileGeneratorExt {
 		}
 	}
 	
-	private static void writeArffHeader(TransferOptions to, ArrayList<String> inputColumnNames, ArrayList<float[][]> targetF, int startX, int endX, int startY, int endY, PrintWriter out) {
+	private static void writeArffHeader(TransferOptions to, ArrayList<String> inputColumnNames, int targetFsize, int startX, int endX, int startY, int endY, PrintWriter out) {
 		for (int xs = startX; xs <= endX; xs++) {
 			for (int ys = startY; ys <= endY; ys++) {
 				for (String channelName : inputColumnNames) {
@@ -142,61 +143,47 @@ public class ArffFromImageFileGeneratorExt {
 			for (int channel = 0; channel < to.targetOutputColorSpace.getChannels().length; channel++)
 				out.println("@attribute target_" + to.targetInputColorSpace.getChannels()[channel] + " numeric");
 		} else {
-			for (int channel = 0; channel < targetF.size(); channel++)
+			for (int channel = 0; channel < targetFsize; channel++)
 				out.println("@attribute target_" + channel + " numeric");
 		}
 		
 		out.println("@data");
 	}
 	
-	private static void processInputTargetImage(TransferOptions to, Vector2i imgSize, ArrayList<float[][]> targetF) {
+	private static void processInputTargetImage(TransferOptions to, Vector2i imgSize, ArrayList<ImageFloatOnDiskOrInMemory> targetF) throws IOException {
 		ImagePlus tp = new ImagePlus(to.target.getAbsolutePath());
-		for (int c = 0; c < tp.getNChannels(); c++) {
-			ImageProcessor imgP = tp.getImageStack().getProcessor(c + 1);
-			targetF.add(new Image(imgP).getAs2Afloat());
-		}
 		
 		if (to.targetOutputColorSpace != null && to.targetOutputColorSpace != ColorSpaceExt.RGB) {
-			ChannelProcessingExt cp = new ChannelProcessingExt(imgSize.x, imgSize.y, targetF.get(0), targetF.get(1), targetF.get(2));
-			targetF.clear();
+			ChannelProcessingExt cp = new ChannelProcessingExt(imgSize.x, imgSize.y,
+					new Image(tp.getImageStack().getProcessor(1)).getAs1float(),
+					new Image(tp.getImageStack().getProcessor(2)).getAs1float(),
+					new Image(tp.getImageStack().getProcessor(3)).getAs1float());
 			
 			if (!Float.isNaN(to.divisorFor01RangeTargetFile))
 				cp.divideInputValuesToReach01Range(to.divisorFor01RangeTargetFile);
 			ImagePlus[] transformedTargetImg = cp.getImage(to.rgbColorSpace, to.targetOutputColorSpace);
 			for (ImagePlus ip : transformedTargetImg) {
 				ImageProcessor imgP = ip.getChannelProcessor();
-				targetF.add(new Image(imgP).getAs2Afloat());
+				targetF.add(new ImageFloatOnDiskOrInMemory(new Image(imgP).getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+			}
+		} else {
+			for (int c = 0; c < tp.getNChannels(); c++) {
+				ImageProcessor imgP = tp.getImageStack().getProcessor(c + 1);
+				targetF.add(new ImageFloatOnDiskOrInMemory(new Image(imgP).getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
 			}
 		}
 		
 		if (to.selectedTargetColorSpaceForOutput >= 0) {
-			float[][] remainTargetF = targetF.get(to.selectedTargetColorSpaceForOutput);
+			ImageFloatOnDiskOrInMemory remainTargetF = targetF.get(to.selectedTargetColorSpaceForOutput);
 			targetF.clear();
 			targetF.add(remainTargetF);
 		}
 	}
 	
-	private static void processInputSourceImage(TransferOptions to, Vector2i imgSize, ArrayList<String> inputColumnNames, ArrayList<float[][]> inputF) {
+	private static void processInputSourceImage(TransferOptions to, Vector2i imgSize, ArrayList<String> inputColumnNames, ArrayList<ImageFloatOnDiskOrInMemory> inputF) throws IOException {
 		ImagePlus ip = new ImagePlus(to.input.getAbsolutePath());
 		imgSize.x = ip.getWidth();
 		imgSize.y = ip.getHeight();
-		
-		for (int c = 0; c < ip.getNChannels(); c++) {
-			ImageProcessor imgP = ip.getImageStack().getProcessor(c + 1);
-			inputF.add(new Image(imgP).getAs2Afloat());
-		}
-		
-		if (to.targetInputColorSpace != null && to.targetInputColorSpace != ColorSpaceExt.RGB) {
-			ChannelProcessingExt cp = new ChannelProcessingExt(imgSize.x, imgSize.y, inputF.get(0), inputF.get(1), inputF.get(2));
-			inputF.clear();
-			if (!Float.isNaN(to.divisorFor01RangeInputFile))
-				cp.divideInputValuesToReach01Range(to.divisorFor01RangeInputFile);
-			ImagePlus[] transformedTargetImg = cp.getImage(to.rgbColorSpace, to.targetInputColorSpace);
-			for (ImagePlus tip : transformedTargetImg) {
-				ImageProcessor imgP = tip.getChannelProcessor();
-				inputF.add(new Image(imgP).getAs2Afloat());
-			}
-		}
 		
 		if (to.targetInputColorSpace != null) {
 			for (int channel = 0; channel < to.targetInputColorSpace.getChannels().length; channel++)
@@ -206,23 +193,53 @@ public class ArffFromImageFileGeneratorExt {
 				inputColumnNames.add("I" + channel);
 		}
 		
-		if (to.textureSourceFeatureMode != null) {
-			for (float[][] iF : inputF) {
-				TreeMap<String, Image> res = new ImageFeatureExtraction()
-						.processImage(new Image(iF), to.textureMaskSize, to.textureSigma, to.textureSourceFeatureMode);
+		if (to.targetInputColorSpace != null && to.targetInputColorSpace != ColorSpaceExt.RGB) {
+			ChannelProcessingExt cp = new ChannelProcessingExt(imgSize.x, imgSize.y,
+					new Image(ip.getImageStack().getProcessor(1)).getAs1float(),
+					new Image(ip.getImageStack().getProcessor(2)).getAs1float(),
+					new Image(ip.getImageStack().getProcessor(3)).getAs1float());
+			
+			if (!Float.isNaN(to.divisorFor01RangeInputFile))
+				cp.divideInputValuesToReach01Range(to.divisorFor01RangeInputFile);
+			ImagePlus[] transformedTargetImg = cp.getImage(to.rgbColorSpace, to.targetInputColorSpace);
+			for (ImagePlus tip : transformedTargetImg) {
+				ImageProcessor imgP = tip.getChannelProcessor();
+				Image iF = new Image(imgP);
+				inputF.add(new ImageFloatOnDiskOrInMemory(iF.getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+				TreeMap<String, Image> res = new ImageFeatureExtraction().processImage(iF, to.textureMaskSize, to.textureSigma, to.textureSourceFeatureMode);
 				for (String key : res.keySet()) {
 					inputColumnNames.add(key);
-					inputF.add(res.get(key).getAs2Afloat());
+					inputF.add(new ImageFloatOnDiskOrInMemory(res.get(key).getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+				}
+			}
+		} else {
+			for (int c = 0; c < ip.getNChannels(); c++) {
+				ImageProcessor imgP = ip.getImageStack().getProcessor(c + 1);
+				Image iF = new Image(imgP);
+				inputF.add(new ImageFloatOnDiskOrInMemory(iF.getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+				
+				if (to.textureSourceFeatureMode != null) {
+					TreeMap<String, Image> res = new ImageFeatureExtraction().processImage(iF, to.textureMaskSize, to.textureSigma, to.textureSourceFeatureMode);
+					for (String key : res.keySet()) {
+						inputColumnNames.add(key);
+						inputF.add(new ImageFloatOnDiskOrInMemory(res.get(key).getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+					}
 				}
 			}
 		}
 	}
 	
-	private static String getIntensity(ArrayList<float[][]> inputF, int xs, int ys, int channel, DecimalFormat df) {
+	private static String getTempFile(File tempFolder) throws IOException {
+		File tempF = File.createTempFile("tmp_", "", tempFolder);
+		tempF.deleteOnExit();
+		return tempF.getAbsolutePath();
+	}
+	
+	private static String getIntensity(ArrayList<ImageFloatOnDiskOrInMemory> inputF, int xs, int ys, int channel, DecimalFormat df) throws IOException {
 		if (df == null)
-			return ((Float) inputF.get(channel)[xs][ys]).toString();
+			return ((Float) inputF.get(channel).getIntensityValue(xs, ys)).toString();
 		else
-			return df.format(inputF.get(channel)[xs][ys]);
+			return df.format(inputF.get(channel).getIntensityValue(xs, ys));
 	}
 	
 	private static CountingOutputStream getCountingStream(TransferOptions to, int outputIndex) throws FileNotFoundException {
@@ -348,9 +365,16 @@ public class ArffFromImageFileGeneratorExt {
 		}
 		{
 			Option opt = new Option("d", "disk", false, "If specified, the intermediate input and target image "
-					+ "intensities (e.g. texture images) are saved to disk. During ARFF file generation, they are "
+					+ "intensities (e.g. texture images) are saved to disk (use 'tmp' parameter to specify target location). During ARFF file generation, they are "
 					+ "read from disk and not loaded into memory. By using this "
 					+ "parameter, less memory is required, but more intermediate disk space.");
+			opt.setArgName("mode");
+			opt.setOptionalArg(true);
+			options.addOption(opt);
+		}
+		{
+			Option opt = new Option("tmp", "tempfolder", true, "The folder used to store temporary image data (if 'disk' mode is enabled, by default "
+					+ "the system temp folder (currently '" + System.getProperty("java.io.tmpdir") + "') is used.");
 			opt.setArgName("mode");
 			opt.setOptionalArg(true);
 			options.addOption(opt);
@@ -384,6 +408,7 @@ public class ArffFromImageFileGeneratorExt {
 }
 
 class TransferOptions {
+	File tempFolder;
 	File input;
 	int maskX;
 	int maskY;
@@ -459,5 +484,10 @@ class TransferOptions {
 			DecimalFormatSymbols rls = new DecimalFormatSymbols(Locale.ROOT);
 			this.decimalPlaceFormat = new DecimalFormat("#", rls);
 		}
+		
+		if (line.hasOption("tmp"))
+			this.tempFolder = new File(line.getOptionValue("tmp", System.getProperty("java.io.tmpdir")));
+		else
+			this.tempFolder = new File(System.getProperty("java.io.tmpdir"));
 	}
 }

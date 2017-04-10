@@ -41,7 +41,6 @@ public class ImageFeatureExtraction {
 		int idx;
 		
 		switch (mode) {
-			
 			case ALL:
 				br = false;
 			case SHARPEN:

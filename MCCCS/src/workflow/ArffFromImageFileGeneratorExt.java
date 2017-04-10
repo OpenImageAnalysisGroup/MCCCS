@@ -25,6 +25,7 @@ import org.apache.commons.cli.Options;
 import colors.ChannelProcessingExt;
 import colors.ColorSpaceExt;
 import colors.RgbColorSpaceExt;
+import de.ipk.ag_ba.image.operation.channels.ChannelProcessing;
 import de.ipk.ag_ba.image.structures.Image;
 import ij.ImagePlus;
 import ij.process.ImageProcessor;
@@ -194,22 +195,34 @@ public class ArffFromImageFileGeneratorExt {
 		}
 		
 		if (to.targetInputColorSpace != null && to.targetInputColorSpace != ColorSpaceExt.RGB) {
-			ChannelProcessingExt cp = new ChannelProcessingExt(imgSize.x, imgSize.y,
-					new Image(ip.getImageStack().getProcessor(1)).getAs1float(),
-					new Image(ip.getImageStack().getProcessor(2)).getAs1float(),
-					new Image(ip.getImageStack().getProcessor(3)).getAs1float());
+			ChannelProcessingExt cp;
+			if (ip.getImageStackSize() < 3) {
+				ChannelProcessing cp2 = new ChannelProcessing(new Image(ip).getAs1A(), ip.getWidth(), ip.getHeight());
+				cp = new ChannelProcessingExt(imgSize.x, imgSize.y,
+						cp2.getR().getImage().getAs1float(),
+						cp2.getG().getImage().getAs1float(),
+						cp2.getB().getImage().getAs1float());
+			} else {
+				cp = new ChannelProcessingExt(imgSize.x, imgSize.y,
+						new Image(ip.getImageStack().getProcessor(1)).getAs1float(),
+						new Image(ip.getImageStack().getProcessor(2)).getAs1float(),
+						new Image(ip.getImageStack().getProcessor(3)).getAs1float());
+			}
 			
 			if (!Float.isNaN(to.divisorFor01RangeInputFile))
 				cp.divideInputValuesToReach01Range(to.divisorFor01RangeInputFile);
+			
 			ImagePlus[] transformedTargetImg = cp.getImage(to.rgbColorSpace, to.targetInputColorSpace);
 			for (ImagePlus tip : transformedTargetImg) {
 				ImageProcessor imgP = tip.getChannelProcessor();
 				Image iF = new Image(imgP);
 				inputF.add(new ImageFloatOnDiskOrInMemory(iF.getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
-				TreeMap<String, Image> res = new ImageFeatureExtraction().processImage(iF, to.textureMaskSize, to.textureSigma, to.textureSourceFeatureMode);
-				for (String key : res.keySet()) {
-					inputColumnNames.add(key);
-					inputF.add(new ImageFloatOnDiskOrInMemory(res.get(key).getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+				if (to.textureSourceFeatureMode != null) {
+					TreeMap<String, Image> res = new ImageFeatureExtraction().processImage(iF, to.textureMaskSize, to.textureSigma, to.textureSourceFeatureMode);
+					for (String key : res.keySet()) {
+						inputColumnNames.add(key);
+						inputF.add(new ImageFloatOnDiskOrInMemory(res.get(key).getAs2Afloat(), getTempFile(to.tempFolder), to.useTempFiles));
+					}
 				}
 			}
 		} else {

@@ -2,6 +2,7 @@
 <project default="build" name="build">
     <target name="build">
     	<!-- download and extract weka.jar -->
+    	<mkdir dir="../lib/"/>
     	<get description="get weka" 
     		src="http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-12.zip" 
     		dest="../lib/weka.zip">
@@ -17,18 +18,18 @@
     	<delete file="../lib/weka.zip"/>
     	<!-- download IAP jar -->
     	<get description="get IAP jar" 
-    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/V2.0.5/IAP_v2.0.5.zip" 
+    		src="https://github.com/OpenImageAnalysisGroup/IAP/releases/download/V2.1.0/IAP_v2.1.0.zip" 
     		dest="../lib/IAP.zip">
     	</get>
     	<unzip src="../lib/IAP.zip" dest="../lib" overwrite="true">
     	    <patternset>
-    	        <include name="IAP_v2.0.5/iap_2_0.jar"/>
+    	        <include name="IAP_v2.1.0/iap_2_1.jar"/>
     	    </patternset>
     	    <mapper>
-    	        <globmapper from="IAP_v2.0.5/*" to="*"/>
+    	        <globmapper from="IAP_v2.1.0/*" to="*"/>
     	    </mapper>
     	</unzip>
-    	<move file="../lib/iap_2_0.jar" tofile="../lib/iap.jar"/>
+    	<move file="../lib/iap_2_1.jar" tofile="../lib/iap.jar"/>
     	<delete file="../lib/IAP.zip"/>
     	<!-- download bioformats -->
     	<get description="get weka" 

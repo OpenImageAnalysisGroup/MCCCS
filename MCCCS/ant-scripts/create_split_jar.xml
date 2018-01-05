@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project MCCCS">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/Christian Klukas/eclipse-workspace"/>
+    <property name="dir.jarfile" value="C:/Users/Christian Klukas/Documents/GitHub/MCCCS/MCCCS/release"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/split.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="cmds.SplitTiff"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Christian Klukas/Documents/GitHub/IAP/IAP/release/iap_2_0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Christian Klukas/Documents/GitHub/MCCCS/MCCCS/lib/bio.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Christian Klukas/Documents/GitHub/MCCCS/MCCCS/lib/weka.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Christian Klukas/Documents/GitHub/MCCCS/MCCCS/lib/jfeaturelib.jar"/>
+            <fileset dir="C:/Users/Christian Klukas/Documents/GitHub/MCCCS/MCCCS/target/classes"/>
+        </jar>
+    </target>
+</project>

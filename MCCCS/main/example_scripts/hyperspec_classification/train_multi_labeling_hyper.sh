@@ -80,45 +80,36 @@ echo "3. Quantify areas."
 echo "4. Transform result CSV file into column oriented CSV file."
 for dir in */;
 do
-	if  [ "$dir" = "CVS" ]; then
-		echo
-		echo "Ignore CVS directory."
- 	else
-		echo
-	    dir=${dir%*/}
-	    echo -n "[${dir}]"  
-	    
-	    echo -n "."
-	   	rm -f "${dir}/${dir}.arff"
-		echo "${dir}/${dir}.arff"
-	    $JAVA.ArffFromImageFileGenerator $CLASSCOUNT "${dir}"
-	    	
-	 	echo -n "."
-	 	$WEKA weka.filters.supervised.attribute.AddClassification -i "${dir}/${dir}_7.arff" -serialized label.model -classification -remove-old-class -o "${dir}/result.arff" -c last -distribution
+	echo
+	dir=${dir%*/}
+	echo -n "[${dir}]"  
+	
+	echo -n "."
+	rm -f "${dir}/${dir}.arff"
+	echo "${dir}/${dir}.arff"
+	$JAVA.ArffFromImageFileGenerator $CLASSCOUNT "${dir}"
 		
-		echo -n "."
-		#create foreground png
-		cp "${dir}/channel_001.tif" "${dir}/result.tif"
-		$JAVA.ArffToImageFileGenerator $CLASSCOUNT "${dir}/result.tif"
-		$JAVA.ArffToProbabilityImageFileGenerator $CLASSCOUNT 0.99 "${dir}/result.tif"
-		rm "${dir}/result.tif"
-		
-		echo -n "."
-		cp "${dir}/classified.png" "${dir}/foreground_cluster.png"
-		rm -f ${dir}/*_quantified.csv
-		$JAVA.Quantify 0 "${dir}/foreground_cluster.png"
-		rm "${dir}/foreground_cluster.png"
-	fi
+	echo -n "."
+	$WEKA weka.filters.supervised.attribute.AddClassification -i "${dir}/${dir}_7.arff" -serialized label.model -classification -remove-old-class -o "${dir}/result.arff" -c last -distribution
+	
+	echo -n "."
+	#create foreground png
+	cp "${dir}/channel_001.tif" "${dir}/result.tif"
+	$JAVA.ArffToImageFileGenerator $CLASSCOUNT "${dir}/result.tif"
+	$JAVA.ArffToProbabilityImageFileGenerator $CLASSCOUNT 0.99 "${dir}/result.tif"
+	rm "${dir}/result.tif"
+	
+	echo -n "."
+	cp "${dir}/classified.png" "${dir}/foreground_cluster.png"
+	rm -f ${dir}/*_quantified.csv
+	$JAVA.Quantify 0 "${dir}/foreground_cluster.png"
+	rm "${dir}/foreground_cluster.png"
 done
 echo
 echo "Transform CSV"
 for dir in */;
 do
-	if  [ "$dir" = "CVS" ]; then
-		echo "Ignore CVS directory."
-	else
 	cat ${dir}/*_quantified.csv >> all_results.csv
-	fi
 done
 rm -f all_results.csv.transformed
 $JAVA.TransformCSV all_results.csv

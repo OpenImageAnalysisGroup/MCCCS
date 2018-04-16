@@ -1,0 +1,6 @@
+Error upon script execution: "syntax error: unexpected end of file"
+==> If you have checked out the files on Windows, text file endings will be automatically converted during checkout to Windows format (\r\n).
+==> If you want to execute the scripts using e.g. the Ubuntu on Windows environment under Windows 10, you need  to convert the line endings to Linux format (\n). 
+    Check, if you are in the main folder of the MCCCS system (e.g. check the output of the 'pwd' command) and then use the command 
+	find . -type f | grep .sh$ | xargs dos2unix
+    to convert script line endings to the proper format for this environment.

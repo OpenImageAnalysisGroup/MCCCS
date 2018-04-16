@@ -26,9 +26,9 @@ public class MergeArffFiles {
 	
 	public static void main(String[] args) throws Exception {
 		if (args == null || args.length < 2) {
-			System.err.println("No [targetfile]Â [filenames] [-ColIndex] for ARFF files to be merged specified, "
-					+ "optionally specific columns may be removed from the output (1...x), by adding +str an stri"
-					+ "ng can be added into the last column! Return Code 1");
+			System.err.println("No [targetfile] [filenames] [-ColIndex] for ARFF files to be merged specified, "
+					+ "optionally specific columns may be removed from the output (1...x), by adding +str "
+					+ "the specified string can be added into the last column! Return Code 1");
 			System.exit(1);
 		} else {
 			LinkedList<File> fl = new LinkedList<>();

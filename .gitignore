@@ -1,0 +1,11 @@
+
+MCCCS/main/example_data/*
+MCCCS/main/lib/bio.jar
+MCCCS/main/lib/bioformats_package.jar
+MCCCS/main/lib/common-extension-lib-2.1.0.jar
+MCCCS/main/lib/iap.jar
+MCCCS/main/lib/jfeaturelib.jar
+MCCCS/main/lib/weka.jar
+MCCCS/main/lib/weka/weka-3-6-12.zip
+MCCCS/main/lib/weka/weka.zip
+MCCCS/main/mcccs.jar

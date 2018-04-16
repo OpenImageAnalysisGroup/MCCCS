@@ -142,8 +142,8 @@ public class ImageFeatureExtraction {
 			names.add("Entropy");
 			names.add("Difference_Variance");
 			names.add("Difference_Entropy");
-			names.add("Information_Measures_of_Correlation_1");
-			names.add("Information_Measures_of_Correlation_2");
+			names.add("Information_Measures_of_Correlation_A");
+			names.add("Information_Measures_of_Correlation_B");
 			names.add("Maximum_Correlation");
 			names.add("Coefficient");
 			
@@ -281,8 +281,8 @@ public class ImageFeatureExtraction {
 				"Entropy",
 				"Difference_Variance",
 				"Difference_Entropy",
-				"Information_Measures_of_Correlation_1",
-				"Information_Measures_of_Correlation_2",
+				"Information_Measures_of_Correlation_A",
+				"Information_Measures_of_Correlation_B",
 				"Maximum_Correlation",
 				"Coefficient" };
 		

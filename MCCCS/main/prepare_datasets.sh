@@ -1,5 +1,7 @@
 #!/bin/bash
-#author Jean-Michel Pape & Christian Klukas
+#
+# Authors Jean-Michel Pape & Christian Klukas
+#
 if [[ ! -f check_requirements.sh ]] ; then
     echo 'File "check_requirements.sh" is not there, aborting.'
     exit
@@ -13,7 +15,7 @@ echo "Hanno Scharr, Massimo Minervini, Andreas Fischbach, Sotirios A. Tsaftaris.
 echo ""
 echo "2. The classification and clustering examples using a hyperspectral data set 'hyper_example_1_classification' and 'hyper_example_2_clustering' are made available from https://engineering.purdue.edu/~biehl/."
 echo ""
-echo "Press Enter to continue or ctrl+c to abort."
+echo "Press Enter to continue or Ctrl+C to abort."
 read
 echo "Continue and download of the following data sets and libraries?"
 echo "1. https://engineering.purdue.edu/~biehl/Hyperspectral_Project.zip"
@@ -22,7 +24,7 @@ echo "3. http://downloads.sourceforge.net/project/weka/weka-3-6/3.6.12/weka-3-6-
 echo "4. http://downloads.openmicroscopy.org/bio-formats/5.1.0/artifacts/bioformats_package.jar"
 echo "If the download fails (proxy/firewall), please use your webbrowser for download or modify this script."
 echo ""
-echo "Press Enter to continue or ctrl + c to abort."
+echo "Press Enter to continue or Ctrl+C to abort."
 read
 #################################################################
 # Download example data
@@ -93,12 +95,12 @@ cd ../..
 #################################################################
 # Copy scripts to target example folders
 #################################################################
-echo "copy scripts into example folders"
+echo "Copy scripts into example folders..."
 cp example_scripts/example_RGB_segmentation/* example_data/segmentation_example_1_classification
 cp example_scripts/hyperspec_classification/* example_data/hyper_example_1_classification
 cp example_scripts/hyperspec_clustering/* example_data/hyper_example_2_clustering
 
-echo "Move all images and ground-truth images into subfolders for training and prediction."
+echo "Move all images and ground-truth images into subfolders for training and prediction..."
 #segmentation exp
 cd example_data/segmentation_example_1_classification/A1_training
 bash ../move_all_to_subdir.sh _label.png

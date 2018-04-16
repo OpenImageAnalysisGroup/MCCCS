@@ -44,7 +44,7 @@ END_ALL=$(date +%s)
 DIFF_PP=$(echo "$END_ALL - $START_SEC" | bc)
 
 START_SEC=$(date +%s)
-bash ./train_Ftrain_rgb_segmentationGBG_CVPPP.sh .. A3_training f A3
+bash ./train_rgb_segmentation.sh .. A3_training f A3
 END_ALL=$(date +%s)
 DIFF_TTT=$(echo "$END_ALL - $START_SEC" | bc)
 

@@ -40,7 +40,8 @@ echo "4. Threshold ground-truth"
 echo "5. Generate ARFF files from color channels and image operation results"
 echo
 echo "Generate training data:"
-find * -maxdepth 0 -type d -print0 | $PARALLEL_EXECUTE "$CREATE_CHANNEL_FILES" "$PROCESS_DIR" {}
+RELATIVE_PROCESS_DIR=$(realpath --relative-to="${PWD}" "$PROCESS_DIR")
+find * -maxdepth 0 -type d -print0 | $PARALLEL_EXECUTE "$CREATE_CHANNEL_FILES" "$RELATIVE_PROCESS_DIR" {}
 echo
 echo
 echo "Create overall FB/GB training data set file 'all_fgbg.arff'..."
@@ -62,9 +63,10 @@ echo "Classifier-Training:"
 echo "Train FGBG classifier from file 'all_fgbg.arff'..."
 echo
 START=$(date +%s)
+$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d "${MODELPATH}/fgbg.model" -W weka.classifiers.trees.RandomForest -- -I 50 -K 0 -S 1
 #$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.trees.J48 -- -C 0.25 -M 2
 #$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.bayes.NaiveBayes
-$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d "${MODELPATH}/fgbg.model" -W weka.classifiers.trees.RandomForest -- -I 200 -K 0 -S 1
+#$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d "${MODELPATH}/fgbg.model" -W weka.classifiers.trees.RandomForest -- -I 200 -K 0 -S 1
 #$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_fgbg.arff' -d fgbg.model -W weka.classifiers.bayes.BayesNet -- -D -Q weka.classifiers.bayes.net.search.local.K2 -- -S BAYES -E weka.classifiers.bayes.net.estimate.SimpleEstimator -- -A 0.5
 echo
 END=$(date +%s)

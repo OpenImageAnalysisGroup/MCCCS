@@ -31,7 +31,7 @@ else
 	export JAVA="java workflow"
 fi 
 export CLASSPATH=$MBP
-export WEKA="java "
+export WEKA="java"
 
 NPROCS=1
 OS=$(uname -s)

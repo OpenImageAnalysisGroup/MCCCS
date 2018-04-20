@@ -23,7 +23,8 @@ do
 	cat "$1/header.arff" "$splitarff" > "${splitarff}.arff"
 	rm "$splitarff"
 	# classification by WEKA
-	$WEKA weka.filters.supervised.attribute.AddClassification -i "${splitarff}.arff" -serialized "$MODELPATH/$4.model" -classification -remove-old-class -o "$1/split_result_${IDX}.arff" -c last -distribution
+	RELATIVE_MODELPATH=$(realpath --relative-to="${PWD}" "$MODELPATH")
+	$WEKA weka.filters.supervised.attribute.AddClassification -i "${splitarff}.arff" -serialized "${RELATIVE_MODELPATH}/$4.model" -classification -remove-old-class -o "$1/split_result_${IDX}.arff" -c last -distribution
 	rm -f "${splitarff}.arff"
 	IDX=$((10#$IDX + 1))
 done

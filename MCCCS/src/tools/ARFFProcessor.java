@@ -642,6 +642,107 @@ public class ARFFProcessor {
 	}
 	
 	/**
+	 * Creates grayscale image by using class probabilities (uses all
+	 * information of arff file)
+	 * 
+	 * @author Christian Klukas
+	 */
+	public void convertArffToImageMultiLabelFloatImage2(String arffFileName, int w, int h) throws IOException {
+		// create grayscale image for each class
+		File arffFile = new File(arffFileName);
+		String directory = arffFile.getParent();
+		String fileNameWithoutExt = StringManipulationTools.removeFileExtension(arffFile.getName());
+		try (FileReader fr = new FileReader(arffFileName); BufferedReader br = new BufferedReader(fr)) {
+			// skip header
+			boolean headpresent = true;
+			while (headpresent) {
+				String line = br.readLine();
+				// System.out.println(line);
+				if (line.contains("@data"))
+					headpresent = false;
+			}
+			
+			int classCnt = -1;
+			boolean goToStart = false;
+			int savedX = 0;
+			int savedY = 0;
+			
+			float[][][] mask = null;
+			float[][][] mask_bm = null;
+			
+			String[] classNames = null;
+			
+			int attributesBeforeClassInfo = 0;
+			boolean foundDataAttribute = false;
+			
+			out: for (int x = 0; x < w; x++) {
+				for (int y = 0; y < h; y++) {
+					if (goToStart) {
+						x = savedX;
+						y = savedY;
+						goToStart = false;
+					}
+					
+					String line = br.readLine();
+					// end of file ?
+					if (line == null)
+						break out;
+					if (line.contains("%"))
+						break out;
+					if (line.length() == 0) {
+						// skip empty lines in arff file
+						goToStart = true;
+						savedX = x;
+						savedY = y;
+						continue;
+					}
+					if (line.startsWith("@attribute class")) {
+						line = line.substring(line.indexOf("{"));
+						line = line.substring(0, line.indexOf("}"));
+						classNames = line.split(",");
+						classCnt = classNames.length;
+						mask = new float[classCnt][w][h];
+						mask_bm = new float[classCnt][w][h];
+					} else {
+						if (line.startsWith("@attribute") && classNames == null)
+							attributesBeforeClassInfo = attributesBeforeClassInfo + 1;
+					}
+					
+					if (line.startsWith("@data")) {
+						foundDataAttribute = true;
+					}
+					
+					if (foundDataAttribute) {
+						String[] s = line.split(",");
+						float maxProb = -Float.MAX_VALUE;
+						int maxIdx = -1;
+						for (int classIdx = 0; classIdx < classNames.length; classIdx++) {
+							float prob = Float.parseFloat(s[attributesBeforeClassInfo + 1 + classIdx]);
+							mask[classIdx][x][y] = prob;
+							mask[classIdx][x][y] = prob;
+							if (prob > maxProb) {
+								maxProb = prob;
+								maxIdx = classIdx;
+							}
+						}
+						if (maxIdx >= 0) {
+							mask_bm[maxIdx][x][y] = 1f;
+						}
+					}
+				}
+			}
+			for (int classIdx = 0; classIdx < classNames.length; classIdx++) {
+				new Image(mask[classIdx]).saveToFile(directory + "/" + fileNameWithoutExt + "_pr_" + classNames[classIdx] + ".tif");
+			}
+			
+			for (int classIdx = 0; classIdx < classNames.length; classIdx++) {
+				new Image(mask[classIdx]).saveToFile(directory + "/" + fileNameWithoutExt + "_bm_" + classNames[classIdx] + ".tif");
+				new Image(mask_bm[classIdx]).saveToFile(directory + "/" + fileNameWithoutExt + "_bm_" + classNames[classIdx] + ".tif");
+			}
+		}
+	}
+	
+	/**
 	 * Reads a single channel image and creates Arff file.
 	 * 
 	 * @param ip

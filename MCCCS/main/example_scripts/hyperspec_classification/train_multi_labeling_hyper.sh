@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e # stop in case of error
 echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°"
 echo "°                                                                   °"
 echo "°                          Welcome to the                           °"
@@ -6,13 +7,15 @@ echo "°       'Multi Channel Classification and Clustering System'        °"
 echo "°                                                                   °"
 echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°"
 echo "°                                                                   °"
-echo "°          V1.0 developed in 2015										                °"
+echo "°          V1.0 developed in 2015-2016                              °"
 echo "°          by the following members of the Research Group           °"
+echo "°          - IMAGE ANALYSIS @ IPK -                                 °"
 echo "°                                                                   °"
-echo "°          - IMAGE ANALYSIS at IPK -                                °"
-echo "°                                                                   °" 
 echo "°          Jean-Michel Pape and                                     °"
 echo "°          Dr. Christian Klukas (Head of group)                     °"
+echo "°                                                                   °"
+echo "°          V2.0 developed in 2017-2018 by                           °"
+echo "°          Dr. Christian Klukas                                     °"
 echo "°                                                                   °"
 echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°"
 echo "°                                                                   °"
@@ -20,19 +23,12 @@ echo "°              !! Script will stop in case of error. !!             °"
 echo "°           !!  Last output is READY in case of no error !!         °"
 echo "°                                                                   °"
 echo "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°"
-# stop in case of error:
-set -e
-PRES="$(pwd)/preprocess_hyper_classification.sh"
-if ! [[ "$(uname)" == CYGWIN* ]]
-then
-	chmod +x $PRES
-fi
-if [ "$(uname)" == "Darwin" ]; then
-realpath() {
-    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
-}
-fi
+
+source ../segmentation_example_1_classification/set_env.sh
+PREPROCESS_HYPER_CLASSIFICATION="$(pwd)/preprocess_hyper_classification.sh"
+
 export CLASSCOUNT=$3
+
 source prepare.sh
 echo Java command: $JAVA
 echo
@@ -41,26 +37,19 @@ echo "1. Split tiff-stack into separate images."
 echo "2. Generate ARFF files from training data." 
 echo "3. Create (first) or extend (following dirs) 'all_fbgb.arff'."
 echo -n "."
-#ls -1 -d */ | grep -v CVS | $par "$PRES" {}
-find * -maxdepth 0 -type d | grep -F -v CVS | $par $PRES {}
+find * -maxdepth 0 -type d -print0 | ${PARALLEL_EXECUTE} "${PREPROCESS_HYPER_CLASSIFICATION}" "{}"
 echo -n "."
-FIRST="yes"
+
 for dir in */;
 do
-	if  [ "$dir" = "CVS/" ]; then
-		echo -n "[Ignore CVS directory]"
-		continue
- 	fi
-	if  [ "$FIRST" = "yes" ]; then
-		# add complete file, including header
-		# echo "Add complete file to Arff."
-		cat "${dir}/labelTraining.arff" >> all_label.arff
+	if  [ ! -f all_label.arff ]
+	then
+		cat "${dir}/labelTraining.arff" > all_label.arff
 	else
-		# ignore header
 		cat "${dir}/labelTraining.arff" | grep -v @ | grep -v "%"   >> all_label.arff
 	fi
-	FIRST="no"
 done
+
 echo
 echo
 echo "Steps to summarize data:"
@@ -68,16 +57,16 @@ echo "1. Train FGBG classifier from all_label.arff file."
 echo
 echo "Summarize data:"
 echo -n "."
-$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_label.arff' -d 	label.model -W weka.classifiers.trees.RandomForest -- -I 100 -K 0 -S 1
+$WEKA weka.classifiers.meta.FilteredClassifier -t 'all_label.arff' -d label.model -W weka.classifiers.trees.RandomForest -- -I 100 -K 0 -S 1
 echo
 echo "Completed training."
 echo
 echo "Use model to predict result for data:"
-echo "0. Convert image to ARFF."
-echo "1. Apply model."
-echo "2. Create FGBG mask."
-echo "3. Quantify areas."
-echo "4. Transform result CSV file into column oriented CSV file."
+echo "1. Convert image to ARFF."
+echo "2. Apply model."
+echo "3. Create FGBG mask."
+echo "4. Quantify areas."
+echo "5. Transform result CSV file into column oriented CSV file."
 for dir in */;
 do
 	echo
@@ -107,10 +96,12 @@ do
 done
 echo
 echo "Transform CSV"
+
 for dir in */;
 do
 	cat ${dir}/*_quantified.csv >> all_results.csv
 done
+
 rm -f all_results.csv.transformed
 $JAVA.TransformCSV all_results.csv
 mv all_results.csv.transformed all_results.csv

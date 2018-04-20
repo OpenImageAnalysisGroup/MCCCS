@@ -33,7 +33,8 @@ START=$(date +%s)
 	rm -f ${dir}/channel_*
 
 	# splits ${dir}_2.arff, applies model, creates classification result 'fgbg_result.arff'
-	"$SPLIT_ARFF" "${dir}" "${dir}_2.arff" "true" "fgbg" "100m" 
+	RELATIVE_SPLIT_ARFF=$(realpath --relative-to="${PWD}" "$SPLIT_ARFF")
+	"$RELATIVE_SPLIT_ARFF" "${dir}" "${dir}_2.arff" "true" "fgbg" "100m" 
 
 	$JAVA.ApplyClass0ToImage "${dir}/fgbg_result.tif"
 	#$JAVA.ArffToImageFileGenerator $CLASSCOUNT "${dir}/fgbg_result.tif" # looks for fgbg_result.arff

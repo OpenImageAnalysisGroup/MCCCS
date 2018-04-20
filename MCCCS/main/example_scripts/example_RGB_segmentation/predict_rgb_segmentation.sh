@@ -39,15 +39,15 @@ echo "(g) Quantify predicted areas"
 echo
 echo "[Depending on the number of images, the prediction phase may take a longer time]"
 echo
-find * -maxdepth 0 -type d -print0 | $PARALLEL_EXECUTE "$PREDICT_FOLDER" "$WORKDIR" "{}"
+RELATIVE_PREDICT_FOLDER=$(realpath --relative-to="${PWD}" "$PREDICT_FOLDER")
+RELATIVE_WORKDIR=$(realpath --relative-to="${PWD}" "$WORKDIR")
+find * -maxdepth 0 -type d -print0 | $PARALLEL_EXECUTE "$RELATIVE_PREDICT_FOLDER" "$RELATIVE_WORKDIR" "{}"
 echo
 echo "Transform result CSV file into column oriented CSV file..."
 rm -f all_prediction_results.csv.transformed
 $JAVA.TransformCSV all_prediction_results.csv
 mv all_prediction_results.csv.transformed all_prediction_results.csv
 echo
-echo "Processing finished:"
-echo "Model has been applied to training data. Disease infection rate is calculated:"
-echo "      'all_prediction_results.csv'"
+echo "Processing finished: Model has been applied to training data. Observed class frequencies are calculated and stored in 'all_prediction_results.csv'."
 echo
 echo READY

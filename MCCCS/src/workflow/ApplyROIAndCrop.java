@@ -3,8 +3,6 @@ package workflow;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.poi.ss.formula.eval.NotImplementedException;
-
 import ij.ImagePlus;
 import ij.io.FileSaver;
 import ij.process.FloatProcessor;
@@ -113,7 +111,7 @@ public class ApplyROIAndCrop {
 								new FileSaver(out).saveAsPng(f_out.getAbsolutePath());
 								break;
 							default:
-								throw new NotImplementedException("File extension is not suported!");
+								throw new RuntimeException("File extension is not suported!");
 								// break;
 						}
 						

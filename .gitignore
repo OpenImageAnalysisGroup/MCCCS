@@ -1,4 +1,3 @@
-
 MCCCS/main/example_data/*
 MCCCS/main/lib/bio.jar
 MCCCS/main/lib/bioformats_package.jar
@@ -9,3 +8,5 @@ MCCCS/main/lib/weka.jar
 MCCCS/main/lib/weka/weka-3-6-12.zip
 MCCCS/main/lib/weka/weka.zip
 MCCCS/main/mcccs.jar
+MCCCS/main/example_scripts/v2/~$flow.pptx
+MCCCS/main/example_scripts/v2/flow.pptx

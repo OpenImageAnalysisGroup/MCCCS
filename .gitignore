@@ -10,3 +10,5 @@ MCCCS/main/lib/weka/weka.zip
 MCCCS/main/mcccs.jar
 MCCCS/main/example_scripts/v2/~$flow.pptx
 MCCCS/main/example_scripts/v2/flow.pptx
+MCCCS/main/example_scripts/v2/__pycache__/MemoryStream.cpython-34.pyc
+MCCCS/main/example_scripts/v2/__pycache__/tifffile.cpython-34.pyc

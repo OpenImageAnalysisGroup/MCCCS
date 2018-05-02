@@ -14,15 +14,15 @@ parser = argparse.ArgumentParser(description='MCCCS V2 Channel Extractor (c) 201
 
 parser.add_argument('--version', action='version',
 		    version='MCCCS V2 Channel Extractor (c) 2018 C. Klukas')
-parser.add_argument('--image', dest='image', default='/dev/stdin',
+parser.add_argument('--input', dest='input', default='/dev/stdin',
 		    help='input file, default stdin')
 parser.add_argument('--channels', dest='channels',  type=int, nargs='+',
 		    help='channels to be extracted')
 parser.add_argument('--all', dest='all', default=False, action='store_true',
 		    help='if flag is provided, extract all channels')
-parser.add_argument('--8bitToFloat32', dest='div256_32', default=False, action='store_true',
+parser.add_argument('--float32', dest='div256_32', default=False, action='store_true',
 		    help='if flag is provided, input data is divided by 256, floating point output (32 bit)')
-parser.add_argument('--8bitToFloat64', dest='div256_64', default=False, action='store_true',
+parser.add_argument('--float64', dest='div256_64', default=False, action='store_true',
 		    help='if flag is provided, input data is divided by 256, floating point output (64 bit)')
 parser.add_argument('--target',  dest='target', default='/dev/stdout',
 		    help='target file, default stdout, character # is replaced by channel number, use multiple # to pad the number')
@@ -32,10 +32,10 @@ parser.add_argument('--targets', dest='targets', nargs='+',
 args = parser.parse_args()
 
 try:
-	image = tiff.imread(args.image)
+	image = tiff.imread(args.input)
 except OSError:
 	# e.g. if seek is not possible (stdin), then read to mem and parse tif from mem
-	with open(args.image, 'rb') as input:
+	with open(args.input, 'rb') as input:
 		image = tiff.imread(MemoryStream(input.read()))
 
 if not args.all:
@@ -65,7 +65,7 @@ for channel_idx in channel_list:
 
 	with open(target_filename, "wb") as out:
 		if out.seekable():
-			with tiff.TiffWriter(target_filename, bigtiff=True) as tif_io:
+			with tiff.TiffWriter(out, bigtiff=True) as tif_io:
 				tif_io.save(channel)
 		else:
 			signal(SIGPIPE, SIG_DFL)

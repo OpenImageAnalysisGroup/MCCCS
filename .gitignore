@@ -12,3 +12,16 @@ MCCCS/main/example_scripts/v2/~$flow.pptx
 MCCCS/main/example_scripts/v2/flow.pptx
 MCCCS/main/example_scripts/v2/__pycache__/MemoryStream.cpython-34.pyc
 MCCCS/main/example_scripts/v2/__pycache__/tifffile.cpython-34.pyc
+MCCCS/main/example_scripts/v2/test/hsv_1_s.tif
+MCCCS/main/example_scripts/v2/test/c0_red.tif
+MCCCS/main/example_scripts/v2/test/c1_green.tif
+MCCCS/main/example_scripts/v2/test/c2_blue.tif
+MCCCS/main/example_scripts/v2/test/hsv_0_h.tif
+MCCCS/main/example_scripts/v2/test/hsv_2_v.tif
+MCCCS/main/example_scripts/v2/test/lab_0_l.tif
+MCCCS/main/example_scripts/v2/test/lab_1_a.tif
+MCCCS/main/example_scripts/v2/test/lab_2_b.tif
+MCCCS/main/example_scripts/v2/test/xyz_1_y.tif
+MCCCS/main/example_scripts/v2/test/xyz_0_x.tif
+MCCCS/main/example_scripts/v2/test/xyz_2_z.tif
+MCCCS/main/example_scripts/v2/test/plant001_rgb.png

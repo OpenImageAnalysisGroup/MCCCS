@@ -1,6 +1,7 @@
 package tools;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -135,7 +136,7 @@ public class ImageFeatureExtraction {
 			names.add("Contrast");
 			names.add("Correlation");
 			names.add("Variance");
-			names.add("Inverse_Difference_Moment");
+			names.add("Inverse_Difference_Moment"); // warning: created constant gray level images in my tests
 			names.add("Sum_Average");
 			names.add("Sum_Variance");
 			names.add("Sum_Entropy");
@@ -154,10 +155,14 @@ public class ImageFeatureExtraction {
 				}
 			}
 		
+		HashSet<String> errorNames = new HashSet<>();
+		errorNames.add("Inverse_Difference_Moment");
+		
 		HashMap<String, double[][]> results = new HashMap<String, double[][]>();
 		
 		for (String n : names) {
-			results.put(n, new double[w][h]);
+			if (!errorNames.contains(n))
+				results.put(n, new double[w][h]);
 		}
 		
 		new StreamBackgroundTaskHelper<Integer>("Texture analysis for visualization").process(IntStream.range(0, w), (x) ->
@@ -217,7 +222,8 @@ public class ImageFeatureExtraction {
 						
 						for (double[] feature : features) {
 							for (int idx = 0; idx < feature.length; idx++)
-								results.get(names.get(idx))[x][y] = feature[idx];
+								if (!errorNames.contains(names.get(idx)))
+									results.get(names.get(idx))[x][y] = feature[idx];
 						}
 					case KIRSCH:
 						break;
@@ -286,6 +292,9 @@ public class ImageFeatureExtraction {
 				"Maximum_Correlation",
 				"Coefficient" };
 		
+		HashSet<String> errorNames = new HashSet<>();
+		errorNames.add("Inverse_Difference_Moment");
+		
 		HashMap<String, double[][]> results = new HashMap<String, double[][]>();
 		
 		for (String n : harlickNames) {
@@ -325,7 +334,8 @@ public class ImageFeatureExtraction {
 						
 						for (double[] feature : features) {
 							for (int idx = 0; idx < feature.length; idx++)
-								results.get(harlickNames[idx])[x][y] = feature[idx];
+								if (!errorNames.contains(harlickNames[idx]))
+									results.get(harlickNames[idx])[x][y] = feature[idx];
 						}
 					}
 				}, (t, e) -> {

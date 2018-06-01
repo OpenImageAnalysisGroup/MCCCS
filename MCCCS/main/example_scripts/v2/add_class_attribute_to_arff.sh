@@ -6,7 +6,7 @@ then
         echo "Add class attribute to list of attributes of ARFF file. Data rows are extended with '?'-values."
         echo
         echo "Usage:"
-        echo "Parameter 1 - list of class names (e.g. "class1,class2,class3")"
+        echo "Parameter 1 - list of class names (e.g. 'class1,class2,class3')"
         echo "Input       - stdin (redirect if needed)"
         echo "Output      - stdout (redirect if needed)"
         exit 1

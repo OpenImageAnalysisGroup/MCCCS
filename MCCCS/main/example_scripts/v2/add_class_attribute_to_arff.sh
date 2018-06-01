@@ -11,7 +11,7 @@ then
         echo "Output      - stdout (redirect if needed)"
         exit 1
 fi
-while IFS=$'\r' read -r line || [[ -n "$line" ]];
+while IFS=$'\r' read -r line || [[ -n "$line" ]]
 do
         if [[ "${line,,}" = @data* ]]
         then
